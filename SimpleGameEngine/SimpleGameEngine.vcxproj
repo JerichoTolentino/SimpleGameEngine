@@ -69,33 +69,33 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(SolutionDir)dependencies\Simple OpenGL Image Library\src;$(SolutionDir)dependencies\glfw-3.2.1.bin.WIN32\include;$(SolutionDir)dependencies\glew-2.0.0\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)dependencies\SOIL\include;$(SolutionDir)dependencies\GLFW\include;$(SolutionDir)dependencies\GLEW\include;$(IncludePath)</IncludePath>
     <ReferencePath>$(ReferencePath)</ReferencePath>
-    <LibraryPath>C:\Users\tolenti4-INS\Documents\Visual Studio 2015\Projects\SimpleGameEngine\dependencies\Simple OpenGL Image Library\projects\VC8\Release;$(SolutionDir)dependencies\glfw-3.2.1.bin.WIN32\lib-vc2015;$(SolutionDir)dependencies\glew-2.0.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)dependencies\SOIL\lib;$(SolutionDir)dependencies\GLFW\lib;$(SolutionDir)dependencies\GLEW\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Configuration)\Intermediates\</IntDir>
     <SourcePath>$(SolutionDir)SimpleGameEngine\src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
-    <IncludePath>$(SolutionDir)dependencies\Simple OpenGL Image Library\src;$(SolutionDir)dependencies\glfw-3.2.1.bin.WIN32\include;$(SolutionDir)dependencies\glew-2.0.0\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)dependencies\SOIL\include;$(SolutionDir)dependencies\GLFW\include;$(SolutionDir)dependencies\GLEW\include;$(IncludePath)</IncludePath>
     <ReferencePath>$(ReferencePath)</ReferencePath>
-    <LibraryPath>C:\Users\tolenti4-INS\Documents\Visual Studio 2015\Projects\SimpleGameEngine\dependencies\Simple OpenGL Image Library\projects\VC8\Release;$(SolutionDir)dependencies\glfw-3.2.1.bin.WIN32\lib-vc2015;$(SolutionDir)dependencies\glew-2.0.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)dependencies\SOIL\lib;$(SolutionDir)dependencies\GLFW\lib;$(SolutionDir)dependencies\GLEW\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Configuration)\Intermediates\</IntDir>
     <SourcePath>$(SolutionDir)SimpleGameEngine\src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)dependencies\Simple OpenGL Image Library\src;$(SolutionDir)dependencies\glfw-3.2.1.bin.WIN32\include;$(SolutionDir)dependencies\glew-2.0.0\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)dependencies\SOIL\include;$(SolutionDir)dependencies\GLFW\include;$(SolutionDir)dependencies\GLEW\include;$(IncludePath)</IncludePath>
     <ReferencePath>$(ReferencePath)</ReferencePath>
-    <LibraryPath>C:\Users\tolenti4-INS\Documents\Visual Studio 2015\Projects\SimpleGameEngine\dependencies\Simple OpenGL Image Library\projects\VC8\Release;$(SolutionDir)dependencies\glfw-3.2.1.bin.WIN32\lib-vc2015;$(SolutionDir)dependencies\glew-2.0.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)dependencies\SOIL\lib;$(SolutionDir)dependencies\GLFW\lib;$(SolutionDir)dependencies\GLEW\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Configuration)\Intermediates\</IntDir>
     <SourcePath>$(SolutionDir)SimpleGameEngine\src;$(SourcePath)</SourcePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)dependencies\Simple OpenGL Image Library\src;$(SolutionDir)dependencies\glfw-3.2.1.bin.WIN32\include;$(SolutionDir)dependencies\glew-2.0.0\include;$(IncludePath)</IncludePath>
+    <IncludePath>$(SolutionDir)dependencies\SOIL\include;$(SolutionDir)dependencies\GLFW\include;$(SolutionDir)dependencies\GLEW\include;$(IncludePath)</IncludePath>
     <ReferencePath>$(ReferencePath)</ReferencePath>
-    <LibraryPath>C:\Users\tolenti4-INS\Documents\Visual Studio 2015\Projects\SimpleGameEngine\dependencies\Simple OpenGL Image Library\projects\VC8\Release;$(SolutionDir)dependencies\glfw-3.2.1.bin.WIN32\lib-vc2015;$(SolutionDir)dependencies\glew-2.0.0\lib\Release\Win32;$(LibraryPath)</LibraryPath>
+    <LibraryPath>$(SolutionDir)dependencies\SOIL\lib;$(SolutionDir)dependencies\GLFW\lib;$(SolutionDir)dependencies\GLEW\lib;$(LibraryPath)</LibraryPath>
     <OutDir>$(SolutionDir)bin\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin\$(Configuration)\Intermediates\</IntDir>
     <SourcePath>$(SolutionDir)SimpleGameEngine\src;$(SourcePath)</SourcePath>
