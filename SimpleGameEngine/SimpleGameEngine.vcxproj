@@ -11,13 +11,25 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SimpleGameEngine\Math\MathException.h" />
     <ClInclude Include="src\SimpleGameEngine.h" />
     <ClInclude Include="src\SimpleGameEngine\Application.h" />
     <ClInclude Include="src\SimpleGameEngine\Core.h" />
     <ClInclude Include="src\SimpleGameEngine\EntryPoint.h" />
+    <ClInclude Include="src\SimpleGameEngine\Math\Mat4.h" />
+    <ClInclude Include="src\SimpleGameEngine\Math\MathUtils.h" />
+    <ClInclude Include="src\SimpleGameEngine\Math\Vec2.h" />
+    <ClInclude Include="src\SimpleGameEngine\Math\Vec3.h" />
+    <ClInclude Include="src\SimpleGameEngine\Math\Vec4.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\SimpleGameEngine\Math\MathException.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Application.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Math\Mat4.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Math\MathUtils.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Math\Vec2.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Math\Vec3.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Math\Vec4.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -54,10 +66,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)bin-int\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
+    <IncludePath>C:\GitHubRepositories\SimpleGameEngine\SimpleGameEngine\dependencies\SOIL\include;C:\GitHubRepositories\SimpleGameEngine\SimpleGameEngine\dependencies\GLFW\include;C:\GitHubRepositories\SimpleGameEngine\SimpleGameEngine\dependencies\GLEW\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\GitHubRepositories\SimpleGameEngine\SimpleGameEngine\dependencies\SOIL\lib;C:\GitHubRepositories\SimpleGameEngine\SimpleGameEngine\dependencies\GLFW\lib;C:\GitHubRepositories\SimpleGameEngine\SimpleGameEngine\dependencies\GLEW\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)bin-int\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
+    <IncludePath>C:\GitHubRepositories\SimpleGameEngine\SimpleGameEngine\dependencies\SOIL\include;C:\GitHubRepositories\SimpleGameEngine\SimpleGameEngine\dependencies\GLFW\include;C:\GitHubRepositories\SimpleGameEngine\SimpleGameEngine\dependencies\GLEW\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\GitHubRepositories\SimpleGameEngine\SimpleGameEngine\dependencies\SOIL\lib;C:\GitHubRepositories\SimpleGameEngine\SimpleGameEngine\dependencies\GLFW\lib;C:\GitHubRepositories\SimpleGameEngine\SimpleGameEngine\dependencies\GLEW\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -65,8 +81,12 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>SGE_PLATFORM_WINDOWS;SGE_BUILD_DLL;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;SGE_PLATFORM_WINDOWS;SGE_BUILD_DLL;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>SOIL.lib;glfw3.lib;glew32s.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -76,11 +96,13 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <PreprocessorDefinitions>SGE_PLATFORM_WINDOWS;SGE_BUILD_DLL;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GLEW_STATIC;SGE_PLATFORM_WINDOWS;SGE_BUILD_DLL;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>SOIL.lib;glfw3.lib;glew32s.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
