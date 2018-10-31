@@ -3,7 +3,7 @@
 namespace SimpleGameEngine::Math
 {
 	MathException::MathException()
-		: std::exception("An unknown math error occurred.")
+		: std::exception("An unexpected math error occurred.")
 	{
 	}
 
