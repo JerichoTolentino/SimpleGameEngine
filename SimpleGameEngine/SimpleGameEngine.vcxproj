@@ -11,6 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SimpleGameEngine\Display\DisplayException.h" />
+    <ClInclude Include="src\SimpleGameEngine\Display\Window.h" />
     <ClInclude Include="src\SimpleGameEngine\Math\MathException.h" />
     <ClInclude Include="src\SimpleGameEngine.h" />
     <ClInclude Include="src\SimpleGameEngine\Application.h" />
@@ -23,6 +25,8 @@
     <ClInclude Include="src\SimpleGameEngine\Math\Vec4.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\SimpleGameEngine\Display\DisplayException.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Display\Window.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Math\MathException.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Application.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Math\Mat4.cpp" />
@@ -80,7 +84,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <ConformanceMode>true</ConformanceMode>
+      <ConformanceMode>false</ConformanceMode>
       <PreprocessorDefinitions>GLEW_STATIC;SGE_PLATFORM_WINDOWS;SGE_BUILD_DLL;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
@@ -95,7 +99,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <ConformanceMode>true</ConformanceMode>
+      <ConformanceMode>false</ConformanceMode>
       <PreprocessorDefinitions>GLEW_STATIC;SGE_PLATFORM_WINDOWS;SGE_BUILD_DLL;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
