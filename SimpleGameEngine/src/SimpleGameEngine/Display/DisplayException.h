@@ -9,6 +9,6 @@ namespace SimpleGameEngine::Display
 	public:
 		DisplayException();
 		DisplayException(const char* message);
-		~DisplayException();
+		virtual ~DisplayException();
 	};
 }

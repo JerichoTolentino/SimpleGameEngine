@@ -9,7 +9,7 @@ namespace SimpleGameEngine::Math
 	public:
 		MathException();
 		MathException(const char * message);
-		~MathException();
+		virtual ~MathException();
 	};
 }
 
