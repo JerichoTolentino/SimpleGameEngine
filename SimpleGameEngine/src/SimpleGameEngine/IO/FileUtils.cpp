@@ -1,4 +1,5 @@
 #include "FileUtils.h"
+#include "IOException.h"
 #include <fstream>
 
 namespace SimpleGameEngine::IO
@@ -14,23 +15,11 @@ namespace SimpleGameEngine::IO
 
 	std::string SimpleGameEngine::IO::FileUtils::loadFileToString(std::string filepath)
 	{
-		std::string converted;
-		char c;
-		std::ifstream file;
-		file.open(filepath);
+		std::ifstream ifs(filepath);
+		std::string content(
+			(std::istreambuf_iterator<char>(ifs)), 
+			(std::istreambuf_iterator<char>()));
 
-		if (!file.is_open())
-			MessageHandler::printMessage("ERROR: Cannot open " + std::string(filepath) + "!\n");
-
-		file.get(c);
-
-		while (!file.eof())
-		{
-			converted += c;
-			//std::cout << c;
-			file.get(c);
-		}
-
-		return converted;
+		return content;
 	}
 }
