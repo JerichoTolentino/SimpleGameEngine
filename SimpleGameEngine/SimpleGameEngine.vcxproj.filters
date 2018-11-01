@@ -51,6 +51,15 @@
     <ClInclude Include="src\SimpleGameEngine\Display\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\Loaders\Loader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\Loaders\ObjectFileLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\Loaders\Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\SimpleGameEngine\Application.cpp">
@@ -80,5 +89,22 @@
     <ClCompile Include="src\SimpleGameEngine\Display\Window.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\Loaders\Loader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\Loaders\ObjectFileLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\Loaders\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\SimpleGameEngine\Shaders\entityFragment.frag" />
+    <None Include="src\SimpleGameEngine\Shaders\entityVertex.vert" />
+    <None Include="src\SimpleGameEngine\Shaders\skyboxFragment.frag" />
+    <None Include="src\SimpleGameEngine\Shaders\skyboxVertex.vert" />
+    <None Include="src\SimpleGameEngine\Shaders\terrainFragment.frag" />
+    <None Include="src\SimpleGameEngine\Shaders\terrainVertex.vert" />
   </ItemGroup>
 </Project>

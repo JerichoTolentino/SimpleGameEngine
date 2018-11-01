@@ -13,6 +13,9 @@
   <ItemGroup>
     <ClInclude Include="src\SimpleGameEngine\Display\DisplayException.h" />
     <ClInclude Include="src\SimpleGameEngine\Display\Window.h" />
+    <ClInclude Include="src\SimpleGameEngine\Loaders\Loader.h" />
+    <ClInclude Include="src\SimpleGameEngine\Loaders\ObjectFileLoader.h" />
+    <ClInclude Include="src\SimpleGameEngine\Loaders\Shader.h" />
     <ClInclude Include="src\SimpleGameEngine\Math\MathException.h" />
     <ClInclude Include="src\SimpleGameEngine.h" />
     <ClInclude Include="src\SimpleGameEngine\Application.h" />
@@ -27,6 +30,9 @@
   <ItemGroup>
     <ClCompile Include="src\SimpleGameEngine\Display\DisplayException.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Display\Window.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Loaders\Loader.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Loaders\ObjectFileLoader.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Loaders\Shader.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Math\MathException.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Application.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Math\Mat4.cpp" />
@@ -34,6 +40,14 @@
     <ClCompile Include="src\SimpleGameEngine\Math\Vec2.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Math\Vec3.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Math\Vec4.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\SimpleGameEngine\Shaders\entityFragment.frag" />
+    <None Include="src\SimpleGameEngine\Shaders\entityVertex.vert" />
+    <None Include="src\SimpleGameEngine\Shaders\skyboxFragment.frag" />
+    <None Include="src\SimpleGameEngine\Shaders\skyboxVertex.vert" />
+    <None Include="src\SimpleGameEngine\Shaders\terrainFragment.frag" />
+    <None Include="src\SimpleGameEngine\Shaders\terrainVertex.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -70,14 +84,14 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)bin-int\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
-    <IncludePath>C:\GitHubRepositories\SimpleGameEngine\SimpleGameEngine\dependencies\SOIL\include;C:\GitHubRepositories\SimpleGameEngine\SimpleGameEngine\dependencies\GLFW\include;C:\GitHubRepositories\SimpleGameEngine\SimpleGameEngine\dependencies\GLEW\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\GitHubRepositories\SimpleGameEngine\SimpleGameEngine\dependencies\SOIL\lib;C:\GitHubRepositories\SimpleGameEngine\SimpleGameEngine\dependencies\GLFW\lib;C:\GitHubRepositories\SimpleGameEngine\SimpleGameEngine\dependencies\GLEW\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)dependencies\SOIL\include;$(SolutionDir)dependencies\GLFW\include;$(SolutionDir)dependencies\GLEW\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)dependencies\SOIL\lib;$(SolutionDir)dependencies\GLFW\lib;$(SolutionDir)dependencies\GLEW\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\$(ProjectName)\</OutDir>
     <IntDir>$(SolutionDir)bin-int\$(Configuration)-$(Platform)\$(ProjectName)\</IntDir>
-    <IncludePath>C:\GitHubRepositories\SimpleGameEngine\SimpleGameEngine\dependencies\SOIL\include;C:\GitHubRepositories\SimpleGameEngine\SimpleGameEngine\dependencies\GLFW\include;C:\GitHubRepositories\SimpleGameEngine\SimpleGameEngine\dependencies\GLEW\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\GitHubRepositories\SimpleGameEngine\SimpleGameEngine\dependencies\SOIL\lib;C:\GitHubRepositories\SimpleGameEngine\SimpleGameEngine\dependencies\GLFW\lib;C:\GitHubRepositories\SimpleGameEngine\SimpleGameEngine\dependencies\GLEW\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(SolutionDir)dependencies\SOIL\include;$(SolutionDir)dependencies\GLFW\include;$(SolutionDir)dependencies\GLEW\include;$(IncludePath)</IncludePath>
+    <LibraryPath>$(SolutionDir)dependencies\SOIL\lib;$(SolutionDir)dependencies\GLFW\lib;$(SolutionDir)dependencies\GLEW\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
