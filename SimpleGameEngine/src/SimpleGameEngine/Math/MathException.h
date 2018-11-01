@@ -1,5 +1,6 @@
 #pragma once
-#include <stdexcept>
+#include <exception>
+#include <string>
 
 namespace SimpleGameEngine::Math
 {
@@ -8,7 +9,7 @@ namespace SimpleGameEngine::Math
 	{
 	public:
 		MathException();
-		MathException(const char * message);
+		MathException(std::string message);
 		virtual ~MathException();
 	};
 }

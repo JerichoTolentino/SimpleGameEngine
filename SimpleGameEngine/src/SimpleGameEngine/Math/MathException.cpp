@@ -7,8 +7,8 @@ namespace SimpleGameEngine::Math
 	{
 	}
 
-	MathException::MathException(const char * message)
-		: std::exception(message)
+	MathException::MathException(std::string message)
+		: std::exception(message.c_str())
 	{
 	}
 

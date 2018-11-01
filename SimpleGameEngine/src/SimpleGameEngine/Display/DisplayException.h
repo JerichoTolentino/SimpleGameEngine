@@ -1,14 +1,14 @@
 #pragma once
 #include <exception>
+#include <string>
 
 namespace SimpleGameEngine::Display
 {
-	class DisplayException :
-		public std::exception
+	class DisplayException : public std::exception
 	{
 	public:
 		DisplayException();
-		DisplayException(const char* message);
+		DisplayException(std::string message);
 		virtual ~DisplayException();
 	};
 }

@@ -1,4 +1,5 @@
 #include "IOException.h"
+#include 
 
 namespace SimpleGameEngine::IO
 {
@@ -6,6 +7,10 @@ namespace SimpleGameEngine::IO
 	{
 	}
 
+	IOException::IOException(std::string message)
+		: std::exception(message.c_str())
+	{
+	}
 
 	IOException::~IOException()
 	{
