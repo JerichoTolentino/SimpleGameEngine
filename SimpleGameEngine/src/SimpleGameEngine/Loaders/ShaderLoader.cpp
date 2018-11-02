@@ -70,17 +70,23 @@ namespace SimpleGameEngine::Loaders
 		glAttachShader(programId, fragmentShaderId);
 		glLinkProgram(programId);
 
-		return Shader(programId, vertexShaderId, fragmentShaderId);
+		// Create shader object
+		Shader shader(programId, vertexShaderId, fragmentShaderId);
+		shader.setLoaded(true);
+
+		return shader;
 	}
 
 	void ShaderLoader::startShader(Shader shader)
 	{
 		glUseProgram(shader.getProgramId());
+		shader.setRunning(true);
 	}
 
-	void ShaderLoader::stopShader()
+	void ShaderLoader::stopShader(Shader shader)
 	{
 		glUseProgram(0);
+		shader.setRunning(false);
 	}
 
 	void ShaderLoader::destroyShader(Shader shader)
@@ -88,6 +94,8 @@ namespace SimpleGameEngine::Loaders
 		glDeleteShader(shader.getVertexShaderId());
 		glDeleteShader(shader.getFragmentShaderId());
 		glDeleteProgram(shader.getProgramId());
+
+		shader.setLoaded(false);
 	}
 
 

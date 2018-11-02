@@ -29,4 +29,12 @@ namespace SimpleGameEngine::Shaders
 	{
 		return m_fragmentShaderId;
 	}
+	bool Shader::isRunning() const
+	{
+		return m_running;
+	}
+	void Shader::setRunning(bool running)
+	{
+		m_running = running;
+	}
 }

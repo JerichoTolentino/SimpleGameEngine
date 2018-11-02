@@ -22,7 +22,7 @@ namespace SimpleGameEngine::Loaders
 
 		static Shader loadShader(std::string vertexFilepath, std::string fragmentFilepath);
 		static void startShader(Shader shader);
-		static void stopShader();
+		static void stopShader(Shader shader);
 		static void destroyShader(Shader shader);
 
 
