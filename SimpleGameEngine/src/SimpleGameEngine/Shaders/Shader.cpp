@@ -37,4 +37,13 @@ namespace SimpleGameEngine::Shaders
 	{
 		m_running = running;
 	}
+	bool Shader::isLoaded() const
+	{
+		return m_loaded;
+	}
+
+	void Shader::setLoaded(bool loaded)
+	{
+		m_loaded = loaded;
+	}
 }
