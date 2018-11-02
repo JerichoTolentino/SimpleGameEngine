@@ -11,11 +11,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SimpleGameEngine\Loaders\LoadUniformException.h" />
+    <ClInclude Include="src\SimpleGameEngine\Loaders\ShaderCompileException.h" />
+    <ClInclude Include="src\SimpleGameEngine\IO\IOException.h" />
+    <ClInclude Include="src\SimpleGameEngine\IO\FileUtils.h" />
+    <ClInclude Include="src\SimpleGameEngine\Shaders\Shader.h" />
     <ClInclude Include="src\SimpleGameEngine\Display\DisplayException.h" />
     <ClInclude Include="src\SimpleGameEngine\Display\Window.h" />
     <ClInclude Include="src\SimpleGameEngine\Loaders\Loader.h" />
     <ClInclude Include="src\SimpleGameEngine\Loaders\ObjectFileLoader.h" />
-    <ClInclude Include="src\SimpleGameEngine\Loaders\Shader.h" />
+    <ClInclude Include="src\SimpleGameEngine\Loaders\ShaderLoader.h" />
     <ClInclude Include="src\SimpleGameEngine\Math\MathException.h" />
     <ClInclude Include="src\SimpleGameEngine.h" />
     <ClInclude Include="src\SimpleGameEngine\Application.h" />
@@ -28,11 +33,16 @@
     <ClInclude Include="src\SimpleGameEngine\Math\Vec4.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\SimpleGameEngine\Loaders\LoadUniformException.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Loaders\ShaderCompileException.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\IO\IOException.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\IO\FileUtils.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Shaders\Shader.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Display\DisplayException.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Display\Window.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Loaders\Loader.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Loaders\ObjectFileLoader.cpp" />
-    <ClCompile Include="src\SimpleGameEngine\Loaders\Shader.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Loaders\ShaderLoader.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Math\MathException.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Application.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Math\Mat4.cpp" />

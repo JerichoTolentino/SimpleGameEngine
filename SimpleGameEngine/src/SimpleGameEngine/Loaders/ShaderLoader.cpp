@@ -13,55 +13,6 @@ namespace SimpleGameEngine::Loaders
 	{
 	}
 
-	ShaderLoader::ShaderLoader(const char *vertex, const char *fragment)
-	{
-		std::string vertexShader = FileUtils::loadFileToString(vertex);
-		std::string fragmentShader = FileUtils::loadFileToString(fragment);
-		const GLchar *vShader = vertexShader.c_str();
-		const GLchar *fShader = fragmentShader.c_str();
-
-		programID = glCreateProgram();
-
-		vShaderID = glCreateShader(GL_VERTEX_SHADER);
-		glShaderSource(vShaderID, 1, &vShader, NULL);
-		fShaderID = glCreateShader(GL_FRAGMENT_SHADER);
-		glShaderSource(fShaderID, 1, &fShader, NULL);
-
-		GLint vCompileStatus = -1;
-
-		glCompileShader(vShaderID);
-		glGetShaderiv(vShaderID, GL_COMPILE_STATUS, &vCompileStatus);
-		if (vCompileStatus == GL_FALSE)
-		{
-			GLint logSize = 0;
-			glGetShaderiv(vShaderID, GL_INFO_LOG_LENGTH, &logSize);
-			GLchar *log = new GLchar[logSize];
-			glGetShaderInfoLog(vShaderID, logSize, NULL, log);
-			throw ShaderCompileException("Failed to compile vertex shader.", std::string(log));
-		}
-
-		GLint fCompileStatus = -1;
-
-		glCompileShader(fShaderID);
-		glGetShaderiv(fShaderID, GL_COMPILE_STATUS, &fCompileStatus);
-		if (fCompileStatus == GL_FALSE)
-		{
-			GLint logSize = 0;
-			glGetShaderiv(fShaderID, GL_INFO_LOG_LENGTH, &logSize);
-			GLchar *log = new GLchar[logSize];
-			glGetShaderInfoLog(fShaderID, logSize, NULL, log);
-			throw ShaderCompileException("Failed to compile fragment shader.", std::string(log));
-		}
-
-		if (vCompileStatus == 0 || fCompileStatus == 0)
-			system("PAUSE");
-
-		glAttachShader(programID, vShaderID);
-		glAttachShader(programID, fShaderID);
-
-		glLinkProgram(programID);
-	}
-
 	ShaderLoader::~ShaderLoader()
 	{
 	}
@@ -69,77 +20,131 @@ namespace SimpleGameEngine::Loaders
 
 
 
-	void ShaderLoader::start() const
+	Shader ShaderLoader::loadShader(std::string vertexFilepath, std::string fragmentFilepath)
 	{
-		glUseProgram(programID);
+		// Load shader files
+		std::string vertexShader = FileUtils::loadFileToString(vertexFilepath);
+		std::string fragmentShader = FileUtils::loadFileToString(fragmentFilepath);
+		const GLchar *vShader = vertexShader.c_str();
+		const GLchar *fShader = fragmentShader.c_str();
+
+		// Create shader program
+		GLuint programId = glCreateProgram();
+		GLuint vertexShaderId = glCreateShader(GL_VERTEX_SHADER);
+		glShaderSource(vertexShaderId, 1, &vShader, NULL);
+		GLuint fragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
+		glShaderSource(fragmentShaderId, 1, &fShader, NULL);
+
+		// Compile vertex shader
+		GLint vCompileStatus = GL_FALSE;
+		glCompileShader(vertexShaderId);
+		glGetShaderiv(vertexShaderId, GL_COMPILE_STATUS, &vCompileStatus);
+		if (vCompileStatus == GL_FALSE)
+		{
+			// Get compiler error log
+			GLint logSize = 0;
+			glGetShaderiv(vertexShaderId, GL_INFO_LOG_LENGTH, &logSize);
+			GLchar *log = new GLchar[logSize];
+			glGetShaderInfoLog(vertexShaderId, logSize, NULL, log);
+
+			throw ShaderCompileException("Failed to compile vertex shader.", std::string(log));
+		}
+
+		// Compile fragment shader
+		GLint fCompileStatus = GL_FALSE;
+		glCompileShader(fragmentShaderId);
+		glGetShaderiv(fragmentShaderId, GL_COMPILE_STATUS, &fCompileStatus);
+		if (fCompileStatus == GL_FALSE)
+		{
+			// Get compiler error log
+			GLint logSize = 0;
+			glGetShaderiv(fragmentShaderId, GL_INFO_LOG_LENGTH, &logSize);
+			GLchar *log = new GLchar[logSize];
+			glGetShaderInfoLog(fragmentShaderId, logSize, NULL, log);
+
+			throw ShaderCompileException("Failed to compile fragment shader.", std::string(log));
+		}
+
+		// Attach shaders and link program
+		glAttachShader(programId, vertexShaderId);
+		glAttachShader(programId, fragmentShaderId);
+		glLinkProgram(programId);
+
+		return Shader(programId, vertexShaderId, fragmentShaderId);
 	}
 
-	void ShaderLoader::stop() const
+	void ShaderLoader::startShader(Shader shader)
+	{
+		glUseProgram(shader.getProgramId());
+	}
+
+	void ShaderLoader::stopShader()
 	{
 		glUseProgram(0);
 	}
 
-	void ShaderLoader::destroy() const
+	void ShaderLoader::destroyShader(Shader shader)
 	{
-		glDeleteShader(vShaderID);
-		glDeleteShader(fShaderID);
-		glDeleteProgram(programID);
+		glDeleteShader(shader.getVertexShaderId());
+		glDeleteShader(shader.getFragmentShaderId());
+		glDeleteProgram(shader.getProgramId());
 	}
 
 
 
 
-	void ShaderLoader::loadUniform1f(float value, const char* uniform) const
+	void ShaderLoader::loadUniform1f(Shader shader, std::string uniformName, float value)
 	{
-		GLint location = glGetUniformLocation(programID, uniform);
+		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
-			throw LoadUniformException("Failed to get location of uniform variable " + std::string(uniform));		
+			throw LoadUniformException("Failed to get location of uniform variable " + uniformName);
 		
 		glUniform1f(location, value);
 	}
 
-	void ShaderLoader::loadUniform1i(int value, const char* uniform) const
+	void ShaderLoader::loadUniform1i(Shader shader, std::string uniformName, int value)
 	{
-		GLint location = glGetUniformLocation(programID, uniform);
+		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
-			throw LoadUniformException("Failed to get location of uniform variable " + std::string(uniform));
+			throw LoadUniformException("Failed to get location of uniform variable " + uniformName);
 		
 		glUniform1i(location, value);
 	}
 
-	void ShaderLoader::loadUniformVec2f(Vec2 value, const char* uniform) const
+	void ShaderLoader::loadUniformVec2f(Shader shader, std::string uniformName, Vec2 value)
 	{
-		GLint location = glGetUniformLocation(programID, uniform);
+		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
-			throw LoadUniformException("Failed to get location of uniform variable " + std::string(uniform));
+			throw LoadUniformException("Failed to get location of uniform variable " + uniformName);
 		
 		glUniform2f(location, value.x, value.y);
 	}
 
-	void ShaderLoader::loadUniformVec3f(Vec3 value, const char* uniform) const
+	void ShaderLoader::loadUniformVec3f(Shader shader, std::string uniformName, Vec3 value)
 	{
-		GLint location = glGetUniformLocation(programID, uniform);
+		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
-			throw LoadUniformException("Failed to get location of uniform variable " + std::string(uniform));
+			throw LoadUniformException("Failed to get location of uniform variable " + uniformName);
 		
 		glUniform3f(location, value.x, value.y, value.z);
 	}
 
-	void ShaderLoader::loadUniformVec4f(Vec4 value, const char* uniform) const
+	void ShaderLoader::loadUniformVec4f(Shader shader, std::string uniformName, Vec4 value)
 	{
-		GLint location = glGetUniformLocation(programID, uniform);
+		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
-			throw LoadUniformException("Failed to get location of uniform variable " + std::string(uniform));
+			throw LoadUniformException("Failed to get location of uniform variable " + uniformName);
 		
 		glUniform4f(location, value.x, value.y, value.z, value.w);
 	}
 
-	void ShaderLoader::loadUniformMat4f(Mat4 value, const char* uniform) const
+	void ShaderLoader::loadUniformMat4f(Shader shader, std::string uniformName, Mat4 value)
 	{
-		GLint location = glGetUniformLocation(programID, uniform);
+		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
-			throw LoadUniformException("Failed to get location of uniform variable " + std::string(uniform));
+			throw LoadUniformException("Failed to get location of uniform variable " + uniformName);
 		
-		glUniformMatrix4fv(location, 1, GL_TRUE, value.elements);	//NOTE: GLSL Matrices are ROW MAJOR!!! (MUST TRANPOSE!)
+		// GLSL matrices are row-major - must transpose matrices passed in
+		glUniformMatrix4fv(location, 1, GL_TRUE, value.elements);
 	}
 }

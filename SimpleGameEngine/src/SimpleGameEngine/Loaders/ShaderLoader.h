@@ -4,8 +4,10 @@
 #include "../Math/Vec3.h"
 #include "../Math/Vec4.h"
 #include "../Math/Mat4.h"
+#include "../Shaders/Shader.h"
 
 using namespace SimpleGameEngine::Math;
+using namespace SimpleGameEngine::Shaders;
 
 namespace SimpleGameEngine::Loaders
 {
@@ -14,22 +16,22 @@ namespace SimpleGameEngine::Loaders
 	private:
 		ShaderLoader();
 	public:
-		ShaderLoader(const char *vertex, const char *fragment);
 		~ShaderLoader();
 
 
 
-		void start() const;
-		void stop() const;
-		void destroy() const;
+		static Shader loadShader(std::string vertexFilepath, std::string fragmentFilepath);
+		static void startShader(Shader shader);
+		static void stopShader();
+		static void destroyShader(Shader shader);
 
 
 
-		void loadUniform1f(float value, const char* uniform) const;
-		void loadUniform1i(int value, const char* uniform) const;
-		void loadUniformVec2f(Vec2 value, const char* uniform) const;
-		void loadUniformVec3f(Vec3 value, const char* uniform) const;
-		void loadUniformVec4f(Vec4 value, const char* uniform) const;
-		void loadUniformMat4f(Mat4 value, const char* uniform) const;
+		static void loadUniform1f(Shader shader, std::string uniformName, float value);
+		static void loadUniform1i(Shader shader, std::string uniformName, int value);
+		static void loadUniformVec2f(Shader shader, std::string uniformName, Vec2 value);
+		static void loadUniformVec3f(Shader shader, std::string uniformName, Vec3 value);
+		static void loadUniformVec4f(Shader shader, std::string uniformName, Vec4 value);
+		static void loadUniformMat4f(Shader shader, std::string uniformName, Mat4 value);
 	};
 }
