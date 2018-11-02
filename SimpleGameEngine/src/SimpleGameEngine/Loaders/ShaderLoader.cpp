@@ -1,6 +1,11 @@
 #include "ShaderLoader.h"
-#include <exception>
 
+#include <exception>
+#include "../IO/FileUtils.h"
+#include "ShaderCompileException.h"
+#include "LoadUniformException.h"
+
+using namespace SimpleGameEngine::IO;
 
 namespace SimpleGameEngine::Loaders
 {
@@ -10,8 +15,8 @@ namespace SimpleGameEngine::Loaders
 
 	ShaderLoader::ShaderLoader(const char *vertex, const char *fragment)
 	{
-		std::string vertexShader = fileToString(vertex);
-		std::string fragmentShader = fileToString(fragment);
+		std::string vertexShader = FileUtils::loadFileToString(vertex);
+		std::string fragmentShader = FileUtils::loadFileToString(fragment);
 		const GLchar *vShader = vertexShader.c_str();
 		const GLchar *fShader = fragmentShader.c_str();
 
@@ -32,7 +37,7 @@ namespace SimpleGameEngine::Loaders
 			glGetShaderiv(vShaderID, GL_INFO_LOG_LENGTH, &logSize);
 			GLchar *log = new GLchar[logSize];
 			glGetShaderInfoLog(vShaderID, logSize, NULL, log);
-			MessageHandler::printMessage("ERROR: Cannot compile vertex shader!\n" + std::string(log) + "\n");
+			throw ShaderCompileException("Failed to compile vertex shader.", std::string(log));
 		}
 
 		GLint fCompileStatus = -1;
@@ -45,7 +50,7 @@ namespace SimpleGameEngine::Loaders
 			glGetShaderiv(fShaderID, GL_INFO_LOG_LENGTH, &logSize);
 			GLchar *log = new GLchar[logSize];
 			glGetShaderInfoLog(fShaderID, logSize, NULL, log);
-			MessageHandler::printMessage("ERROR: Cannot compile fragment shader!\n" + std::string(log) + "\n");
+			throw ShaderCompileException("Failed to compile fragment shader.", std::string(log));
 		}
 
 		if (vCompileStatus == 0 || fCompileStatus == 0)
@@ -87,72 +92,54 @@ namespace SimpleGameEngine::Loaders
 	void ShaderLoader::loadUniform1f(float value, const char* uniform) const
 	{
 		GLint location = glGetUniformLocation(programID, uniform);
-		if (location != -1)
-			glUniform1f(location, value);
-		else
-		{
-			MessageHandler::printMessage("ERROR: Cannot get location of " + std::string(uniform) + " in shaders!\n");
-			system("PAUSE");
-		}
+		if (location == -1)
+			throw LoadUniformException("Failed to get location of uniform variable " + std::string(uniform));		
+		
+		glUniform1f(location, value);
 	}
 
 	void ShaderLoader::loadUniform1i(int value, const char* uniform) const
 	{
 		GLint location = glGetUniformLocation(programID, uniform);
-		if (location != -1)
-			glUniform1i(location, value);
-		else
-		{
-			MessageHandler::printMessage("ERROR: Cannot get location of " + std::string(uniform) + " in shaders!\n");
-			system("PAUSE");
-		}
+		if (location == -1)
+			throw LoadUniformException("Failed to get location of uniform variable " + std::string(uniform));
+		
+		glUniform1i(location, value);
 	}
 
 	void ShaderLoader::loadUniformVec2f(Vec2 value, const char* uniform) const
 	{
 		GLint location = glGetUniformLocation(programID, uniform);
-		if (location != -1)
-			glUniform2f(location, value.x, value.y);
-		else
-		{
-			MessageHandler::printMessage("ERROR: Cannot get location of " + std::string(uniform) + " in shaders!\n");
-			system("PAUSE");
-		}
+		if (location == -1)
+			throw LoadUniformException("Failed to get location of uniform variable " + std::string(uniform));
+		
+		glUniform2f(location, value.x, value.y);
 	}
 
 	void ShaderLoader::loadUniformVec3f(Vec3 value, const char* uniform) const
 	{
 		GLint location = glGetUniformLocation(programID, uniform);
-		if (location != -1)
-			glUniform3f(location, value.x, value.y, value.z);
-		else
-		{
-			MessageHandler::printMessage("ERROR: Cannot get location of " + std::string(uniform) + " in shaders!\n");
-			system("PAUSE");
-		}
+		if (location == -1)
+			throw LoadUniformException("Failed to get location of uniform variable " + std::string(uniform));
+		
+		glUniform3f(location, value.x, value.y, value.z);
 	}
 
 	void ShaderLoader::loadUniformVec4f(Vec4 value, const char* uniform) const
 	{
 		GLint location = glGetUniformLocation(programID, uniform);
-		if (location != -1)
-			glUniform4f(location, value.x, value.y, value.z, value.w);
-		else
-		{
-			MessageHandler::printMessage("ERROR: Cannot get location of " + std::string(uniform) + " in shaders!\n");
-			system("PAUSE");
-		}
+		if (location == -1)
+			throw LoadUniformException("Failed to get location of uniform variable " + std::string(uniform));
+		
+		glUniform4f(location, value.x, value.y, value.z, value.w);
 	}
 
 	void ShaderLoader::loadUniformMat4f(Mat4 value, const char* uniform) const
 	{
 		GLint location = glGetUniformLocation(programID, uniform);
-		if (location != -1)
-			glUniformMatrix4fv(location, 1, GL_TRUE, value.elements);	//NOTE: GLSL Matrices are ROW MAJOR!!! (MUST TRANPOSE!)
-		else
-		{
-			MessageHandler::printMessage("ERROR: Cannot get location of " + std::string(uniform) + " in shaders!\n");
-			system("PAUSE");
-		}
+		if (location == -1)
+			throw LoadUniformException("Failed to get location of uniform variable " + std::string(uniform));
+		
+		glUniformMatrix4fv(location, 1, GL_TRUE, value.elements);	//NOTE: GLSL Matrices are ROW MAJOR!!! (MUST TRANPOSE!)
 	}
 }
