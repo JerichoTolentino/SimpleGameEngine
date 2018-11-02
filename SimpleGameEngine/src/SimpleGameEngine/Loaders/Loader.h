@@ -1,5 +1,5 @@
 #pragma once
-#include <gl/GL.h>
+#include <GL/glew.h>
 #include <SOIL.h>
 #include <iostream>
 

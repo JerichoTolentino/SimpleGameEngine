@@ -1,5 +1,4 @@
 #include "IOException.h"
-#include 
 
 namespace SimpleGameEngine::IO
 {
