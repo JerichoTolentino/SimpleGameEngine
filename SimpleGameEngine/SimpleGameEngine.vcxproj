@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SimpleGameEngine\Models\LightingModel.h" />
     <ClInclude Include="src\SimpleGameEngine\Loaders\LoadUniformException.h" />
     <ClInclude Include="src\SimpleGameEngine\Loaders\ShaderCompileException.h" />
     <ClInclude Include="src\SimpleGameEngine\IO\IOException.h" />
@@ -40,6 +41,7 @@
     <ClInclude Include="src\SimpleGameEngine\Loaders\TextureLoadException.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\SimpleGameEngine\Models\LightingModel.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Loaders\LoadUniformException.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Loaders\ShaderCompileException.cpp" />
     <ClCompile Include="src\SimpleGameEngine\IO\IOException.cpp" />
