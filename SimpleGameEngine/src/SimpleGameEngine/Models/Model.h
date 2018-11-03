@@ -1,36 +1,35 @@
 #pragma once
 #include <GL/glew.h>
-#include "BoundingBox.h"
-#include "Material.h"
+#include <vector>
 
 namespace SimpleGameEngine::Models
 {
 	class Model
 	{
 	private:
-		GLuint vaoID;
-		int numIndices;
-		Material* material;
-		BoundingBox* baseBoundingBox;
+		GLuint m_vaoId;
+		std::vector<int> m_indices;
+
+
+
 	public:
 		Model();
+		Model(const Model &other);
+		Model(GLuint vaoId, std::vector<int> indices);
 		~Model();
 
-		Model(const Model &other);
+
+
+		GLuint getVaoId() const;
+		std::vector<int> getIndices() const;
+
+
+
+		/// <summary>
+		/// Copy assignment override.
+		/// </summary>
+		/// <param name="other"></param>
+		/// <returns></returns>
 		Model& operator=(const Model &other);
-		bool operator<(const Model &other) const;
-
-		Model(GLuint vao, int indices);
-		Model(GLuint vao, int indices, Material* mat);
-
-		Material* getMaterial() const;
-		BoundingBox* getBaseBoundingBox() const;
-		GLuint getVAO() const;
-		int getNumIndices() const;
-
-		void setMaterial(Material* m);
-		void setBaseBoundingBox(BoundingBox* box);
-
-		std::string toString() const;
 	};
 }

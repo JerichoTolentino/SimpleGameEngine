@@ -4,95 +4,41 @@ namespace SimpleGameEngine::Models
 {
 	Model::Model()
 	{
-		vaoID = -1;
-		numIndices = 0;
-		material = new Material;
-		baseBoundingBox = new BoundingBox;
 	}
 
-
+	Model::Model(const Model & other)
+		: Model(other.m_vaoId, other.m_indices)
+	{
+	}
+	
+	Model::Model(GLuint vaoId, std::vector<int> indices)
+	{
+		m_vaoId = vaoId;
+		m_indices = indices;
+	}
+	
 	Model::~Model()
 	{
-		delete baseBoundingBox;
 	}
 
-	Model::Model(const Model &other)
+
+
+	GLuint Model::getVaoId() const
 	{
-		vaoID = other.vaoID;
-		numIndices = other.numIndices;
-		material = new Material(*(other.material));
-		baseBoundingBox = new BoundingBox(*(other.getBaseBoundingBox()));
+		return m_vaoId;
+	}
+	
+	std::vector<int> Model::getIndices() const
+	{
+		return m_indices;
 	}
 
-	Model& Model::operator=(const Model &other)
+
+
+	Model & Model::operator=(const Model & other)
 	{
-		vaoID = other.vaoID;
-		numIndices = other.numIndices;
-		*material = *(other.material);
-		*baseBoundingBox = *(other.getBaseBoundingBox());
+		m_vaoId = other.m_vaoId;
+		m_indices = other.m_indices;
 		return *this;
-	}
-
-	bool Model::operator<(const Model & other) const
-	{
-		bool less = false;
-
-		if (other.getVAO() < vaoID)
-			less = true;
-
-		return less;
-	}
-
-	Model::Model(GLuint vao, int indices)
-	{
-		vaoID = vao;
-		numIndices = indices;
-		material = new Material;
-	}
-
-	Model::Model(GLuint vao, int indices, Material* mat)
-	{
-		vaoID = vao;
-		numIndices = indices;
-		material = mat;
-	}
-
-	Material* Model::getMaterial() const
-	{
-		return material;
-	}
-
-
-	BoundingBox * Model::getBaseBoundingBox() const
-	{
-		return baseBoundingBox;
-	}
-
-
-	GLuint Model::getVAO() const
-	{
-		return vaoID;
-	}
-
-	int Model::getNumIndices() const
-	{
-		return numIndices;
-	}
-
-	void Model::setMaterial(Material* m)
-	{
-		material = m;
-	}
-
-
-	void Model::setBaseBoundingBox(BoundingBox * box)
-	{
-		this->baseBoundingBox = box;
-	}
-
-
-	std::string Model::toString() const
-	{
-		return ("--Model--\nVaoID: " + std::to_string(vaoID) + "\nnumIndices: " + std::to_string(numIndices) + "\n" + material->toString() + "\n--End Model--");
 	}
 }
