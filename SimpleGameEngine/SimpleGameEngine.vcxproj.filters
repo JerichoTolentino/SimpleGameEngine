@@ -93,10 +93,13 @@
     <ClInclude Include="src\SimpleGameEngine\Models\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\SimpleGameEngine\Models\Model.h">
+    <ClInclude Include="src\SimpleGameEngine\Models\LightingModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\SimpleGameEngine\Models\LightingModel.h">
+    <ClInclude Include="src\SimpleGameEngine\Models\SpaceModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\Models\GeometryModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -170,10 +173,13 @@
     <ClCompile Include="src\SimpleGameEngine\Models\Material.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\SimpleGameEngine\Models\Model.cpp">
+    <ClCompile Include="src\SimpleGameEngine\Models\LightingModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\SimpleGameEngine\Models\LightingModel.cpp">
+    <ClCompile Include="src\SimpleGameEngine\Models\SpaceModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\Models\GeometryModel.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

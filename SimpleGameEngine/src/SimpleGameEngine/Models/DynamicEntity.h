@@ -13,8 +13,8 @@ namespace SimpleGameEngine::Models
 		DynamicEntity();
 		virtual ~DynamicEntity();
 
-		DynamicEntity(Model* m, Math::Vec3 p, Math::Vec3 r, Math::Vec3 s);
-		DynamicEntity(Model* m, Math::Vec3 p, Math::Vec3 r, Math::Vec3 s, float moveSpeed, float turnSpeed);
+		DynamicEntity(GeometryModel* m, Math::Vec3 p, Math::Vec3 r, Math::Vec3 s);
+		DynamicEntity(GeometryModel* m, Math::Vec3 p, Math::Vec3 r, Math::Vec3 s, float moveSpeed, float turnSpeed);
 
 		DynamicEntity(const DynamicEntity &other);
 		DynamicEntity& operator=(const DynamicEntity&other);

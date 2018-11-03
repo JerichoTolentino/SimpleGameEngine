@@ -20,7 +20,7 @@ namespace SimpleGameEngine::Loaders
 	{
 	}
 
-	Model* ObjectFileLoader::loadOBJ(std::string filepath, std::string texturefilepath)
+	GeometryModel* ObjectFileLoader::loadOBJ(std::string filepath, std::string texturefilepath)
 	{
 		std::vector<Vec3> *vertices = new std::vector<Vec3>;
 		std::vector<Vec2> *textures = new std::vector<Vec2>;
@@ -241,7 +241,7 @@ namespace SimpleGameEngine::Loaders
 		*/
 		//CORRECTNESS CHECK END
 
-		Model* model = Loader::loadModel(verts, norms, texts, inds, vertices->size(), vertices->size(), vertices->size(), indices->size(), material);
+		GeometryModel* model = Loader::loadModel(verts, norms, texts, inds, vertices->size(), vertices->size(), vertices->size(), indices->size(), material);
 
 		if (model->getMaterial()->getTextureID() == -1)
 			model->getMaterial()->setTextureID(Loader::loadTexture(texturefilepath));
@@ -249,7 +249,7 @@ namespace SimpleGameEngine::Loaders
 		BoundingBox *boundingBox = new BoundingBox(minx, miny, minz, maxx, maxy, maxz);
 		model->setBaseBoundingBox(boundingBox);
 
-		//std::cout << "Model->numIndices: " << model.getNumIndices() << std::endl;
+		//std::cout << "GeometryModel->numIndices: " << model.getNumIndices() << std::endl;
 
 		delete indices;
 		delete vertices;

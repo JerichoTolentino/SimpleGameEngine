@@ -4,7 +4,7 @@ using namespace SimpleGameEngine::Math;
 
 namespace SimpleGameEngine::Models
 {
-	Model * Entity::DEFAULT_MODEL = new Model;
+	GeometryModel * Entity::DEFAULT_MODEL = new GeometryModel;
 
 	Entity::Entity()
 	{
@@ -22,7 +22,7 @@ namespace SimpleGameEngine::Models
 		delete boundingBox;
 	}
 
-	Entity::Entity(Model* m, Vec3 p, Vec3 r, Vec3 s)
+	Entity::Entity(GeometryModel* m, Vec3 p, Vec3 r, Vec3 s)
 	{
 		this->model = m;
 		this->position = p;
@@ -61,7 +61,7 @@ namespace SimpleGameEngine::Models
 		return transformations;
 	}
 
-	Model* Entity::getModel() const
+	GeometryModel* Entity::getModel() const
 	{
 		return this->model;
 	}
@@ -86,7 +86,7 @@ namespace SimpleGameEngine::Models
 		return boundingBox;
 	}
 
-	void Entity::setModel(Model* m)
+	void Entity::setModel(GeometryModel* m)
 	{
 		this->model = m;
 	}

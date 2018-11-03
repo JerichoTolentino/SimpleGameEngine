@@ -5,7 +5,7 @@
 #include <vector>
 
 #include "Loader.h"
-#include "../Models/Model.h"
+#include "../Models/GeometryModel.h"
 #include "../Models/Material.h"
 #include "../Math/Vec2.h"
 #include "../Math/Vec3.h"
@@ -18,7 +18,7 @@ namespace SimpleGameEngine::Loaders
 		ObjectFileLoader();
 		~ObjectFileLoader();
 
-		static Models::Model* loadOBJ(std::string filepath, std::string texturefilepath);
+		static Models::GeometryModel* loadOBJ(std::string filepath, std::string texturefilepath);
 
 	private:
 		static Models::Material* loadMaterial(std::string filepath, std::string texturepath);

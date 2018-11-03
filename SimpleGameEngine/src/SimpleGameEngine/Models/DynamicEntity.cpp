@@ -19,14 +19,14 @@ namespace SimpleGameEngine::Models
 	}
 
 
-	DynamicEntity::DynamicEntity(Model * m, Vec3 p, Vec3 r, Vec3 s)
+	DynamicEntity::DynamicEntity(GeometryModel * m, Vec3 p, Vec3 r, Vec3 s)
 		: Entity(m, p, r, s)
 	{
 		this->moveSpeed = DEFAULT_MOVE_SPEED;
 		this->turnSpeed = DEFAULT_TURN_SPEED;
 	}
 
-	DynamicEntity::DynamicEntity(Model * m, Vec3 p, Vec3 r, Vec3 s, float moveSpeed, float turnSpeed)
+	DynamicEntity::DynamicEntity(GeometryModel * m, Vec3 p, Vec3 r, Vec3 s, float moveSpeed, float turnSpeed)
 		: Entity(m, p, r, s)
 	{
 		this->moveSpeed = moveSpeed;
