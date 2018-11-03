@@ -3,20 +3,25 @@
 #include <iostream>
 #include <cstring>
 #include <vector>
+
 #include "Loader.h"
-#include "../math/engineMath.h"
-#include "../entities/Model.h"
+#include "../Math/Vec2.h"
+#include "../Math/Vec3.h"
 
-class ObjectFileLoader
+using namespace SimpleGameEngine::Math;
+
+namespace SimpleGameEngine::Loaders
 {
-public:
-	ObjectFileLoader();
-	~ObjectFileLoader();
+	class ObjectFileLoader
+	{
+	public:
+		ObjectFileLoader();
+		~ObjectFileLoader();
 
-	static Model* loadOBJ(const char* filepath, const char* texturefilepath);
+		static Model* loadOBJ(std::string filepath, std::string texturefilepath);
 
-private:
-	static Material* loadMaterial(std::string filepath, const char* texturepath);
-	static void processVertex(std::vector<Vec2> *textures, std::vector<Vec3> *normals, std::vector<GLuint> *indices, std::string vertex, GLfloat *texts, GLfloat *norms);
-};
-
+	private:
+		static Material* loadMaterial(std::string filepath, std::string texturepath);
+		static void processVertex(std::vector<Vec2> *textures, std::vector<Vec3> *normals, std::vector<GLuint> *indices, std::string vertex, GLfloat *texts, GLfloat *norms);
+	};
+}
