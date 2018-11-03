@@ -15,6 +15,12 @@
     <ClInclude Include="src\SimpleGameEngine\Loaders\ShaderCompileException.h" />
     <ClInclude Include="src\SimpleGameEngine\IO\IOException.h" />
     <ClInclude Include="src\SimpleGameEngine\IO\FileUtils.h" />
+    <ClInclude Include="src\SimpleGameEngine\Models\BoundingBox.h" />
+    <ClInclude Include="src\SimpleGameEngine\Models\Camera.h" />
+    <ClInclude Include="src\SimpleGameEngine\Models\DynamicEntity.h" />
+    <ClInclude Include="src\SimpleGameEngine\Models\Entity.h" />
+    <ClInclude Include="src\SimpleGameEngine\Models\Material.h" />
+    <ClInclude Include="src\SimpleGameEngine\Models\Model.h" />
     <ClInclude Include="src\SimpleGameEngine\Shaders\Shader.h" />
     <ClInclude Include="src\SimpleGameEngine\Display\DisplayException.h" />
     <ClInclude Include="src\SimpleGameEngine\Display\Window.h" />
@@ -38,6 +44,12 @@
     <ClCompile Include="src\SimpleGameEngine\Loaders\ShaderCompileException.cpp" />
     <ClCompile Include="src\SimpleGameEngine\IO\IOException.cpp" />
     <ClCompile Include="src\SimpleGameEngine\IO\FileUtils.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Models\BoundingBox.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Models\Camera.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Models\DynamicEntity.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Models\Entity.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Models\Material.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Models\Model.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Shaders\Shader.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Display\DisplayException.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Display\Window.cpp" />
