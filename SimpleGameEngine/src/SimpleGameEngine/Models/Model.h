@@ -16,7 +16,7 @@ namespace SimpleGameEngine::Models
 		Model();
 		Model(const Model &other);
 		Model(GLuint vaoId, std::vector<int> indices);
-		~Model();
+		virtual ~Model();
 
 
 
