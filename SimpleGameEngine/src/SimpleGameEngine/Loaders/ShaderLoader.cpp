@@ -6,6 +6,8 @@
 #include "LoadUniformException.h"
 
 using namespace SimpleGameEngine::IO;
+using namespace SimpleGameEngine::Shaders;
+using namespace SimpleGameEngine::Math;
 
 namespace SimpleGameEngine::Loaders
 {

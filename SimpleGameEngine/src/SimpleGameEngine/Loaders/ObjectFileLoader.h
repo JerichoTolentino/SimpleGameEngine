@@ -5,10 +5,10 @@
 #include <vector>
 
 #include "Loader.h"
+#include "../Models/Model.h"
+#include "../Models/Material.h"
 #include "../Math/Vec2.h"
 #include "../Math/Vec3.h"
-
-using namespace SimpleGameEngine::Math;
 
 namespace SimpleGameEngine::Loaders
 {
@@ -18,10 +18,10 @@ namespace SimpleGameEngine::Loaders
 		ObjectFileLoader();
 		~ObjectFileLoader();
 
-		static Model* loadOBJ(std::string filepath, std::string texturefilepath);
+		static Models::Model* loadOBJ(std::string filepath, std::string texturefilepath);
 
 	private:
-		static Material* loadMaterial(std::string filepath, std::string texturepath);
-		static void processVertex(std::vector<Vec2> *textures, std::vector<Vec3> *normals, std::vector<GLuint> *indices, std::string vertex, GLfloat *texts, GLfloat *norms);
+		static Models::Material* loadMaterial(std::string filepath, std::string texturepath);
+		static void processVertex(std::vector<Math::Vec2> *textures, std::vector<Math::Vec3> *normals, std::vector<GLuint> *indices, std::string vertex, GLfloat *texts, GLfloat *norms);
 	};
 }

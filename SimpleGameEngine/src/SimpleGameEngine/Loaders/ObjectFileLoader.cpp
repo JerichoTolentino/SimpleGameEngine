@@ -4,6 +4,8 @@
 #define TEST_INDICES 6
 
 using namespace SimpleGameEngine::IO;
+using namespace SimpleGameEngine::Math;
+using namespace SimpleGameEngine::Models;
 
 namespace SimpleGameEngine::Loaders
 {
@@ -25,9 +27,9 @@ namespace SimpleGameEngine::Loaders
 		std::vector<Vec3> *normals = new std::vector<Vec3>;
 		std::vector<GLuint> *indices = new std::vector<GLuint>;
 
-		GLfloat *verts;
-		GLfloat *texts;
-		GLfloat *norms;
+		GLfloat *verts = new GLfloat[1];
+		GLfloat *texts = new GLfloat[1];
+		GLfloat *norms = new GLfloat[1];
 		GLuint *inds;
 		Material* material = new Material();
 

@@ -5,6 +5,8 @@
 #define NORMALS_ATTR 1
 #define TEXTURES_ATTR 2
 
+using namespace SimpleGameEngine::Models;
+
 namespace SimpleGameEngine::Loaders
 {
 	Loader::Loader()

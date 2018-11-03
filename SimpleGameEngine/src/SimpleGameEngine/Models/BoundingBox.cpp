@@ -1,5 +1,7 @@
 #include "BoundingBox.h"
 
+using namespace SimpleGameEngine::Math;
+
 namespace SimpleGameEngine::Models
 {
 	BoundingBox::BoundingBox()

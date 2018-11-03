@@ -2,8 +2,6 @@
 #include <GL/glew.h>
 #include "../Math/Vec3.h"
 
-using namespace SimpleGameEngine::Math;
-
 namespace SimpleGameEngine::Models
 {
 	class BoundingBox
@@ -32,7 +30,7 @@ namespace SimpleGameEngine::Models
 		//void scale(const Vec3 &scale);
 
 		//scales first (from original vals), then translates (from scaled vals)
-		void transform(const Vec3 &scale, const Vec3 &translate);
+		void transform(const Math::Vec3 &scale, const Math::Vec3 &translate);
 
 		//generate bounding box vertex array to render it on screen
 		GLfloat* generateVertices() const;
