@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 
+#include "../Models/Model.h"
+
 
 namespace SimpleGameEngine::Loaders
 {
