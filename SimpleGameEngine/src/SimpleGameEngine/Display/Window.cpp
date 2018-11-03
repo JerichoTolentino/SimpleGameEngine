@@ -129,7 +129,6 @@ namespace SimpleGameEngine::Display
 		// Set m_window configuration
 		glfwSetInputMode(this->m_window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		//glfwSetInputMode(this->m_window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
-		glfwSetWindowPos(this->m_window, 0, 0);
 
 		// Center mouse
 		m_mouseX = this->m_width / 2.0f;
