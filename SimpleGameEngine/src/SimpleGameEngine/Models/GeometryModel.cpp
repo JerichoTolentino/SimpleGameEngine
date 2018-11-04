@@ -13,7 +13,7 @@ namespace SimpleGameEngine::Models
 	{
 	}
 	
-	GeometryModel::GeometryModel(std::vector<Vec3> vertices, std::vector<Vec2> textureUvs, std::vector<Vec3> normals, std::vector<GLuint> indices)
+	GeometryModel::GeometryModel(std::vector<Vec3> vertices, std::vector<Vec2> textureUvs, std::vector<Vec3> normals, std::vector<unsigned int> indices)
 	{
 		m_vertices = vertices;
 		m_textureUvs = textureUvs;
@@ -42,7 +42,7 @@ namespace SimpleGameEngine::Models
 		return m_normals;
 	}
 	
-	std::vector<GLuint> GeometryModel::getIndices() const
+	std::vector<unsigned int> GeometryModel::getIndices() const
 	{
 		return m_indices;
 	}

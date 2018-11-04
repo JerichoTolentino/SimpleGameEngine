@@ -1,41 +1,31 @@
 #pragma once
 #include <GL/glew.h>
-#include "../Math/Vec3.h"
+#include "GeometryModel.h"
+#include "SpaceModel.h"
 
 namespace SimpleGameEngine::Models
 {
 	class BoundingBox
 	{
 	private:
-		float minx, miny, minz, maxx, maxy, maxz;
-		float mx, my, mz, mmx, mmy, mmz;	//These are the initial values that the bounding box gets when model is created
-											//DO NOT CHANGE THESE
+		GeometryModel m_geometryModel;
+		SpaceModel m_spaceModel;
+		float m_minX;
+		float m_minY;
+		float m_minZ;
+		float m_maxX;
+		float m_maxY;
+		float m_maxZ;
+
+
+
 	public:
 		BoundingBox();
-		BoundingBox(float iminx, float iminy, float iminz, float imaxx, float imaxy, float imaxz);
+		BoundingBox(float minX, float minY, float minZ, float maxX, float maxY, float maxZ);
+		BoundingBox(const BoundingBox & other);
 		~BoundingBox();
 
 
-
-		//TODO: This makes this base values equal to the others transformed values!!
-		BoundingBox(const BoundingBox &other);
-		//TODO: This makes this base values equal to the others transformed values!!
-		BoundingBox& operator=(const BoundingBox &other);
-		
-		// WOW I was really bad at programming
-		//int intersect(const Vec3 &ray, Camera *cam) const;
-
-		//used original values for both (so scale wouldn't be saved)
-		//void translate(const Vec3 &translate);
-		//void scale(const Vec3 &scale);
-
-		//scales first (from original vals), then translates (from scaled vals)
-		void transform(const Math::Vec3 &scale, const Math::Vec3 &translate);
-
-		//generate bounding box vertex array to render it on screen
-		GLfloat* generateVertices() const;
-
-		GLuint* generateIndices() const;
 
 		float getMinX() const;
 		float getMinY() const;
@@ -44,6 +34,15 @@ namespace SimpleGameEngine::Models
 		float getMaxY() const;
 		float getMaxZ() const;
 
-		std::string toString() const;
+		GLfloat* generateVertices() const;
+		GLuint* generateIndices() const;
+
+
+
+		BoundingBox& operator=(const BoundingBox &other);
+
+
+	private:
+		GeometryModel generateGeometryFromPlanes(float minX, float minY, float minZ, float maxX, float maxY, float maxZ);
 	};
 }

@@ -9,21 +9,19 @@ namespace SimpleGameEngine::Models
 	{
 	private:
 		GeometryModel m_geomtryModel;
-		SpaceModel m_spaceModel;
 		Material m_material;
 
 
 
 	public:
 		RenderModel();
-		RenderModel(GeometryModel geometryModel, SpaceModel spaceModel, Material material);
+		RenderModel(GeometryModel geometryModel, Material material);
 		RenderModel(const RenderModel & other);
 		virtual ~RenderModel();
 
 
 
 		GeometryModel getGeometryModel() const;
-		SpaceModel getSpaceModel() const;
 		Material getMaterial() const;
 
 

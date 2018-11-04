@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include "ModelTransformer.h"
 
 using namespace SimpleGameEngine::Math;
 
@@ -8,13 +9,14 @@ namespace SimpleGameEngine::Models
 	{
 	}
 
-	Entity::Entity(RenderModel renderModel)
+	Entity::Entity(RenderModel renderModel, SpaceModel spaceModel)
 	{
 		m_renderModel = renderModel;
+		m_spaceModel = spaceModel;
 	}
 
 	Entity::Entity(const Entity & other)
-		: Entity(other.m_renderModel)
+		: Entity(other.m_renderModel, other.m_spaceModel)
 	{
 	}
 
@@ -29,28 +31,24 @@ namespace SimpleGameEngine::Models
 		return m_renderModel;
 	}
 
-	void Entity::move(Math::Vec3 deltaPos) const
+	SpaceModel Entity::getSpaceModel() const
 	{
-		Vec3 pos = m_renderModel.getSpaceModel().getPosition();
-		pos += deltaPos;
-		
-		m_renderModel.getSpaceModel().setPosition(pos);
+		return m_spaceModel;
 	}
 
-	void Entity::rotate(Math::Vec3 deltaRot) const
+	void Entity::move(Math::Vec3 deltaPos)
 	{
-		Vec3 rot = m_renderModel.getSpaceModel().getRotation();
-		rot += deltaRot;
-
-		m_renderModel.getSpaceModel().setRotation(rot);
+		ModelTransformer::translate(m_spaceModel, deltaPos);
 	}
 
-	void Entity::scale(Math::Vec3 deltaScale) const
+	void Entity::rotate(Math::Vec3 deltaRot)
 	{
-		Vec3 scale = m_renderModel.getSpaceModel().getScale();
-		scale += deltaScale;
+		ModelTransformer::rotate(m_spaceModel, deltaRot);
+	}
 
-		m_renderModel.getSpaceModel().setScale(scale);
+	void Entity::scale(Math::Vec3 deltaScale)
+	{
+		ModelTransformer::scale(m_spaceModel, deltaScale);
 	}
 
 
@@ -58,6 +56,7 @@ namespace SimpleGameEngine::Models
 	Entity & Entity::operator=(const Entity & other)
 	{
 		m_renderModel = other.m_renderModel;
+		m_spaceModel = other.m_spaceModel;
 
 		return *this;
 	}

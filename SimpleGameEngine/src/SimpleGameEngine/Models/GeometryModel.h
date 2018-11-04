@@ -1,5 +1,4 @@
 #pragma once
-#include <GL/glew.h>
 #include <vector>
 #include "../Math/Vec2.h"
 #include "../Math/Vec3.h"
@@ -12,14 +11,14 @@ namespace SimpleGameEngine::Models
 		std::vector<Math::Vec3> m_vertices;
 		std::vector<Math::Vec2> m_textureUvs;
 		std::vector<Math::Vec3> m_normals;
-		std::vector<GLuint> m_indices;
+		std::vector<unsigned int> m_indices;
 
 
 
 	public:
 		GeometryModel();
 		GeometryModel(const GeometryModel &other);
-		GeometryModel(std::vector<Math::Vec3> vertices, std::vector<Math::Vec2> textureUvs, std::vector<Math::Vec3> normals, std::vector<GLuint> indices);
+		GeometryModel(std::vector<Math::Vec3> vertices, std::vector<Math::Vec2> textureUvs, std::vector<Math::Vec3> normals, std::vector<unsigned int> indices);
 		virtual ~GeometryModel();
 
 
@@ -27,7 +26,7 @@ namespace SimpleGameEngine::Models
 		std::vector<Math::Vec3> getVertices() const;
 		std::vector<Math::Vec2> getTextureUvs() const;
 		std::vector<Math::Vec3> getNormals() const;
-		std::vector<GLuint> getIndices() const;
+		std::vector<unsigned int> getIndices() const;
 
 
 
