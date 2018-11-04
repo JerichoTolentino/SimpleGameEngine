@@ -4,15 +4,6 @@
 
 namespace SimpleGameEngine::IO
 {
-	FileUtils::FileUtils()
-	{
-	}
-
-
-	FileUtils::~FileUtils()
-	{
-	}
-
 	std::string FileUtils::loadFileToString(std::string filepath)
 	{
 		std::ifstream ifs = openFile(filepath);

@@ -10,11 +10,6 @@ namespace SimpleGameEngine::Math
 {
 	class MathUtils
 	{
-	private:
-		MathUtils();
-	public:
-		~MathUtils();
-
 		/// <summary>
 		/// Converts from degrees to radians.
 		/// </summary>

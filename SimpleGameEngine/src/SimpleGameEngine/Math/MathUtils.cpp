@@ -2,17 +2,6 @@
 
 namespace SimpleGameEngine::Math
 {
-	MathUtils::MathUtils()
-	{
-		throw new std::exception("Private constructor called.");
-	}
-
-	MathUtils::~MathUtils()
-	{
-	}
-
-
-
 	float MathUtils::toRadians(float degrees)
 	{
 		return (float)(degrees * PI / 180);
