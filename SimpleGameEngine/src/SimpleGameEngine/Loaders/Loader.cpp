@@ -31,14 +31,6 @@ namespace SimpleGameEngine::Loaders
 			unpacked.push_back(vec.y);
 			return unpacked;
 		});
-		std::vector<GLuint> flattenedIndices = Generic::flatten(indices.begin(), indices.end(), (std::function<std::vector<GLuint>(Vec3)>) [](Vec3 vec)
-		{
-			std::vector<GLuint> unpacked;
-			unpacked.push_back((GLuint) vec.x);
-			unpacked.push_back((GLuint) vec.y);
-			unpacked.push_back((GLuint) vec.z);
-			return unpacked;
-		});
 
 		// Load into OpenGL
 		GLuint vao, vbo;
@@ -48,7 +40,7 @@ namespace SimpleGameEngine::Loaders
 		// Bind indices
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * flattenedIndices.size(), Generic::toArray(flattenedIndices), GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * indices.size(), Generic::toArray(indices), GL_STATIC_DRAW);
 
 		// Bind vertices
 		glGenBuffers(1, &vbo);
@@ -91,14 +83,6 @@ namespace SimpleGameEngine::Loaders
 			unpacked.push_back(vec.y);
 			return unpacked;
 		});
-		std::vector<GLuint> flattenedIndices = Generic::flatten(model.getIndices().begin(), model.getIndices().end(), (std::function<std::vector<GLuint>(Vec3)>) [](Vec3 vec)
-		{
-			std::vector<GLuint> unpacked;
-			unpacked.push_back((GLuint)vec.x);
-			unpacked.push_back((GLuint)vec.y);
-			unpacked.push_back((GLuint)vec.z);
-			return unpacked;
-		});
 
 		// Load into OpenGL
 		GLuint vao, vbo;
@@ -108,7 +92,7 @@ namespace SimpleGameEngine::Loaders
 		// Bind indices
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * flattenedIndices.size(), Generic::toArray(flattenedIndices), GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * model.getIndices().size(), Generic::toArray(model.getIndices()), GL_STATIC_DRAW);
 
 		// Bind vertices
 		glGenBuffers(1, &vbo);

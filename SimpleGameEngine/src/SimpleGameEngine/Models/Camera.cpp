@@ -174,12 +174,12 @@ namespace SimpleGameEngine::Models
 
 	void Camera::follow(Entity * entity)
 	{
-		position = entity->getPosition();
+		position = entity->getSpaceModel().getPosition();
 		//rotation = entity->getRotation();
 		//rotation = Vec3(-rotation.x, -rotation.y, -rotation.z);
 		//rotation.x += groundAngle;
 		//rotation.y += aroundAngle;
-		rotation.x = entity->getRotation().x + groundAngle;
+		rotation.x = entity->getSpaceModel().getRotation().x + groundAngle;
 		rotation.y = aroundAngle;
 		float theta = MathUtils::toRadians(groundAngle);
 		float zFactor = cos(MathUtils::toRadians(rotation.y));
