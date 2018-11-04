@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SimpleGameEngine\Utility\Generic.h" />
     <ClInclude Include="src\SimpleGameEngine\Log.h" />
     <ClInclude Include="src\SimpleGameEngine\Logic\IntersectionTester.h" />
     <ClInclude Include="src\SimpleGameEngine\Logic\ModelTransformer.h" />

@@ -1,23 +1,18 @@
 #include "Loader.h"
 #include "TextureLoadException.h"
+#include "../Utility/Generic.h"
 
 #define VERTICES_ATTR 0
 #define NORMALS_ATTR 1
 #define TEXTURES_ATTR 2
 
 using namespace SimpleGameEngine::Models;
+using namespace SimpleGameEngine::Utility;
+using namespace SimpleGameEngine::Math;
 
 namespace SimpleGameEngine::Loaders
 {
-	Loader::Loader()
-	{
-	}
-
-
-	Loader::~Loader()
-	{
-	}
-
+	/*
 	GLuint Loader::loadSkybox(GLfloat vertices[], GLfloat textures[], GLuint indices[], int numVertices, int numTextures, int numIndices)
 	{
 		GLuint vao, vbo;
@@ -137,6 +132,71 @@ namespace SimpleGameEngine::Loaders
 
 		return new GeometryModel(vao, numIndices, material);
 	}
+	*/
+
+	void Loader::loadSkybox(std::vector<Math::Vec3> vertices, std::vector<Math::Vec2> textureUvs, std::vector<GLuint> indices)
+	{
+		// Flatten vectors
+		std::function<std::vector<float>(Vec3)> unpackVec3 = [](Vec3 vec)
+		{
+			std::vector<float> unpacked;
+			unpacked.push_back(vec.x);
+			unpacked.push_back(vec.y);
+			unpacked.push_back(vec.z);
+			return unpacked;
+		};
+
+		std::function<std::vector<float>(Vec2)> unpackVec2 = [](Vec2 vec)
+		{
+			std::vector<float> unpacked;
+			unpacked.push_back(vec.x);
+			unpacked.push_back(vec.y);
+			return unpacked;
+		};
+		
+		std::function<std::vector<GLuint>(Vec3)> unpackVec3uint = [](Vec3 vec)
+		{
+			std::vector<GLuint> unpacked;
+			unpacked.push_back(vec.x);
+			unpacked.push_back(vec.y);
+			unpacked.push_back(vec.z);
+			return unpacked;
+		};
+
+		std::vector<float> flattenedVertices = Generic::flatten(vertices.begin(), vertices.end(), unpackVec3);
+		std::vector<float> flattenedUvs = Generic::flatten(textureUvs.begin(), textureUvs.end(), unpackVec2);
+		std::vector<GLuint> flattenedIndices = Generic::flatten(indices.begin(), indices.end(), unpackVec3uint);
+
+		// Load into OpenGL
+		GLuint vao, vbo;
+		glGenVertexArrays(1, &vao);
+		glBindVertexArray(vao);
+
+		// Bind indices
+		glGenBuffers(1, &vbo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * flattenedIndices.size(), &flattenedIndices[0], GL_STATIC_DRAW);
+
+		// Bind vertices
+		glGenBuffers(1, &vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * flattenedVertices.size(), &flattenedVertices[0], GL_STATIC_DRAW);
+		glVertexAttribPointer(VERTICES_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+		// Bind texture UVs
+		glGenBuffers(1, &vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * flattenedUvs.size(), &flattenedUvs[0], GL_STATIC_DRAW);
+		glVertexAttribPointer(TEXTURES_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	}
+
+	void Loader::loadModel(GeometryModel model)
+	{
+	}
+
+	void Loader::loadMaterial(Material material)
+	{
+	}
 
 	GLuint Loader::loadTexture(std::string filepath)
 	{
@@ -168,9 +228,11 @@ namespace SimpleGameEngine::Loaders
 		return id;
 	}
 
+	/*
 	Material* Loader::loadMaterial(std::string textureFile, std::string name, float ambient, float emissive, float diffuse, float specular, float specularHighlight, float refractiveIndex, float reflectivity, float transparency)
 	{
 		GLuint textureID = loadTexture(textureFile);
 		return new Material(textureFile, name, textureID, ambient, emissive, diffuse, specular, specularHighlight, refractiveIndex, reflectivity, transparency);
 	}
+	*/
 }
