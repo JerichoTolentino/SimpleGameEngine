@@ -9,7 +9,6 @@ namespace SimpleGameEngine::Models
 	class GeometryModel
 	{
 	private:
-		GLuint m_vaoId;
 		std::vector<Math::Vec3> m_vertices;
 		std::vector<Math::Vec2> m_textureUvs;
 		std::vector<Math::Vec3> m_normals;
@@ -20,12 +19,11 @@ namespace SimpleGameEngine::Models
 	public:
 		GeometryModel();
 		GeometryModel(const GeometryModel &other);
-		GeometryModel(GLuint vaoId, std::vector<Math::Vec3> vertices, std::vector<Math::Vec2> textureUvs, std::vector<Math::Vec3> normals, std::vector<GLuint> indices);
+		GeometryModel(std::vector<Math::Vec3> vertices, std::vector<Math::Vec2> textureUvs, std::vector<Math::Vec3> normals, std::vector<GLuint> indices);
 		virtual ~GeometryModel();
 
 
 
-		GLuint getVaoId() const;
 		std::vector<Math::Vec3> getVertices() const;
 		std::vector<Math::Vec2> getTextureUvs() const;
 		std::vector<Math::Vec3> getNormals() const;
