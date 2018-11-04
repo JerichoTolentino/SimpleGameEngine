@@ -12,129 +12,8 @@ using namespace SimpleGameEngine::Math;
 
 namespace SimpleGameEngine::Loaders
 {
-	/*
-	GLuint Loader::loadSkybox(GLfloat vertices[], GLfloat textures[], GLuint indices[], int numVertices, int numTextures, int numIndices)
-	{
-		GLuint vao, vbo;
-		glGenVertexArrays(1, &vao);
-		glBindVertexArray(vao);
 
-		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * numIndices, indices, GL_STATIC_DRAW);
-
-		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * numVertices * 3, vertices, GL_STATIC_DRAW);
-		glVertexAttribPointer(VERTICES_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * numTextures * 3, textures, GL_STATIC_DRAW);
-		glVertexAttribPointer(TEXTURES_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-		return vao;
-	}
-
-	GeometryModel* Loader::loadModel(GLfloat vertices[], GLuint indices[], int numVertices, int numIndices)
-	{
-		GLuint vao, vbo;
-		glGenVertexArrays(1, &vao);
-		glBindVertexArray(vao);
-
-		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * numIndices, indices, GL_STATIC_DRAW);
-
-		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * numVertices * 3, vertices, GL_STATIC_DRAW);
-		glVertexAttribPointer(VERTICES_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-		return new GeometryModel(vao, numIndices);
-	}
-
-	GeometryModel* Loader::loadModel(GLfloat vertices[], GLfloat normals[], GLuint indices[], int numVertices, int numNormals, int numIndices)
-	{
-		GLuint vao, vbo;
-		glGenVertexArrays(1, &vao);
-		glBindVertexArray(vao);
-
-		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * numIndices, indices, GL_STATIC_DRAW);
-
-		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * numVertices * 3, vertices, GL_STATIC_DRAW);
-		glVertexAttribPointer(VERTICES_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * numNormals * 3, normals, GL_STATIC_DRAW);
-		glVertexAttribPointer(NORMALS_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-		return new GeometryModel(vao, numIndices);
-	}
-
-	GeometryModel* Loader::loadModel(GLfloat vertices[], GLfloat normals[], GLfloat textures[], GLuint indices[], int numVertices, int numNormals, int numTextures, int numIndices)
-	{
-		GLuint vao, vbo;
-		glGenVertexArrays(1, &vao);
-		glBindVertexArray(vao);
-
-		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * numIndices, indices, GL_STATIC_DRAW);
-
-		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * numVertices * 3, vertices, GL_STATIC_DRAW);
-		glVertexAttribPointer(VERTICES_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * numNormals * 3, normals, GL_STATIC_DRAW);
-		glVertexAttribPointer(NORMALS_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * numTextures * 2, textures, GL_STATIC_DRAW);
-		glVertexAttribPointer(TEXTURES_ATTR, 2, GL_FLOAT, GL_FALSE, 0, 0);
-
-		return new GeometryModel(vao, numIndices);
-	}
-
-	GeometryModel* Loader::loadModel(GLfloat vertices[], GLfloat normals[], GLfloat textures[], GLuint indices[], int numVertices, int numNormals, int numTextures, int numIndices, Material* material)
-	{
-		GLuint vao, vbo;
-		glGenVertexArrays(1, &vao);
-		glBindVertexArray(vao);
-
-		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * numIndices, indices, GL_STATIC_DRAW);
-
-		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * numVertices * 3, vertices, GL_STATIC_DRAW);
-		glVertexAttribPointer(VERTICES_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * numNormals * 3, normals, GL_STATIC_DRAW);
-		glVertexAttribPointer(NORMALS_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
-
-		glGenBuffers(1, &vbo);
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * numTextures * 2, textures, GL_STATIC_DRAW);
-		glVertexAttribPointer(TEXTURES_ATTR, 2, GL_FLOAT, GL_FALSE, 0, 0);
-
-		return new GeometryModel(vao, numIndices, material);
-	}
-	*/
-
-	void Loader::loadSkybox(std::vector<Math::Vec3> vertices, std::vector<Math::Vec2> textureUvs, std::vector<GLuint> indices)
+	GLuint Loader::loadSkybox(std::vector<Math::Vec3> vertices, std::vector<Math::Vec2> textureUvs, std::vector<GLuint> indices)
 	{
 		// Flatten vectors
 		std::vector<float> flattenedVertices = Generic::flatten(vertices.begin(), vertices.end(), (std::function<std::vector<float>(Vec3)>) [](Vec3 vec)
@@ -182,39 +61,74 @@ namespace SimpleGameEngine::Loaders
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * flattenedUvs.size(), Generic::toArray(flattenedUvs), GL_STATIC_DRAW);
 		glVertexAttribPointer(TEXTURES_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+		return vao;
 	}
 
-	void Loader::loadModel(GeometryModel model)
+	GLuint Loader::loadGeometryModel(GeometryModel model)
 	{
 		// Flatten vectors
+		std::vector<float> flattenedVertices = Generic::flatten(model.getVertices().begin(), model.getVertices().end(), (std::function<std::vector<float>(Vec3)>) [](Vec3 vec)
+		{
+			std::vector<float> unpacked;
+			unpacked.push_back(vec.x);
+			unpacked.push_back(vec.y);
+			unpacked.push_back(vec.z);
+			return unpacked;
+		});
+		std::vector<float> flattenedNormals = Generic::flatten(model.getNormals().begin(), model.getNormals().end(), (std::function<std::vector<float>(Vec3)>) [](Vec3 vec)
+		{
+			std::vector<float> unpacked;
+			unpacked.push_back(vec.x);
+			unpacked.push_back(vec.y);
+			unpacked.push_back(vec.z);
+			return unpacked;
+		});
+		std::vector<float> flattenedUvs = Generic::flatten(model.getTextureUvs().begin(), model.getTextureUvs().end(), (std::function<std::vector<float>(Vec2)>) [](Vec2 vec)
+		{
+			std::vector<float> unpacked;
+			unpacked.push_back(vec.x);
+			unpacked.push_back(vec.y);
+			return unpacked;
+		});
+		std::vector<GLuint> flattenedIndices = Generic::flatten(model.getIndices().begin(), model.getIndices().end(), (std::function<std::vector<GLuint>(Vec3)>) [](Vec3 vec)
+		{
+			std::vector<GLuint> unpacked;
+			unpacked.push_back((GLuint)vec.x);
+			unpacked.push_back((GLuint)vec.y);
+			unpacked.push_back((GLuint)vec.z);
+			return unpacked;
+		});
 
 		// Load into OpenGL
 		GLuint vao, vbo;
 		glGenVertexArrays(1, &vao);
 		glBindVertexArray(vao);
 
+		// Bind indices
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * numIndices, indices, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * flattenedIndices.size(), Generic::toArray(flattenedIndices), GL_STATIC_DRAW);
 
+		// Bind vertices
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * numVertices * 3, vertices, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * flattenedVertices.size(), Generic::toArray(flattenedVertices), GL_STATIC_DRAW);
 		glVertexAttribPointer(VERTICES_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
+		// Bind normals
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * numNormals * 3, normals, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * flattenedNormals.size(), Generic::toArray(flattenedNormals), GL_STATIC_DRAW);
 		glVertexAttribPointer(NORMALS_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
+		// Bind texture UVs
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * numTextures * 2, textures, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * flattenedUvs.size(), Generic::toArray(flattenedUvs), GL_STATIC_DRAW);
 		glVertexAttribPointer(TEXTURES_ATTR, 2, GL_FLOAT, GL_FALSE, 0, 0);
-	}
-
-	void Loader::loadMaterial(Material material)
-	{
+	
+		return vao;
 	}
 
 	GLuint Loader::loadTexture(std::string filepath)
@@ -246,12 +160,4 @@ namespace SimpleGameEngine::Loaders
 		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 		return id;
 	}
-
-	/*
-	Material* Loader::loadMaterial(std::string textureFile, std::string name, float ambient, float emissive, float diffuse, float specular, float specularHighlight, float refractiveIndex, float reflectivity, float transparency)
-	{
-		GLuint textureID = loadTexture(textureFile);
-		return new Material(textureFile, name, textureID, ambient, emissive, diffuse, specular, specularHighlight, refractiveIndex, reflectivity, transparency);
-	}
-	*/
 }
