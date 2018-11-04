@@ -37,6 +37,22 @@ namespace SimpleGameEngine::Models
 		m_renderModel.getSpaceModel().setPosition(pos);
 	}
 
+	void Entity::rotate(Math::Vec3 deltaRot) const
+	{
+		Vec3 rot = m_renderModel.getSpaceModel().getRotation();
+		rot += deltaRot;
+
+		m_renderModel.getSpaceModel().setRotation(rot);
+	}
+
+	void Entity::scale(Math::Vec3 deltaScale) const
+	{
+		Vec3 scale = m_renderModel.getSpaceModel().getScale();
+		scale += deltaScale;
+
+		m_renderModel.getSpaceModel().setScale(scale);
+	}
+
 
 
 	Entity & Entity::operator=(const Entity & other)

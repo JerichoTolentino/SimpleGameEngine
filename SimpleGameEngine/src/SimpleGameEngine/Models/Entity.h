@@ -21,6 +21,8 @@ namespace SimpleGameEngine::Models
 		RenderModel getRenderModel() const;
 
 		void move(Math::Vec3 deltaPos) const;
+		void rotate(Math::Vec3 deltaRot) const;
+		void scale(Math::Vec3 deltaScale) const;
 
 
 
