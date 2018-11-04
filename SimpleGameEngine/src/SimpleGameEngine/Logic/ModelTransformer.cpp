@@ -5,16 +5,6 @@ using namespace SimpleGameEngine::Models;
 
 namespace SimpleGameEngine::Logic
 {
-	ModelTransformer::ModelTransformer()
-	{
-	}
-
-	ModelTransformer::~ModelTransformer()
-	{
-	}
-
-
-
 	void ModelTransformer::translate(SpaceModel & spaceModel, Math::Vec3 translation)
 	{
 		Vec3 pos = spaceModel.getPosition();
