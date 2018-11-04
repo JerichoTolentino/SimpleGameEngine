@@ -11,7 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\SimpleGameEngine\Models\ModelTransformer.h" />
+    <ClInclude Include="src\SimpleGameEngine\Logic\IntersectionTester.h" />
+    <ClInclude Include="src\SimpleGameEngine\Logic\ModelTransformer.h" />
     <ClInclude Include="src\SimpleGameEngine\Models\RenderModel.h" />
     <ClInclude Include="src\SimpleGameEngine\Models\SpaceModel.h" />
     <ClInclude Include="src\SimpleGameEngine\Models\LightingModel.h" />
@@ -43,7 +44,8 @@
     <ClInclude Include="src\SimpleGameEngine\Loaders\TextureLoadException.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\SimpleGameEngine\Models\ModelTransformer.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Logic\IntersectionTester.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Logic\ModelTransformer.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Models\RenderModel.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Models\SpaceModel.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Models\LightingModel.cpp" />

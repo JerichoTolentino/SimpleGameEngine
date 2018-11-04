@@ -10,9 +10,16 @@ namespace SimpleGameEngine::Models
 
 	BoundingBox::BoundingBox(float minX, float minY, float minZ, float maxX, float maxY, float maxZ)
 	{
+		m_minX = minX;
+		m_minY = minY;
+		m_minZ = minZ;
+		m_maxX = maxX;
+		m_maxY = maxY;
+		m_maxZ = maxZ;
 	}
 	
 	BoundingBox::BoundingBox(const BoundingBox & other)
+		: BoundingBox(other.m_minX, other.m_minY, other.m_minZ, other.m_maxX, other.m_maxY, other.m_maxZ)
 	{
 	}
 	
@@ -22,59 +29,52 @@ namespace SimpleGameEngine::Models
 	
 	
 	
+	SpaceModel BoundingBox::getSpaceModel() const
+	{
+		return m_spaceModel;
+	}
+
 	float BoundingBox::getMinX() const
 	{
-		return 0.0f;
+		return m_minX;
 	}
 	
 	float BoundingBox::getMinY() const
 	{
-		return 0.0f;
+		return m_minY;
 	}
 	
 	float BoundingBox::getMinZ() const
 	{
-		return 0.0f;
+		return m_minZ;
 	}
 	
 	float BoundingBox::getMaxX() const
 	{
-		return 0.0f;
+		return m_maxX;
 	}
 	
 	float BoundingBox::getMaxY() const
 	{
-		return 0.0f;
+		return m_maxY;
 	}
 	
 	float BoundingBox::getMaxZ() const
 	{
-		return 0.0f;
-	}
-	
-	GLfloat * BoundingBox::generateVertices() const
-	{
-		return nullptr;
-	}
-	
-	GLuint * BoundingBox::generateIndices() const
-	{
-		return nullptr;
+		return m_maxZ;
 	}
 	
 
 
 	BoundingBox & BoundingBox::operator=(const BoundingBox & other)
 	{
-		// TODO: insert return statement here
-	}
+		m_minX = other.m_minX;
+		m_minY = other.m_minY;
+		m_minZ = other.m_minZ;
+		m_maxX = other.m_maxX;
+		m_maxY = other.m_maxY;
+		m_maxZ = other.m_maxZ;
 
-
-
-	GeometryModel BoundingBox::generateGeometryFromPlanes(float minX, float minY, float minZ, float maxX, float maxY, float maxZ)
-	{
-		std::vector<Vec3> vertices;
-		std::vector<Vec2>
-
+		return *this;
 	}
 }

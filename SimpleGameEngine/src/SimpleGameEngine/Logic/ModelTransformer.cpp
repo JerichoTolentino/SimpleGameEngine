@@ -1,8 +1,9 @@
 #include "ModelTransformer.h"
 
 using namespace SimpleGameEngine::Math;
+using namespace SimpleGameEngine::Models;
 
-namespace SimpleGameEngine::Models
+namespace SimpleGameEngine::Logic
 {
 	ModelTransformer::ModelTransformer()
 	{
