@@ -1,26 +1,26 @@
 #pragma once
+#include "RenderModel.h"
 
 namespace SimpleGameEngine::Models
 {
 	class Entity
 	{
 	private:
-		GeometryModel* model;
-		BoundingBox *boundingBox;
+		RenderModel m_renderModel;
 		
 
 
 	public:
 		Entity();
+		Entity(RenderModel renderModel);
 		Entity(const Entity &other);
-		virtual ~Entity();		
+		virtual ~Entity();
 
 
 
-		virtual GeometryModel* getModel() const;
-		virtual BoundingBox* getBoundingBox() const;
-		virtual void setModel(GeometryModel* m);
-		virtual void setBoundingBox(BoundingBox* box);
+		RenderModel getRenderModel() const;
+
+		void move(Math::Vec3 deltaPos) const;
 
 
 

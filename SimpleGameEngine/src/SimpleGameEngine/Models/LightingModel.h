@@ -49,6 +49,8 @@ namespace SimpleGameEngine::Models
 		void setSpecularHighlight(float sh);
 		void setRefractiveIndex(float ri);
 
+
+
 		LightingModel & operator=(const LightingModel & other);
 	};
 }

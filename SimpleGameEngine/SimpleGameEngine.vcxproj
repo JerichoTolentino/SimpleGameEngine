@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SimpleGameEngine\Models\RenderModel.h" />
     <ClInclude Include="src\SimpleGameEngine\Models\SpaceModel.h" />
     <ClInclude Include="src\SimpleGameEngine\Models\LightingModel.h" />
     <ClInclude Include="src\SimpleGameEngine\Loaders\LoadUniformException.h" />
@@ -42,6 +43,7 @@
     <ClInclude Include="src\SimpleGameEngine\Loaders\TextureLoadException.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\SimpleGameEngine\Models\RenderModel.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Models\SpaceModel.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Models\LightingModel.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Loaders\LoadUniformException.cpp" />
