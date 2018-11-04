@@ -5,6 +5,7 @@ namespace SimpleGameEngine::Logic
 {
 	class IntersectionTester
 	{
+	public:
 		/// <summary>
 		/// Checks if two <see cref="BoundingBox"/>s intersect.
 		/// Returns true if they do, false otherwise.

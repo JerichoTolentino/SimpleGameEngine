@@ -5,6 +5,7 @@ namespace SimpleGameEngine::IO
 {
 	class FileUtils
 	{
+	public:
 		/// <summary>
 		/// Reads the entire contents of a file into a <see cref="std::string"/>.
 		/// </summary>
