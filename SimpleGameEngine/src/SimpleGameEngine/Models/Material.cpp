@@ -7,36 +7,25 @@ namespace SimpleGameEngine::Models
 	{
 	}
 
-	Material::Material(GLuint textureId, LightingModel lightingModel)
+	Material::Material(LightingModel lightingModel)
 	{
-		m_textureId = textureId;
 		m_lightingModel = lightingModel;
 	}
 
 	Material::Material(const Material &other)
-		: Material(other.m_textureId, other.m_lightingModel)
+		: Material(other.m_lightingModel)
 	{
 	}
 
 	Material::~Material()
 	{
-		//glDeleteTextures(1, &m_textureId); //TODO: Move this to loader when unloading textures
 	}
 
 
-	GLuint Material::getTextureID() const
-	{
-		return m_textureId;
-	}
 
 	LightingModel Material::getLightingModel() const
 	{
 		return m_lightingModel;
-	}
-
-	void Material::setTextureID(GLuint id)
-	{
-		this->m_textureId = id;
 	}
 
 	void Material::setLightingModel(LightingModel lightingModel)
@@ -48,7 +37,6 @@ namespace SimpleGameEngine::Models
 
 	Material& Material::operator=(const Material &other)
 	{
-		m_textureId = other.m_textureId;
 		m_lightingModel = other.m_lightingModel;
 		return *this;
 	}
