@@ -23,5 +23,11 @@ namespace SimpleGameEngine::Utility
 
 			return result;
 		}
+
+		template <typename T>
+		static T* toArray(std::vector<T> vector)
+		{
+			return &vector[0];
+		}
 	};
 }

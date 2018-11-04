@@ -137,35 +137,29 @@ namespace SimpleGameEngine::Loaders
 	void Loader::loadSkybox(std::vector<Math::Vec3> vertices, std::vector<Math::Vec2> textureUvs, std::vector<GLuint> indices)
 	{
 		// Flatten vectors
-		std::function<std::vector<float>(Vec3)> unpackVec3 = [](Vec3 vec)
+		std::vector<float> flattenedVertices = Generic::flatten(vertices.begin(), vertices.end(), (std::function<std::vector<float>(Vec3)>) [](Vec3 vec)
 		{
 			std::vector<float> unpacked;
 			unpacked.push_back(vec.x);
 			unpacked.push_back(vec.y);
 			unpacked.push_back(vec.z);
 			return unpacked;
-		};
-
-		std::function<std::vector<float>(Vec2)> unpackVec2 = [](Vec2 vec)
+		});
+		std::vector<float> flattenedUvs = Generic::flatten(textureUvs.begin(), textureUvs.end(), (std::function<std::vector<float>(Vec2)>) [](Vec2 vec)
 		{
 			std::vector<float> unpacked;
 			unpacked.push_back(vec.x);
 			unpacked.push_back(vec.y);
 			return unpacked;
-		};
-		
-		std::function<std::vector<GLuint>(Vec3)> unpackVec3uint = [](Vec3 vec)
+		});
+		std::vector<GLuint> flattenedIndices = Generic::flatten(indices.begin(), indices.end(), (std::function<std::vector<GLuint>(Vec3)>) [](Vec3 vec)
 		{
 			std::vector<GLuint> unpacked;
-			unpacked.push_back(vec.x);
-			unpacked.push_back(vec.y);
-			unpacked.push_back(vec.z);
+			unpacked.push_back((GLuint) vec.x);
+			unpacked.push_back((GLuint) vec.y);
+			unpacked.push_back((GLuint) vec.z);
 			return unpacked;
-		};
-
-		std::vector<float> flattenedVertices = Generic::flatten(vertices.begin(), vertices.end(), unpackVec3);
-		std::vector<float> flattenedUvs = Generic::flatten(textureUvs.begin(), textureUvs.end(), unpackVec2);
-		std::vector<GLuint> flattenedIndices = Generic::flatten(indices.begin(), indices.end(), unpackVec3uint);
+		});
 
 		// Load into OpenGL
 		GLuint vao, vbo;
@@ -175,23 +169,48 @@ namespace SimpleGameEngine::Loaders
 		// Bind indices
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * flattenedIndices.size(), &flattenedIndices[0], GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * flattenedIndices.size(), Generic::toArray(flattenedIndices), GL_STATIC_DRAW);
 
 		// Bind vertices
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * flattenedVertices.size(), &flattenedVertices[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * flattenedVertices.size(), Generic::toArray(flattenedVertices), GL_STATIC_DRAW);
 		glVertexAttribPointer(VERTICES_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 		// Bind texture UVs
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * flattenedUvs.size(), &flattenedUvs[0], GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * flattenedUvs.size(), Generic::toArray(flattenedUvs), GL_STATIC_DRAW);
 		glVertexAttribPointer(TEXTURES_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
 	}
 
 	void Loader::loadModel(GeometryModel model)
 	{
+		// Flatten vectors
+
+		// Load into OpenGL
+		GLuint vao, vbo;
+		glGenVertexArrays(1, &vao);
+		glBindVertexArray(vao);
+
+		glGenBuffers(1, &vbo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * numIndices, indices, GL_STATIC_DRAW);
+
+		glGenBuffers(1, &vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * numVertices * 3, vertices, GL_STATIC_DRAW);
+		glVertexAttribPointer(VERTICES_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+		glGenBuffers(1, &vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * numNormals * 3, normals, GL_STATIC_DRAW);
+		glVertexAttribPointer(NORMALS_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+		glGenBuffers(1, &vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * numTextures * 2, textures, GL_STATIC_DRAW);
+		glVertexAttribPointer(TEXTURES_ATTR, 2, GL_FLOAT, GL_FALSE, 0, 0);
 	}
 
 	void Loader::loadMaterial(Material material)
