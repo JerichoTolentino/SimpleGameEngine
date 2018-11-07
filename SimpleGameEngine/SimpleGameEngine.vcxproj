@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SimpleGameEngine\Parsers\ParseException.h" />
     <ClInclude Include="src\SimpleGameEngine\Utility\Generic.h" />
     <ClInclude Include="src\SimpleGameEngine\Log.h" />
     <ClInclude Include="src\SimpleGameEngine\Logic\IntersectionTester.h" />
@@ -44,8 +45,11 @@
     <ClInclude Include="src\SimpleGameEngine\Math\Vec3.h" />
     <ClInclude Include="src\SimpleGameEngine\Math\Vec4.h" />
     <ClInclude Include="src\SimpleGameEngine\Loaders\TextureLoadException.h" />
+    <ClInclude Include="src\SimpleGameEngine\Parsers\WavefrontObjParser.h" />
+    <ClInclude Include="src\SimpleGameEngine\Utility\StringUtil.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\SimpleGameEngine\Parsers\ParseException.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Log.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Logic\IntersectionTester.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Logic\ModelTransformer.cpp" />
@@ -75,6 +79,8 @@
     <ClCompile Include="src\SimpleGameEngine\Math\Vec3.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Math\Vec4.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Loaders\TextureLoadException.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Parsers\WavefrontObjParser.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Utility\StringUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\SimpleGameEngine\Shaders\entityFragment.frag" />

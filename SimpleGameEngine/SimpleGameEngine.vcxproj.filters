@@ -114,6 +114,15 @@
     <ClInclude Include="src\SimpleGameEngine\Utility\Generic.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\Parsers\WavefrontObjParser.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\Utility\StringUtil.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\Parsers\ParseException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\SimpleGameEngine\Application.cpp">
@@ -201,6 +210,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\SimpleGameEngine\Log.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\Parsers\WavefrontObjParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\Utility\StringUtil.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\Parsers\ParseException.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
