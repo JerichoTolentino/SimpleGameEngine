@@ -11,7 +11,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SimpleGameEngine\Parsers\MaterialLibraryParser.h" />
     <ClInclude Include="src\SimpleGameEngine\Parsers\ParseException.h" />
+    <ClInclude Include="src\SimpleGameEngine\Renderers\EntityRenderer.h" />
+    <ClInclude Include="src\SimpleGameEngine\Renderers\RenderEngine.h" />
+    <ClInclude Include="src\SimpleGameEngine\Renderers\SkyboxRenderer.h" />
+    <ClInclude Include="src\SimpleGameEngine\Renderers\TerrainRenderer.h" />
     <ClInclude Include="src\SimpleGameEngine\Utility\Generic.h" />
     <ClInclude Include="src\SimpleGameEngine\Log.h" />
     <ClInclude Include="src\SimpleGameEngine\Logic\IntersectionTester.h" />
@@ -49,6 +54,7 @@
     <ClInclude Include="src\SimpleGameEngine\Utility\StringUtil.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\SimpleGameEngine\Parsers\MaterialLibraryParser.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Parsers\ParseException.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Log.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Logic\IntersectionTester.cpp" />
@@ -65,6 +71,10 @@
     <ClCompile Include="src\SimpleGameEngine\Models\Entity.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Models\Material.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Models\GeometryModel.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Renderers\EntityRenderer.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Renderers\RenderEngine.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Renderers\SkyboxRenderer.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Renderers\TerrainRenderer.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Shaders\Shader.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Display\DisplayException.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Display\Window.cpp" />
