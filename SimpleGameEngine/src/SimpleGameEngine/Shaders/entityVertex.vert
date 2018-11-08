@@ -11,18 +11,17 @@ out vec3 nNormal;
 out vec3 nFromLight;
 //out vec3 nHalf;
 
-uniform float value;
-uniform mat4 model_matrix;
-uniform mat4 proj_matrix;
-uniform mat4 view_matrix;
-uniform mat4 normal_matrix;
-uniform vec3 lightPos;
-uniform vec3 eyePos;
+uniform mat4 u_model_matrix;
+uniform mat4 u_proj_matrix;
+uniform mat4 u_view_matrix;
+uniform mat4 u_normal_matrix;
+uniform vec3 u_light_pos;
+uniform vec3 u_eye_pos;
 
 void main()
 {
-	vec3 worldPos = (vec4(position, 1.0) * model_matrix).xyz;
-	nNormal = normalize(transpose(inverse(model_matrix)) * vec4(normal, 0.0)).xyz;
+	vec3 worldPos = (vec4(position, 1.0) * u_model_matrix).xyz;
+	nNormal = normalize(transpose(inverse(u_model_matrix)) * vec4(normal, 0.0)).xyz;
 
 	//---QUARANTINED---//
 
@@ -33,13 +32,13 @@ void main()
 
 	//---QUARANTINED---//
 	
-	vec3 toLight = lightPos - worldPos;
+	vec3 toLight = u_light_pos - worldPos;
 	nToLight = normalize(toLight);
 
-	vec3 fromLight = worldPos - lightPos;
+	vec3 fromLight = worldPos - u_light_pos;
 	nFromLight = normalize(fromLight);
 
-	vec3 toEye = eyePos - worldPos;
+	vec3 toEye = u_eye_pos - worldPos;
 	nToEye = normalize(toEye);
 
 	//vec3 lv = toLight + toEye;
@@ -47,5 +46,5 @@ void main()
 
 	textureCoords = textureUV;
 
-	gl_Position = vec4(position, 1.0) * model_matrix * view_matrix * proj_matrix;
+	gl_Position = vec4(position, 1.0) * u_model_matrix * u_view_matrix * u_proj_matrix;
 }

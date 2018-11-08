@@ -16,6 +16,11 @@ namespace SimpleGameEngine::Shaders
 
 	public:
 		/// <summary>
+		/// Default constructor. This should never be used.
+		/// </summary>
+		Shader();
+
+		/// <summary>
 		/// Initializes a new instance of a <see cref="Shader"/>.
 		/// </summary>
 		/// <param name="programId"></param>

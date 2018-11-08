@@ -1,9 +1,19 @@
 #include "EntityRenderer.h"
+#include "../Loaders/ShaderLoader.h"
+#include "../Shaders/EntityShaderConstants.h"
 
+using namespace SimpleGameEngine::Cameras;
+using namespace SimpleGameEngine::Math;
+using namespace SimpleGameEngine::Models;
+using namespace SimpleGameEngine::Loaders;
 using namespace SimpleGameEngine::Shaders;
 
 namespace SimpleGameEngine::Renderers
 {
+	EntityRenderer::EntityRenderer()
+	{
+	}
+
 	EntityRenderer::EntityRenderer(Shader shader)
 	{
 		m_shader = shader;
@@ -15,60 +25,109 @@ namespace SimpleGameEngine::Renderers
 
 
 
-	void EntityRenderer::loadEntity(Entity* entity, Skybox* skybox) const
+	void EntityRenderer::loadCamera(Cameras::Camera camera) const
 	{
-		Model* model = entity->getModel();
+		ShaderLoader::startShader(m_shader);
+		ShaderLoader::loadUniformVec3f(m_shader, EntityShaderConstants::VERT_EYE_POSITION, camera.getPosition());
+		ShaderLoader::loadUniformMat4f(m_shader, EntityShaderConstants::VERT_VIEW_MATRIX, camera.generateViewMatrix());
+		ShaderLoader::stopShader(m_shader);
+	}
 
-		glBindVertexArray(model->getVAO());
+	void EntityRenderer::loadLight(Math::Vec3 light) const
+	{
+		ShaderLoader::startShader(m_shader);
+		ShaderLoader::loadUniformVec3f(m_shader, EntityShaderConstants::VERT_LIGHT_POSITION, light);
+		ShaderLoader::stopShader(m_shader);
+	}
+
+	void EntityRenderer::loadProjectionMatrix(Math::Mat4 proj) const
+	{
+		ShaderLoader::startShader(m_shader);
+		ShaderLoader::loadUniformMat4f(m_shader, EntityShaderConstants::VERT_PROJECTION_MATRIX, proj);
+		ShaderLoader::stopShader(m_shader);
+	}
+
+	void EntityRenderer::loadEntity(Models::Entity entity) const
+	{
+		// Bind the geometry model's VAO
+		glBindVertexArray(entity.getRenderModel().getGeometryVaoId());
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);
 
-		m_shader.start();
-		m_shader.loadUniformMat4f(entity->generateTransformationMatrix(), "model_matrix");
+		// Startup shader
+		ShaderLoader::startShader(m_shader);
 
-		if (model->getMaterial() != NULL)
-		{
-			glActiveTexture(GL_TEXTURE0);
-			glBindTexture(GL_TEXTURE_2D, model->getMaterial()->getTextureID());
-			glBindTexture(GL_TEXTURE_CUBE_MAP, skybox->getTextureID());
+		// Load in the entity's transformation
+		SpaceModel spaceModel = entity.getSpaceModel();
+		Mat4 entityTransform;
+		entityTransform.setIdentity();
+		entityTransform.transform(spaceModel.getPosition(), spaceModel.getRotation(), spaceModel.getScale());
+		ShaderLoader::loadUniformMat4f(m_shader, EntityShaderConstants::VERT_MODEL_MATRIX, entityTransform);
 
-			m_shader.loadUniform1f(model->getMaterial()->getAmbient(), "ka");
-			//m_shader.loadUniform1f(model.getMaterial().getEmissive(), "ke");
-			m_shader.loadUniform1f(model->getMaterial()->getDiffuse(), "kd");
-			m_shader.loadUniform1f(model->getMaterial()->getSpecular(), "ks");
-			m_shader.loadUniform1f(model->getMaterial()->getSpecularHighlight(), "sh");
-			m_shader.loadUniform1f(model->getMaterial()->getReflectivity(), "r");
-			//m_shader.loadUniform1f(model.getMaterial().getRefractiveIndex(), "n");
-			m_shader.loadUniform1f(model->getMaterial()->getOpacity(), "o");
-		}
-		else
-			MessageHandler::printMessage("ERROR: No material found in entity!\n");
+		// Bind the entity's texture
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, entity.getRenderModel().getTextureId());
 
-		m_shader.stop();
+		// Load in the entity's material
+		LightingModel lightingModel = entity.getRenderModel().getMaterial().getLightingModel();
+		ShaderLoader::loadUniform1f(m_shader, EntityShaderConstants::FRAG_AMBIENT, lightingModel.getAmbient());
+		ShaderLoader::loadUniform1f(m_shader, EntityShaderConstants::FRAG_EMISSIVE, lightingModel.getEmissive());
+		ShaderLoader::loadUniform1f(m_shader, EntityShaderConstants::FRAG_DIFFUSE, lightingModel.getDiffuse());
+		ShaderLoader::loadUniform1f(m_shader, EntityShaderConstants::FRAG_SPECULAR, lightingModel.getSpecular());
+		ShaderLoader::loadUniform1f(m_shader, EntityShaderConstants::FRAG_SPECULAR_HIGHLIGHT, lightingModel.getSpecularHighlight());
+		ShaderLoader::loadUniform1f(m_shader, EntityShaderConstants::FRAG_REFLECTIVITY, lightingModel.getReflectivity());
+		ShaderLoader::loadUniform1f(m_shader, EntityShaderConstants::FRAG_REFRACTIVE_INDEX, lightingModel.getRefractiveIndex());
+		ShaderLoader::loadUniform1f(m_shader, EntityShaderConstants::FRAG_OPACITY, lightingModel.getOpacity());
+
+		// Stop shader
+		ShaderLoader::stopShader(m_shader);
 	}
 
-	void EntityRenderer::render(Entity* e) const
+	void EntityRenderer::loadEntity(Models::Entity entity, GLuint reflectionMapTextureId) const
 	{
-		m_shader.start();
-		glDrawElements(GL_TRIANGLES, e->getModel()->getNumIndices(), GL_UNSIGNED_INT, 0);
-		//TODO: render bbox here if DEBUG_BOUNDING_BOX is enabled
-		if (DEBUG_BOUNDING_BOX)
-		{
-			//TODO: CHECK IF INCLUDING BOUNDING BOX causes circular includes
-			//THIS IS NOT THE A GOOD SOLUTION AT ALL
-			GLfloat *vertices = const_cast<BoundingBox*>(e->getBoundingBox())->generateVertices();
-			GLuint *indices = const_cast<BoundingBox*>(e->getBoundingBox())->generateIndices();
-			GLuint index = indices[0];
-			glBegin(GL_LINES);
-			for (int i = 0; i < 24; i++)
-			{
-				index = indices[i];
-				glVertex3f(vertices[index * 3] / e->getScale().x - e->getPosition().x, vertices[index * 3 + 1] / e->getScale().y - e->getPosition().y, vertices[index * 3 + 2] / e->getScale().z - e->getPosition().z);
-			}
-			glEnd();
-		}
-		m_shader.stop();
+		// Bind the geometry model's VAO
+		glBindVertexArray(entity.getRenderModel().getGeometryVaoId());
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
+		glEnableVertexAttribArray(2);
+
+		// Startup shader
+		ShaderLoader::startShader(m_shader);
+
+		// Load in the entity's transformation
+		SpaceModel spaceModel = entity.getSpaceModel();
+		Mat4 entityTransform;
+		entityTransform.setIdentity();
+		entityTransform.transform(spaceModel.getPosition(), spaceModel.getRotation(), spaceModel.getScale());
+		ShaderLoader::loadUniformMat4f(m_shader, EntityShaderConstants::VERT_MODEL_MATRIX, entityTransform);
+
+		// Bind the entity's texture
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, entity.getRenderModel().getTextureId());
+		glBindTexture(GL_TEXTURE_CUBE_MAP, reflectionMapTextureId);
+
+		// Load in the entity's material
+		LightingModel lightingModel = entity.getRenderModel().getMaterial().getLightingModel();
+		ShaderLoader::loadUniform1f(m_shader, EntityShaderConstants::FRAG_AMBIENT, lightingModel.getAmbient());
+		ShaderLoader::loadUniform1f(m_shader, EntityShaderConstants::FRAG_EMISSIVE, lightingModel.getEmissive());
+		ShaderLoader::loadUniform1f(m_shader, EntityShaderConstants::FRAG_DIFFUSE, lightingModel.getDiffuse());
+		ShaderLoader::loadUniform1f(m_shader, EntityShaderConstants::FRAG_SPECULAR, lightingModel.getSpecular());
+		ShaderLoader::loadUniform1f(m_shader, EntityShaderConstants::FRAG_SPECULAR_HIGHLIGHT, lightingModel.getSpecularHighlight());
+		ShaderLoader::loadUniform1f(m_shader, EntityShaderConstants::FRAG_REFLECTIVITY, lightingModel.getReflectivity());
+		ShaderLoader::loadUniform1f(m_shader, EntityShaderConstants::FRAG_REFRACTIVE_INDEX, lightingModel.getRefractiveIndex());
+		ShaderLoader::loadUniform1f(m_shader, EntityShaderConstants::FRAG_OPACITY, lightingModel.getOpacity());
+
+		// Stop shader
+		ShaderLoader::stopShader(m_shader);
+	}
+
+	void EntityRenderer::render(Models::Entity entity) const
+	{
+		// Render the currently loaded entity
+		ShaderLoader::startShader(m_shader);
+		glDrawElements(GL_TRIANGLES, entity.getRenderModel().getGeometryModel().getIndices().size(), GL_UNSIGNED_INT, 0);
+		ShaderLoader::stopShader(m_shader);
 	}
 
 	void EntityRenderer::unloadEntity() const
@@ -78,25 +137,7 @@ namespace SimpleGameEngine::Renderers
 		glBindVertexArray(0);
 	}
 
-	void EntityRenderer::loadProjectionMatrix(Mat4 proj) const
-	{
-		m_shader.start();
-		m_shader.loadUniformMat4f(proj, "proj_matrix");
-		m_shader.stop();
-	}
 
-	void EntityRenderer::loadCamera(Camera* camera) const
-	{
-		m_shader.start();
-		m_shader.loadUniformVec3f(camera->getPosition(), "eyePos");
-		m_shader.loadUniformMat4f(camera->generateViewMatrix(), "view_matrix");
-		m_shader.stop();
-	}
 
-	void EntityRenderer::loadLight(Vec3 light) const
-	{
-		m_shader.start();
-		m_shader.loadUniformVec3f(light, "lightPos");
-		m_shader.stop();
-	}
+
 }

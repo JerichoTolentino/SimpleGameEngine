@@ -2,6 +2,10 @@
 
 namespace SimpleGameEngine::Shaders
 {
+	Shader::Shader()
+	{
+	}
+
 	Shader::Shader(GLuint programId, GLuint vertexShaderId, GLuint fragmentShaderId)
 	{
 		m_programId = programId;
