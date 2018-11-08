@@ -13,7 +13,7 @@ TerrainRenderer::~TerrainRenderer()
 
 TerrainRenderer::TerrainRenderer(const char * vertexShader, const char * fragmentShader)
 {
-	shader = Shader(vertexShader, fragmentShader);
+	m_shader = Shader(vertexShader, fragmentShader);
 }
 
 void TerrainRenderer::loadTerrain(Terrain * terrain) const
@@ -25,9 +25,9 @@ void TerrainRenderer::loadTerrain(Terrain * terrain) const
 	glEnableVertexAttribArray(1);
 	glEnableVertexAttribArray(2);
 
-	shader.start();
-	shader.loadUniformMat4f(terrain->generateTransformationMatrix(), "model_matrix");
-	shader.loadUniform1f(terrain->getTileFactor(), "tileFactor");
+	m_shader.start();
+	m_shader.loadUniformMat4f(terrain->generateTransformationMatrix(), "model_matrix");
+	m_shader.loadUniform1f(terrain->getTileFactor(), "tileFactor");
 
 	TexturePack *texturePack = terrain->getTexturePack();
 	if (texturePack != NULL)
@@ -43,11 +43,11 @@ void TerrainRenderer::loadTerrain(Terrain * terrain) const
 		glActiveTexture(GL_TEXTURE4);
 		glBindTexture(GL_TEXTURE_2D, texturePack->getBackTextureID());
 
-		shader.loadUniform1i(0, "blendSampler");
-		shader.loadUniform1i(1, "redSampler");
-		shader.loadUniform1i(2, "greenSampler");
-		shader.loadUniform1i(3, "blueSampler");
-		shader.loadUniform1i(4, "backSampler");
+		m_shader.loadUniform1i(0, "blendSampler");
+		m_shader.loadUniform1i(1, "redSampler");
+		m_shader.loadUniform1i(2, "greenSampler");
+		m_shader.loadUniform1i(3, "blueSampler");
+		m_shader.loadUniform1i(4, "backSampler");
 	}
 	else
 	{
@@ -58,21 +58,21 @@ void TerrainRenderer::loadTerrain(Terrain * terrain) const
 		//glActiveTexture(GL_TEXTURE0);
 	//	glBindTexture(GL_TEXTURE_2D, model->getMaterial()->getTextureID());
 
-		shader.loadUniform1f(model->getMaterial()->getAmbient(), "ka");
-		shader.loadUniform1f(model->getMaterial()->getDiffuse(), "kd");
-		shader.loadUniform1f(model->getMaterial()->getOpacity(), "o");
+		m_shader.loadUniform1f(model->getMaterial()->getAmbient(), "ka");
+		m_shader.loadUniform1f(model->getMaterial()->getDiffuse(), "kd");
+		m_shader.loadUniform1f(model->getMaterial()->getOpacity(), "o");
 	}
 	else
 		MessageHandler::printMessage("ERROR: No material found in terrain!\n");
 
-	shader.stop();
+	m_shader.stop();
 }
 
 void TerrainRenderer::render(Terrain * t) const
 {
-	shader.start();
+	m_shader.start();
 	glDrawElements(GL_TRIANGLES, t->getModel()->getNumIndices(), GL_UNSIGNED_INT, 0);
-	shader.stop();
+	m_shader.stop();
 }
 
 void TerrainRenderer::unloadTerrain() const
@@ -92,21 +92,21 @@ void TerrainRenderer::unloadTerrain() const
 
 void TerrainRenderer::loadProjectionMatrix(Mat4 proj) const
 {
-	shader.start();
-	shader.loadUniformMat4f(proj, "proj_matrix");
-	shader.stop();
+	m_shader.start();
+	m_shader.loadUniformMat4f(proj, "proj_matrix");
+	m_shader.stop();
 }
 
 void TerrainRenderer::loadCamera(Camera * camera) const
 {
-	shader.start();
-	shader.loadUniformMat4f(camera->generateViewMatrix(), "view_matrix");
-	shader.stop();
+	m_shader.start();
+	m_shader.loadUniformMat4f(camera->generateViewMatrix(), "view_matrix");
+	m_shader.stop();
 }
 
 void TerrainRenderer::loadLight(Vec3 light) const
 {
-	shader.start();
-	shader.loadUniformVec3f(light, "lightPos");
-	shader.stop();
+	m_shader.start();
+	m_shader.loadUniformVec3f(light, "lightPos");
+	m_shader.stop();
 }

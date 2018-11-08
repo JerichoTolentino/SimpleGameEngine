@@ -6,7 +6,7 @@
 class SkyboxRenderer
 {
 private:
-	Shader shader;
+	Shader m_shader;
 
 public:
 	SkyboxRenderer();

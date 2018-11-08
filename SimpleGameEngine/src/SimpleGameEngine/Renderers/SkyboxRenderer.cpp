@@ -15,7 +15,7 @@ SkyboxRenderer::~SkyboxRenderer()
 
 SkyboxRenderer::SkyboxRenderer(const char * vertexShader, const char * fragmentShader)
 {
-	shader = Shader(vertexShader, fragmentShader);
+	m_shader = Shader(vertexShader, fragmentShader);
 }
 
 void SkyboxRenderer::loadSkybox(Skybox * skybox) const
@@ -31,9 +31,9 @@ void SkyboxRenderer::loadSkybox(Skybox * skybox) const
 void SkyboxRenderer::render(Skybox * sb) const
 {
 	glDisable(GL_CULL_FACE);
-	shader.start();
+	m_shader.start();
 	glDrawElements(GL_TRIANGLES, sb->getNumIndices(), GL_UNSIGNED_INT, 0);
-	shader.stop();
+	m_shader.stop();
 	glEnable(GL_CULL_FACE);
 }
 
@@ -45,14 +45,14 @@ void SkyboxRenderer::unloadSkybox() const
 
 void SkyboxRenderer::loadProjectionMatrix(Mat4 proj) const
 {
-	shader.start();
-	shader.loadUniformMat4f(proj, "proj_matrix");
-	shader.stop();
+	m_shader.start();
+	m_shader.loadUniformMat4f(proj, "proj_matrix");
+	m_shader.stop();
 }
 
 void SkyboxRenderer::loadCamera(Camera * camera) const
 {
-	shader.start();
-	shader.loadUniformMat4f(camera->generateSkyboxViewMatrix(), "view_matrix");
-	shader.stop();
+	m_shader.start();
+	m_shader.loadUniformMat4f(camera->generateSkyboxViewMatrix(), "view_matrix");
+	m_shader.stop();
 }
