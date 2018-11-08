@@ -23,9 +23,6 @@ namespace SimpleGameEngine::Parsers
 
 	Models::GeometryModel WavefrontObjParser::parseFile(std::string filepath)
 	{
-		std::string contents = FileUtils::loadFileToString(filepath);
-		std::vector<std::string> lines = StringUtil::split(contents, "\n");
-
 		// Source sets of elements
 		std::vector<Vec3> vertices;
 		std::vector<Vec2> textureUvs;
@@ -41,10 +38,11 @@ namespace SimpleGameEngine::Parsers
 
 		bool finalArraysInitialized = false;
 
-		for (auto iter = lines.begin(); iter != lines.end(); iter++)
+		std::string line;
+		std::ifstream file = FileUtils::openFile(filepath);
+		while (std::getline(file, line))
 		{
-			std::string curr = *iter;
-			auto tokens = StringUtil::split(curr);
+			auto tokens = StringUtil::split(line);
 			if (tokens.at(0) == VERTEX_LINE)
 			{
 				// Parse vertex line
