@@ -194,9 +194,6 @@ namespace SimpleGameEngine::Loaders
 
 	Material ObjectFileLoader::loadMaterial(std::string filepath, std::string texturepath)
 	{
-		std::string path = "res/models/";
-		path.append(filepath);
-
 		std::ifstream materialFile = FileUtils::openFile(filepath);
 
 		float a, e, d, s, sh, ri, r, t;
