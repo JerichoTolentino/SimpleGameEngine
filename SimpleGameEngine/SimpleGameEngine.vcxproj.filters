@@ -78,9 +78,6 @@
     <ClInclude Include="src\SimpleGameEngine\Models\BoundingBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\SimpleGameEngine\Models\Camera.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\SimpleGameEngine\Models\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -136,6 +133,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\SimpleGameEngine\Cameras\Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\Shaders\EntityShaderConstants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -194,9 +194,6 @@
     <ClCompile Include="src\SimpleGameEngine\Models\BoundingBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\SimpleGameEngine\Models\Camera.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\SimpleGameEngine\Models\Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -249,6 +246,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\SimpleGameEngine\Cameras\Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\Shaders\EntityShaderConstants.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
