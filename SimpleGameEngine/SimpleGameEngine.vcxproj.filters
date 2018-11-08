@@ -54,9 +54,6 @@
     <ClInclude Include="src\SimpleGameEngine\Loaders\Loader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\SimpleGameEngine\Loaders\ObjectFileLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\SimpleGameEngine\Loaders\ShaderLoader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -138,6 +135,9 @@
     <ClInclude Include="src\SimpleGameEngine\Parsers\MaterialLibraryParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\Cameras\Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\SimpleGameEngine\Application.cpp">
@@ -168,9 +168,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\SimpleGameEngine\Loaders\Loader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="src\SimpleGameEngine\Loaders\ObjectFileLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\SimpleGameEngine\Loaders\ShaderLoader.cpp">
@@ -249,6 +246,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\SimpleGameEngine\Parsers\MaterialLibraryParser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\Cameras\Camera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

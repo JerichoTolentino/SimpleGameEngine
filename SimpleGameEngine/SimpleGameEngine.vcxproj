@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SimpleGameEngine\Cameras\Camera.h" />
     <ClInclude Include="src\SimpleGameEngine\Parsers\MaterialLibraryParser.h" />
     <ClInclude Include="src\SimpleGameEngine\Parsers\ParseException.h" />
     <ClInclude Include="src\SimpleGameEngine\Renderers\EntityRenderer.h" />
@@ -37,7 +38,6 @@
     <ClInclude Include="src\SimpleGameEngine\Display\DisplayException.h" />
     <ClInclude Include="src\SimpleGameEngine\Display\Window.h" />
     <ClInclude Include="src\SimpleGameEngine\Loaders\Loader.h" />
-    <ClInclude Include="src\SimpleGameEngine\Loaders\ObjectFileLoader.h" />
     <ClInclude Include="src\SimpleGameEngine\Loaders\ShaderLoader.h" />
     <ClInclude Include="src\SimpleGameEngine\Math\MathException.h" />
     <ClInclude Include="src\SimpleGameEngine.h" />
@@ -54,6 +54,7 @@
     <ClInclude Include="src\SimpleGameEngine\Utility\StringUtil.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\SimpleGameEngine\Cameras\Camera.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Parsers\MaterialLibraryParser.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Parsers\ParseException.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Log.cpp" />
@@ -79,7 +80,6 @@
     <ClCompile Include="src\SimpleGameEngine\Display\DisplayException.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Display\Window.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Loaders\Loader.cpp" />
-    <ClCompile Include="src\SimpleGameEngine\Loaders\ObjectFileLoader.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Loaders\ShaderLoader.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Math\MathException.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Application.cpp" />
