@@ -10,13 +10,13 @@ using namespace SimpleGameEngine::Utility;
 
 namespace SimpleGameEngine::Parsers
 {
-	const std::string AMBIENT_LINE = "Ka";
-	const std::string DIFFUSE_LINE = "Kd";
-	const std::string SPECULAR_LINE = "Ks";
-	const std::string EMISSIVE_LINE = "Ke";
-	const std::string SPECULAR_EXP_LINE = "Ns";
-	const std::string OPACITY_LINE = "d";
-	const std::string REFRACTIVE_INDEX_LINE = "Ni";
+	const std::string MaterialLibraryParser::AMBIENT_LINE = "Ka";
+	const std::string MaterialLibraryParser::DIFFUSE_LINE = "Kd";
+	const std::string MaterialLibraryParser::SPECULAR_LINE = "Ks";
+	const std::string MaterialLibraryParser::EMISSIVE_LINE = "Ke";
+	const std::string MaterialLibraryParser::SPECULAR_EXP_LINE = "Ns";
+	const std::string MaterialLibraryParser::OPACITY_LINE = "d";
+	const std::string MaterialLibraryParser::REFRACTIVE_INDEX_LINE = "Ni";
 
 
 
