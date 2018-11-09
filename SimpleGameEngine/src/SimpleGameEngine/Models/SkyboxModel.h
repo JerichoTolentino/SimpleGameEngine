@@ -36,6 +36,6 @@ namespace SimpleGameEngine::Models
 		/// </summary>
 		/// <param name="size">The size of the skybox to create in model space.</param>
 		/// <returns></returns>
-		static SkyboxModel CreateSkyboxModel(int size);
+		static SkyboxModel CreateSkyboxModel(float size);
 	};
 }

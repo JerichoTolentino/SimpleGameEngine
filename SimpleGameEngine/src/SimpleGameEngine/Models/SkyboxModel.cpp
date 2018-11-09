@@ -55,7 +55,7 @@ namespace SimpleGameEngine::Models
 
 
 
-	SkyboxModel SkyboxModel::CreateSkyboxModel(int size)
+	SkyboxModel SkyboxModel::CreateSkyboxModel(float size)
 	{
 		int numVertices = 3 * 4 * 6;
 
