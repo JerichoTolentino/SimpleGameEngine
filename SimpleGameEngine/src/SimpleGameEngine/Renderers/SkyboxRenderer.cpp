@@ -38,7 +38,7 @@ namespace SimpleGameEngine::Renderers
 		glDisable(GL_CULL_FACE);
 
 		ShaderLoader::startShader(m_shader);
-		glDrawElements(GL_TRIANGLES, skybox.getSkyboxModel().getIndices().size(), GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, (GLsizei) skybox.getSkyboxModel().getIndices().size(), GL_UNSIGNED_INT, 0);
 		ShaderLoader::stopShader(m_shader);
 
 		glEnable(GL_CULL_FACE);
