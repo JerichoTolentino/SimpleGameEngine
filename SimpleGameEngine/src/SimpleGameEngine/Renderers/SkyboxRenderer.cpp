@@ -1,58 +1,66 @@
 #include "SkyboxRenderer.h"
+#include "../Loaders/ShaderLoader.h"
+#include "../Shaders/SkyboxShaderConstants.h"
 
+using namespace SimpleGameEngine::Loaders;
+using namespace SimpleGameEngine::Shaders;
 
-
-SkyboxRenderer::SkyboxRenderer()
+namespace SimpleGameEngine::Renderers
 {
-	MessageHandler::printMessage("ERROR: Default constructor for SkyboxRenderer called! (Need shader file paths)\n");
-	system("PAUSE");
-}
+	SkyboxRenderer::SkyboxRenderer()
+	{
+	}
+
+	SkyboxRenderer::SkyboxRenderer(Shaders::Shader shader)
+	{
+		m_shader = shader;
+	}
 
 
-SkyboxRenderer::~SkyboxRenderer()
-{
-}
+	SkyboxRenderer::~SkyboxRenderer()
+	{
+	}
 
-SkyboxRenderer::SkyboxRenderer(const char * vertexShader, const char * fragmentShader)
-{
-	m_shader = Shader(vertexShader, fragmentShader);
-}
 
-void SkyboxRenderer::loadSkybox(Skybox * skybox) const
-{
-	glBindVertexArray(skybox->getVAO());
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(2);
 
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_CUBE_MAP, skybox->getTextureID());
-}
+	void SkyboxRenderer::loadSkybox(Models::SkyboxRenderModel skybox) const
+	{
+		glBindVertexArray(skybox.getSkyboxVaoId());
+		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(2);
 
-void SkyboxRenderer::render(Skybox * sb) const
-{
-	glDisable(GL_CULL_FACE);
-	m_shader.start();
-	glDrawElements(GL_TRIANGLES, sb->getNumIndices(), GL_UNSIGNED_INT, 0);
-	m_shader.stop();
-	glEnable(GL_CULL_FACE);
-}
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, skybox.getTextureId());
+	}
 
-void SkyboxRenderer::unloadSkybox() const
-{
-	glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
-	glBindVertexArray(0);
-}
+	void SkyboxRenderer::render(Models::SkyboxRenderModel skybox) const
+	{
+		glDisable(GL_CULL_FACE);
 
-void SkyboxRenderer::loadProjectionMatrix(Mat4 proj) const
-{
-	m_shader.start();
-	m_shader.loadUniformMat4f(proj, "proj_matrix");
-	m_shader.stop();
-}
+		ShaderLoader::startShader(m_shader);
+		glDrawElements(GL_TRIANGLES, skybox.getSkyboxModel().getIndices().size(), GL_UNSIGNED_INT, 0);
+		ShaderLoader::stopShader(m_shader);
 
-void SkyboxRenderer::loadCamera(Camera * camera) const
-{
-	m_shader.start();
-	m_shader.loadUniformMat4f(camera->generateSkyboxViewMatrix(), "view_matrix");
-	m_shader.stop();
+		glEnable(GL_CULL_FACE);
+	}
+
+	void SkyboxRenderer::unloadSkybox() const
+	{
+		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+		glBindVertexArray(0);
+	}
+
+	void SkyboxRenderer::loadProjectionMatrix(Math::Mat4 proj) const
+	{
+		ShaderLoader::startShader(m_shader);
+		ShaderLoader::loadUniformMat4f(m_shader, SkyboxShaderConstants::VERT_PROJECTION_MATRIX, proj);
+		ShaderLoader::stopShader(m_shader);
+	}
+
+	void SkyboxRenderer::loadCamera(Cameras::Camera * camera) const
+	{
+		ShaderLoader::startShader(m_shader);
+		ShaderLoader::loadUniformMat4f(m_shader, SkyboxShaderConstants::VERT_VIEW_MATRIX, camera->generateSkyboxViewMatrix());
+		ShaderLoader::stopShader(m_shader);
+	}
 }
