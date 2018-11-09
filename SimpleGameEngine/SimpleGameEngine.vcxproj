@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SimpleGameEngine\Models\SkyboxModel.h" />
     <ClInclude Include="src\SimpleGameEngine\Cameras\Camera.h" />
     <ClInclude Include="src\SimpleGameEngine\Parsers\MaterialLibraryParser.h" />
     <ClInclude Include="src\SimpleGameEngine\Parsers\ParseException.h" />
@@ -54,6 +55,7 @@
     <ClInclude Include="src\SimpleGameEngine\Utility\StringUtil.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\SimpleGameEngine\Models\SkyboxModel.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Cameras\Camera.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Parsers\MaterialLibraryParser.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Parsers\ParseException.cpp" />
