@@ -144,6 +144,9 @@
     <ClInclude Include="src\SimpleGameEngine\Models\SkyboxRenderModel.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\Shaders\SkyboxShaderConstants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\SimpleGameEngine\Application.cpp">
@@ -261,6 +264,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\SimpleGameEngine\Models\SkyboxRenderModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\Shaders\SkyboxShaderConstants.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

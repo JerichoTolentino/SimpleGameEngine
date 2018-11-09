@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SimpleGameEngine\Shaders\SkyboxShaderConstants.h" />
     <ClInclude Include="src\SimpleGameEngine\Models\SkyboxRenderModel.h" />
     <ClInclude Include="src\SimpleGameEngine\Models\SkyboxModel.h" />
     <ClInclude Include="src\SimpleGameEngine\Cameras\Camera.h" />
@@ -56,6 +57,7 @@
     <ClInclude Include="src\SimpleGameEngine\Utility\StringUtil.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\SimpleGameEngine\Shaders\SkyboxShaderConstants.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Models\SkyboxRenderModel.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Models\SkyboxModel.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Cameras\Camera.cpp" />
