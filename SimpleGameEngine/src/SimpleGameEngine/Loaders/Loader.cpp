@@ -13,8 +13,11 @@ using namespace SimpleGameEngine::Math;
 namespace SimpleGameEngine::Loaders
 {
 
-	GLuint Loader::loadSkybox(std::vector<Math::Vec3> vertices, std::vector<Math::Vec2> textureUvs, std::vector<GLuint> indices)
+	GLuint Loader::loadSkybox(Models::SkyboxModel skybox)
 	{
+		std::vector<Vec3> vertices = skybox.getVertices();
+		std::vector<Vec3> textureUvs = skybox.getTextureUvs();
+
 		// Flatten vectors
 		std::vector<float> flattenedVertices = Generic::flatten(vertices.begin(), vertices.end(), (std::function<std::vector<float>(Vec3)>) [](Vec3 vec)
 		{
@@ -24,11 +27,12 @@ namespace SimpleGameEngine::Loaders
 			unpacked.push_back(vec.z);
 			return unpacked;
 		});
-		std::vector<float> flattenedUvs = Generic::flatten(textureUvs.begin(), textureUvs.end(), (std::function<std::vector<float>(Vec2)>) [](Vec2 vec)
+		std::vector<float> flattenedUvs = Generic::flatten(textureUvs.begin(), textureUvs.end(), (std::function<std::vector<float>(Vec3)>) [](Vec3 vec)
 		{
 			std::vector<float> unpacked;
 			unpacked.push_back(vec.x);
 			unpacked.push_back(vec.y);
+			unpacked.push_back(vec.z);
 			return unpacked;
 		});
 
@@ -40,7 +44,7 @@ namespace SimpleGameEngine::Loaders
 		// Bind indices
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * indices.size(), Generic::toArray(indices), GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * skybox.getIndices().size(), Generic::toArray(skybox.getIndices()), GL_STATIC_DRAW);
 
 		// Bind vertices
 		glGenBuffers(1, &vbo);
