@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SimpleGameEngine\Models\HeightMap.h" />
     <ClInclude Include="src\SimpleGameEngine\Shaders\SkyboxShaderConstants.h" />
     <ClInclude Include="src\SimpleGameEngine\Models\SkyboxRenderModel.h" />
     <ClInclude Include="src\SimpleGameEngine\Models\SkyboxModel.h" />
@@ -55,8 +56,12 @@
     <ClInclude Include="src\SimpleGameEngine\Loaders\TextureLoadException.h" />
     <ClInclude Include="src\SimpleGameEngine\Parsers\WavefrontObjParser.h" />
     <ClInclude Include="src\SimpleGameEngine\Utility\StringUtil.h" />
+    <ClInclude Include="src\SimpleGameEngine\Models\TerrainModel.h" />
+    <ClInclude Include="src\SimpleGameEngine\Models\TerrainRenderModel.h" />
+    <ClInclude Include="src\SimpleGameEngine\Models\TexturePack.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\SimpleGameEngine\Models\HeightMap.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Shaders\SkyboxShaderConstants.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Models\SkyboxRenderModel.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Models\SkyboxModel.cpp" />
@@ -97,6 +102,9 @@
     <ClCompile Include="src\SimpleGameEngine\Loaders\TextureLoadException.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Parsers\WavefrontObjParser.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Utility\StringUtil.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Models\TerrainModel.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Models\TerrainRenderModel.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Models\TexturePack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\SimpleGameEngine\Shaders\entityFragment.frag" />
