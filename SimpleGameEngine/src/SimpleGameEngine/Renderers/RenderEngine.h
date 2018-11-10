@@ -1,44 +1,65 @@
 #pragma once
 #include <map>
 #include <vector>
-#include <iostream>
-#include "../entities/Entity.h"
+#include "../Cameras/Camera.h"
+#include "../Models/Entity.h"
 #include "EntityRenderer.h"
 #include "TerrainRenderer.h"
 #include "SkyboxRenderer.h"
 
-class RenderEngine
+/// <summary>
+/// Specialize in std::less so <see cref="GeometryModel"/> can be used as a key in a <see cref="std::map"/>.
+/// </summary>
+template<> struct std::less<SimpleGameEngine::Models::GeometryModel>
 {
-private:
-	std::map<Model*, std::vector<Entity*>*> *entities;
-	std::map<Model*, std::vector<Terrain*>*> *terrains;
-	Skybox *skybox;		//TODO: Add support for multiple skyboxes (want more than 1 world...)
-	EntityRenderer *entityRenderer;
-	TerrainRenderer *terrainRenderer;
-	SkyboxRenderer *skyboxRenderer;
-
-	//FOR DEBUG
-	static bool DEBUG_RAY;
-	static Vec3 rayStartPos;
-	static Vec3 rayDir;
-	//END FOR DEBUG
-
-public:
-	RenderEngine();
-	~RenderEngine();
-
-	std::map<Model*, std::vector<Entity*>*> * getEntitiesMap() const;
-	std::map<Model*, std::vector<Terrain*>*> * getTerrainsMap() const;
-
-	void loadProjectionMatrix(Mat4 proj);
-	void loadEntity(Entity* e);
-	void loadTerrain(Terrain *t);
-	void loadSkybox(Skybox *sb);
-	
-	//FOR DEBUG
-	static void drawRay(const Vec3 &ray, const Vec3 &startPos, bool draw);
-	//END FOR DEBUG
-
-	void render(Camera *camera, Vec3 light) const;
+	bool operator() (const SimpleGameEngine::Models::GeometryModel & lhs, const SimpleGameEngine::Models::GeometryModel & rhs) const
+	{
+		return lhs.___getObjectId() < rhs.___getObjectId();
+	}
 };
+
+namespace SimpleGameEngine::Renderers
+{
+	class RenderEngine
+	{
+	private:
+		std::map<Models::GeometryModel, std::vector<Models::Entity>> m_entityBatches;
+		std::map<Models::GeometryModel, std::vector<Models::TerrainRenderModel>> m_terrainBatches;
+		Models::SkyboxRenderModel m_skybox;
+		Cameras::Camera m_camera;
+		Math::Vec3 m_lightPosition;
+
+		EntityRenderer m_entityRenderer;
+		TerrainRenderer m_terrainRenderer;
+		SkyboxRenderer m_skyboxRenderer;
+
+
+
+	public:
+		RenderEngine();
+		RenderEngine(EntityRenderer entityRenderer, TerrainRenderer terrainRenderer, SkyboxRenderer skyboxRenderer);
+		RenderEngine(const RenderEngine & other);
+		~RenderEngine();
+
+
+
+		std::map<Models::GeometryModel, std::vector<Models::Entity>> getEntityBatches() const;
+		std::map<Models::GeometryModel, std::vector<Models::TerrainRenderModel>> getTerrainBatches() const;
+		Models::SkyboxRenderModel getSkybox() const;
+		Cameras::Camera getCamera() const;
+		Math::Vec3 getLightPosition() const;
+		EntityRenderer getEntityRenderer() const;
+		TerrainRenderer getTerrainRenderer() const;
+		SkyboxRenderer getSkyboxRenderer() const;
+
+
+		void loadProjectionMatrix(Math::Mat4 proj);
+		void loadEntity(Models::Entity entity);
+		void loadTerrain(Models::TerrainRenderModel terrain);
+		void loadSkybox(Models::SkyboxRenderModel skybox);
+		void loadCamera(Cameras::Camera camera);
+		void loadLight(Math::Vec3 lightPosition);
+		void render() const;
+	};
+}
 

@@ -67,7 +67,7 @@ namespace SimpleGameEngine::Models
 	{
 		float fRows = rowCount;
 		float fCols = columnCount;
-		float rowEdge = rowCount * tileSize;	// Used when calculating z-coordinate for winding (since -z is forwards)
+		float rowEdge = (float) (rowCount * tileSize);	// Used when calculating z-coordinate for winding (since -z is forwards)
 
 		std::vector<Vec3> vertices;
 		std::vector<Vec3> normals; // TODO: These normals are all set to point Y-up for now
@@ -84,27 +84,27 @@ namespace SimpleGameEngine::Models
 				// Calculates 4 vertices
 
 				// Bottom left
-				x = col * tileSize;
-				z = rowEdge - row * tileSize;
-				y = heightMap.findHeightAt(x, z);
+				x = (float) (col * tileSize);
+				z = (float) (rowEdge - row * tileSize);
+				y = (float) (heightMap.findHeightAt(x, z));
 				vertices.push_back(Vec3(x, y, z));
 
 				// Bottom right
-				x = (col + 1) * tileSize;
-				z = rowEdge - row * tileSize;
-				y = heightMap.findHeightAt(x, z);
+				x = (float) ((col + 1) * tileSize);
+				z = (float) (rowEdge - row * tileSize);
+				y = (float) (heightMap.findHeightAt(x, z));
 				vertices.push_back(Vec3(x, y, z));
 
 				// Top left
-				x = col * tileSize;
-				z = rowEdge - (row + 1) * tileSize;
-				y = heightMap.findHeightAt(x, z);
+				x = (float) (col * tileSize);
+				z = (float) (rowEdge - (row + 1) * tileSize);
+				y = (float) (heightMap.findHeightAt(x, z));
 				vertices.push_back(Vec3(x, y, z));
 
 				// Top right
-				x = (col + 1) * tileSize;
-				z = rowEdge - (row + 1) * tileSize;
-				y = heightMap.findHeightAt(x, z);
+				x = (float) ((col + 1) * tileSize);
+				z = (float) (rowEdge - (row + 1) * tileSize);
+				y = (float) (heightMap.findHeightAt(x, z));
 				vertices.push_back(Vec3(x, y, z));
 
 				//calculate 4 normals

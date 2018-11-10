@@ -162,6 +162,9 @@
     <ClInclude Include="src\SimpleGameEngine\Shaders\TerrainShaderConstants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\Utility\AutoGenId.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\SimpleGameEngine\Application.cpp">
@@ -297,6 +300,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\SimpleGameEngine\Shaders\TerrainShaderConstants.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\Utility\AutoGenId.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

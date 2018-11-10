@@ -44,6 +44,7 @@ namespace SimpleGameEngine::Models
 	{
 		return m_texturePack;
 	}
+
 	GLuint TerrainRenderModel::getGeometryVaoId() const
 	{
 		return m_geometryVaoId;
