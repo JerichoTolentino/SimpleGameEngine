@@ -59,6 +59,7 @@
     <ClInclude Include="src\SimpleGameEngine\Models\TerrainModel.h" />
     <ClInclude Include="src\SimpleGameEngine\Models\TerrainRenderModel.h" />
     <ClInclude Include="src\SimpleGameEngine\Models\TexturePack.h" />
+    <ClInclude Include="src\SimpleGameEngine\Shaders\TerrainShaderConstants.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\SimpleGameEngine\Models\HeightMap.cpp" />
@@ -105,6 +106,7 @@
     <ClCompile Include="src\SimpleGameEngine\Models\TerrainModel.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Models\TerrainRenderModel.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Models\TexturePack.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Shaders\TerrainShaderConstants.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\SimpleGameEngine\Shaders\entityFragment.frag" />

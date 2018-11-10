@@ -2,6 +2,7 @@
 #include "TerrainModel.h"
 #include "SpaceModel.h"
 #include "TexturePack.h"
+#include "Material.h"
 
 namespace SimpleGameEngine::Models
 {
@@ -9,6 +10,7 @@ namespace SimpleGameEngine::Models
 	{
 	private:
 		TerrainModel m_terrainModel;
+		Material m_material;
 		SpaceModel m_spaceModel;
 		TexturePack m_texturePack;
 		GLuint m_geometryVaoId;
@@ -16,13 +18,14 @@ namespace SimpleGameEngine::Models
 
 	public:
 		TerrainRenderModel();
-		TerrainRenderModel(TerrainModel terrainModel, SpaceModel spaceModel, TexturePack texturePack);
+		TerrainRenderModel(TerrainModel terrainModel, Material material, SpaceModel spaceModel, TexturePack texturePack);
 		TerrainRenderModel(const TerrainRenderModel & other);
 		virtual ~TerrainRenderModel();
 
 
 
 		TerrainModel getTerrainModel() const;
+		Material getMaterial() const;
 		SpaceModel getSpaceModel() const;
 		TexturePack getTexturePack() const;
 		GLuint getGeometryVaoId() const;

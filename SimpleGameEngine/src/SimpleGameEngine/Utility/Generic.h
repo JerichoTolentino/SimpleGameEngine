@@ -29,5 +29,11 @@ namespace SimpleGameEngine::Utility
 		{
 			return &vector[0];
 		}
+
+		template <typename T>
+		static std::vector<T> toVector(T * arr, int len)
+		{
+			return std::vector<T>(arr, len);
+		}
 	};
 }

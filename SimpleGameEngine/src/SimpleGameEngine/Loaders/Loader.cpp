@@ -148,4 +148,15 @@ namespace SimpleGameEngine::Loaders
 		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 		return id;
 	}
+
+	Models::HeightMap Loader::loadHeightMap(std::string filepath, int maxHeight)
+	{
+		int width = 0;
+		int height = 0;
+		int channels = 0;
+
+		unsigned char * pixels = SOIL_load_image(filepath.c_str(), &width, &height, &channels, SOIL_LOAD_AUTO);
+		
+		return HeightMap(Generic::toVector(pixels, width * height * channels), width, height, channels, maxHeight);
+	}
 }

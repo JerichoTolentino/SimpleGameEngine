@@ -1,24 +1,31 @@
 #pragma once
-#include "../loaders/Shader.h"
-#include "../math/engineMath.h"
-#include "../terrains/Terrain.h"
-#include "../entities/Camera.h"
+#include <string>
+#include "../Cameras/Camera.h"
+#include "../Shaders/Shader.h"
+#include "../Math/Mat4.h"
+#include "../Math/Vec3.h"
+#include "../Models/TerrainRenderModel.h"
 
-class TerrainRenderer
+namespace SimpleGameEngine::Renderers
 {
-private:
-	Shader m_shader;
-public:
-	TerrainRenderer();
-	~TerrainRenderer();
+	class TerrainRenderer
+	{
+	private:
+		Shaders::Shader m_shader;
 
-	TerrainRenderer(const char* vertexShader, const char* fragmentShader);
 
-	void loadTerrain(Terrain* terrain) const;
-	void render(Terrain* t) const;
-	void unloadTerrain() const;
-	void loadProjectionMatrix(Mat4 proj) const;
-	void loadCamera(Camera* camera) const;
-	void loadLight(Vec3 light) const;
-};
 
+	public:
+		TerrainRenderer();
+		TerrainRenderer(Shaders::Shader shader);
+		~TerrainRenderer();
+
+
+		void loadTerrain(Models::TerrainRenderModel terrain) const;
+		void render(Models::TerrainRenderModel terrain) const;
+		void unloadTerrain() const;
+		void loadProjectionMatrix(Math::Mat4 proj) const;
+		void loadCamera(Cameras::Camera camera) const;
+		void loadLight(Math::Vec3 light) const;
+	};
+}

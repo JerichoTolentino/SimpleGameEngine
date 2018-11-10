@@ -23,11 +23,11 @@ namespace SimpleGameEngine::Models
 
 
 
-		GLuint getRedTextureFile() const;
-		GLuint getGreenTextureFile() const;
-		GLuint getBlueTextureFile() const;
-		GLuint getBackgroundTextureFile() const;
-		GLuint getBlendMapTextureFile() const;
+		GLuint getRedTextureId() const;
+		GLuint getGreenTextureId() const;
+		GLuint getBlueTextureId() const;
+		GLuint getBackgroundTextureId() const;
+		GLuint getBlendMapTextureId() const;
 
 
 

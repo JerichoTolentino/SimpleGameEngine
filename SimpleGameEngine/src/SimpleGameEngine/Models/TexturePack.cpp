@@ -26,27 +26,27 @@ namespace SimpleGameEngine::Models
 
 
 
-	GLuint TexturePack::getRedTextureFile() const
+	GLuint TexturePack::getRedTextureId() const
 	{
 		return m_redTextureId;
 	}
 
-	GLuint TexturePack::getGreenTextureFile() const
+	GLuint TexturePack::getGreenTextureId() const
 	{
 		return m_greenTextureId;
 	}
 
-	GLuint TexturePack::getBlueTextureFile() const
+	GLuint TexturePack::getBlueTextureId() const
 	{
 		return m_blueTextureId;
 	}
 
-	GLuint TexturePack::getBackgroundTextureFile() const
+	GLuint TexturePack::getBackgroundTextureId() const
 	{
 		return m_backgroundTextureId;
 	}
 
-	GLuint TexturePack::getBlendMapTextureFile() const
+	GLuint TexturePack::getBlendMapTextureId() const
 	{
 		return m_blendMapTextureId;
 	}

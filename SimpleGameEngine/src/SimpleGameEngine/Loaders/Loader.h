@@ -7,6 +7,7 @@
 #include "../Models/Material.h"
 #include "../Models/GeometryModel.h"
 #include "../Models/SkyboxModel.h"
+#include "../Models/HeightMap.h"
 
 
 namespace SimpleGameEngine::Loaders
@@ -19,5 +20,13 @@ namespace SimpleGameEngine::Loaders
 		static GLuint loadGeometryModel(Models::GeometryModel model);
 		static GLuint loadTexture(std::string filepath);
 		static GLuint loadCubemapTexture(std::string right, std::string left, std::string up, std::string down, std::string back, std::string front);
+
+		/// <summary>
+		/// Loads an image as a height map.
+		/// </summary>
+		/// <param name="filepath"></param>
+		/// <param name="maxHeight"></param>
+		/// <returns></returns>
+		static Models::HeightMap loadHeightMap(std::string filepath, int maxHeight);
 	};
 }
