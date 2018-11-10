@@ -21,6 +21,6 @@ namespace SimpleGameEngine::Renderers
 		void render(Models::SkyboxRenderModel skybox) const;
 		void unloadSkybox() const;
 		void loadProjectionMatrix(Math::Mat4 proj) const;
-		void loadCamera(Cameras::Camera* camera) const;
+		void loadCamera(Cameras::Camera camera) const;
 	};
 }
