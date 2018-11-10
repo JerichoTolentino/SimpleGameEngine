@@ -33,7 +33,10 @@ namespace SimpleGameEngine::Utility
 		template <typename T>
 		static std::vector<T> toVector(T * arr, int len)
 		{
-			return std::vector<T>(arr, len);
+			std::vector<T> vec;
+			vec.assign(arr, arr + len);
+
+			return vec;
 		}
 	};
 }
