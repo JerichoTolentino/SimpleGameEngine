@@ -1,4 +1,4 @@
-workspace "Hazel"
+workspace "SimpleGameEngine"
     architecture "x64"
 
     configurations
@@ -24,7 +24,7 @@ project "SimpleGameEngine"
         "%{prj.name}/src/**.cpp"
     }
 
-    include
+    includedirs
     {
         "%{prj.name}/vendor/spdlog/include"
     }
@@ -72,10 +72,10 @@ project "Sandbox"
         "%{prj.name}/src/**.cpp"
     }
 
-    include
+    includedirs
     {
         "%{prj.name}/vendor/spdlog/include",
-        "Hazel/src"
+        "SimpleGameEngine/src"
     }
 
     links
