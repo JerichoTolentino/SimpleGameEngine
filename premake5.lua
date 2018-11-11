@@ -29,6 +29,33 @@ project "SimpleGameEngine"
         "%{prj.name}/vendor/spdlog/include"
     }
 
+    sysincludedirs
+    {
+        "../dependencies/GLEW/include",
+        "../dependencies/GLFW/include",
+        "../dependencies/SOIL/include"
+    }
+
+    syslibdirs
+    {
+        "../dependencies/GLEW/lib",
+        "../dependencies/GLFW/lib",
+        "../dependencies/SOIL/lib"
+    }
+
+    buildoptions
+    {
+        "/permissive-"
+    }
+
+    links
+    {
+        "SOIL",
+        "glfw3",
+        "glew32s",
+        "opengl32"
+    }
+
     filter "system:windows"
         cppdialect "C++17"
         staticruntime "On"
