@@ -60,5 +60,7 @@ namespace SimpleGameEngine::Models
 		m_texturePack = other.m_texturePack;
 		m_material = other.m_material;
 		m_geometryVaoId = other.m_geometryVaoId;
+
+		return *this;
 	}
 }

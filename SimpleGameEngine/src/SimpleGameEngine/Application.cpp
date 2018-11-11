@@ -77,7 +77,8 @@ namespace SimpleGameEngine
 			SpaceModel terrainSpace(Vec3(0, 0, 0), Vec3(0, 0, 0), Vec3(1, 1, 1));
 			HeightMap heightMap = Loader::loadHeightMap("C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/zombieHeightMap.png", 20);
 			TerrainModel terrainModel(TerrainModel::GenerateTerrainMesh(10, 10, 10, heightMap), terrainSpace, heightMap, 10, 10, 10);
-			TerrainRenderModel terrainRenderModel(terrainModel, stallMaterial, terrainSpace, texturePack);
+			GLuint terrainVaoId = Loader::loadGeometryModel(terrainModel.getGeometryModel());
+			TerrainRenderModel terrainRenderModel(terrainModel, stallMaterial, terrainSpace, texturePack, terrainVaoId);
 
 			// Create skybox
 			SkyboxModel skyboxModel = SkyboxModel::CreateSkyboxModel(5);
