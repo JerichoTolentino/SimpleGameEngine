@@ -18,7 +18,7 @@ namespace SimpleGameEngine::Models
 
 	public:
 		TerrainRenderModel();
-		TerrainRenderModel(TerrainModel terrainModel, Material material, SpaceModel spaceModel, TexturePack texturePack);
+		TerrainRenderModel(TerrainModel terrainModel, Material material, SpaceModel spaceModel, TexturePack texturePack, GLuint geometryVaoId);
 		TerrainRenderModel(const TerrainRenderModel & other);
 		virtual ~TerrainRenderModel();
 
@@ -29,5 +29,9 @@ namespace SimpleGameEngine::Models
 		SpaceModel getSpaceModel() const;
 		TexturePack getTexturePack() const;
 		GLuint getGeometryVaoId() const;
+
+
+
+		TerrainRenderModel operator=(const TerrainRenderModel & other);
 	};
 }

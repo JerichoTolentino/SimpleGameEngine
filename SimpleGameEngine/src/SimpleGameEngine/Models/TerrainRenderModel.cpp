@@ -6,16 +6,17 @@ namespace SimpleGameEngine::Models
 	{
 	}
 
-	TerrainRenderModel::TerrainRenderModel(TerrainModel terrainModel, Material material, SpaceModel spaceModel, TexturePack texturePack)
+	TerrainRenderModel::TerrainRenderModel(TerrainModel terrainModel, Material material, SpaceModel spaceModel, TexturePack texturePack, GLuint geometryVaoId)
 	{
 		m_terrainModel = terrainModel;
 		m_material = material;
 		m_spaceModel = spaceModel;
 		m_texturePack = texturePack;
+		m_geometryVaoId = geometryVaoId;
 	}
 
 	TerrainRenderModel::TerrainRenderModel(const TerrainRenderModel & other)
-		: TerrainRenderModel(other.m_terrainModel, other.m_material, other.m_spaceModel, other.m_texturePack)
+		: TerrainRenderModel(other.m_terrainModel, other.m_material, other.m_spaceModel, other.m_texturePack, other.m_geometryVaoId)
 	{
 	}
 
@@ -48,5 +49,16 @@ namespace SimpleGameEngine::Models
 	GLuint TerrainRenderModel::getGeometryVaoId() const
 	{
 		return m_geometryVaoId;
+	}
+
+
+
+	TerrainRenderModel TerrainRenderModel::operator=(const TerrainRenderModel & other)
+	{
+		m_terrainModel = other.m_terrainModel;
+		m_spaceModel = other.m_spaceModel;
+		m_texturePack = other.m_texturePack;
+		m_material = other.m_material;
+		m_geometryVaoId = other.m_geometryVaoId;
 	}
 }
