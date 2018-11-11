@@ -155,6 +155,8 @@ namespace SimpleGameEngine::Loaders
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 		glBindTexture(GL_TEXTURE_2D, 0);
 
+		SGE_CORE_TRACE("Loaded texture ID {0} from file {1}", id, filepath);
+
 		return id;
 	}
 
@@ -168,6 +170,9 @@ namespace SimpleGameEngine::Loaders
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+
+		SGE_CORE_TRACE("Loaded cubemap texture ID {0} from files [{1}, {2}, {3}, {4}, {5}, {6}]", id, right, left, up, down, back, front);
+
 		return id;
 	}
 
@@ -178,6 +183,8 @@ namespace SimpleGameEngine::Loaders
 		int channels = 0;
 
 		unsigned char * pixels = SOIL_load_image(filepath.c_str(), &width, &height, &channels, SOIL_LOAD_AUTO);
+
+		SGE_CORE_TRACE("Loaded height map from file {0}", filepath);
 		
 		return HeightMap(Generic::toVector(pixels, width * height * channels), width, height, channels, maxHeight);
 	}
