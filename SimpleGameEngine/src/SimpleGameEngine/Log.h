@@ -29,6 +29,7 @@ namespace SimpleGameEngine
 #define SGE_CORE_WARNING(...)	::SimpleGameEngine::Log::getCoreLogger()->warn(__VA_ARGS__)
 #define SGE_CORE_INFO(...)		::SimpleGameEngine::Log::getCoreLogger()->info(__VA_ARGS__)
 #define SGE_CORE_TRACE(...)		::SimpleGameEngine::Log::getCoreLogger()->trace(__VA_ARGS__)
+#define SGE_CORE_DEBUG(...)		::SimpleGameEngine::Log::getCoreLogger()->debug(__VA_ARGS__)
 
 // Client log macros
 #define SGE_FATAL(...)		::SimpleGameEngine::Log::getClientLogger()->fatal(__VA_ARGS__)
@@ -36,3 +37,4 @@ namespace SimpleGameEngine
 #define SGE_WARNING(...)	::SimpleGameEngine::Log::getClientLogger()->warn(__VA_ARGS__)
 #define SGE_INFO(...)		::SimpleGameEngine::Log::getClientLogger()->info(__VA_ARGS__)
 #define SGE_TRACE(...)		::SimpleGameEngine::Log::getClientLogger()->trace(__VA_ARGS__)
+#define SGE_DEBUG(...)		::SimpleGameEngine::Log::getClientLogger()->debug(__VA_ARGS__)

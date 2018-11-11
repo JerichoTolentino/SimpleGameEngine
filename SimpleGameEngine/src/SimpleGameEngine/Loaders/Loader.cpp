@@ -1,6 +1,7 @@
 #include "Loader.h"
 #include "TextureLoadException.h"
 #include "../Utility/Generic.h"
+#include "../Log.h"
 
 #define VERTICES_ATTR 0
 #define NORMALS_ATTR 1
@@ -42,21 +43,29 @@ namespace SimpleGameEngine::Loaders
 		glBindVertexArray(vao);
 
 		// Bind indices
+		GLuint * indicesArray = Generic::toArray(skybox.getIndices());
+		GLsizeiptr numIndices = sizeof(GLuint) * skybox.getIndices().size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * skybox.getIndices().size(), Generic::toArray(skybox.getIndices()), GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices, indicesArray, GL_STATIC_DRAW);
 
 		// Bind vertices
+		GLfloat * verticesArray = Generic::toArray(flattenedVertices);
+		GLsizeiptr numVertices = sizeof(GLfloat) * flattenedVertices.size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * flattenedVertices.size(), Generic::toArray(flattenedVertices), GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, numVertices, verticesArray, GL_STATIC_DRAW);
 		glVertexAttribPointer(VERTICES_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 		// Bind texture UVs
+		GLfloat * textureUvsArray = Generic::toArray(flattenedUvs);
+		GLsizeiptr numTextureUvs = sizeof(GLfloat) * flattenedUvs.size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * flattenedUvs.size(), Generic::toArray(flattenedUvs), GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, numTextureUvs, textureUvsArray, GL_STATIC_DRAW);
 		glVertexAttribPointer(TEXTURES_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
+
+		SGE_CORE_TRACE("Loaded SkyboxModel with {0} vertices, {1} textureUvs, and {2} indices", numVertices, numTextureUvs, numIndices);
 
 		return vao;
 	}
@@ -97,27 +106,37 @@ namespace SimpleGameEngine::Loaders
 		glBindVertexArray(vao);
 
 		// Bind indices
+		GLuint * indicesArray = Generic::toArray(model.getIndices());
+		GLsizeiptr numIndices = sizeof(GLuint) * model.getIndices().size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(GLuint) * model.getIndices().size(), Generic::toArray(model.getIndices()), GL_STATIC_DRAW);
-
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices, indicesArray, GL_STATIC_DRAW);
+		
 		// Bind vertices
+		GLfloat * verticesArray = Generic::toArray(flattenedVertices);
+		GLsizeiptr numVertices = sizeof(GLfloat) * flattenedVertices.size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * flattenedVertices.size(), Generic::toArray(flattenedVertices), GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, numVertices, verticesArray, GL_STATIC_DRAW);
 		glVertexAttribPointer(VERTICES_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 		// Bind normals
+		GLfloat * normalsArray = Generic::toArray(flattenedNormals);
+		GLsizeiptr numNormals = sizeof(GLfloat) * flattenedNormals.size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * flattenedNormals.size(), Generic::toArray(flattenedNormals), GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, numNormals, normalsArray, GL_STATIC_DRAW);
 		glVertexAttribPointer(NORMALS_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 		// Bind texture UVs
+		GLfloat * textureUvsArray = Generic::toArray(flattenedUvs);
+		GLsizeiptr numTextureUvs = sizeof(GLfloat) * flattenedUvs.size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * flattenedUvs.size(), Generic::toArray(flattenedUvs), GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, numTextureUvs, textureUvsArray, GL_STATIC_DRAW);
 		glVertexAttribPointer(TEXTURES_ATTR, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+		SGE_CORE_TRACE("Loaded GeometryModel with {0} vertices, {1} normals, {2} textureUvs, and {3} indices", numVertices, numNormals, numTextureUvs, numIndices);
 	
 		return vao;
 	}

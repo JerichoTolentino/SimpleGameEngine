@@ -80,9 +80,9 @@ namespace SimpleGameEngine
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/cobble.jpg",
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/dirt.jpg",
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/zombieBlendMap.png");
-			SpaceModel terrainSpace(Vec3(0, 0, 0), Vec3(0, 0, 0), Vec3(1, 1, 1));
+			SpaceModel terrainSpace(Vec3(0, 0, -1), Vec3(0, 0, 0), Vec3(1, 1, 1));
 			HeightMap heightMap = Loader::loadHeightMap("C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/zombieHeightMap.png", 20);
-			TerrainModel terrainModel(TerrainModel::GenerateTerrainMesh(10, 10, 10, heightMap), terrainSpace, heightMap, 10, 10, 10);
+			TerrainModel terrainModel = TerrainModel::GenerateTerrainModel(5, 5, 5, heightMap);
 			GLuint terrainVaoId = Loader::loadGeometryModel(terrainModel.getGeometryModel());
 			TerrainRenderModel terrainRenderModel(terrainModel, stallMaterial, terrainSpace, texturePack, terrainVaoId);
 
@@ -100,11 +100,11 @@ namespace SimpleGameEngine
 			SkyboxRenderModel skyboxRenderModel(skyboxModel, skyboxVaoId, skyboxTextureId);
 
 			// Create camera
-			Camera camera(Vec3(0, 10, 5), Vec3(-20, 0, 0));
+			Camera camera(Vec3(0, 0.2f, 0.5f), Vec3(-0.2f, 0, 0));
 			renderEngine.loadCamera(camera);
 
 			// Create light
-			Vec3 lightPosition(5, 10, -5);
+			Vec3 lightPosition(0, 0, 0);
 			renderEngine.loadLight(lightPosition);
 
 			// Load entity
@@ -113,7 +113,7 @@ namespace SimpleGameEngine
 			renderEngine.loadTerrain(terrainRenderModel);
 			
 			glEnable(GL_DEPTH_TEST);
-			glEnable(GL_CULL_FACE);
+			glDisable(GL_CULL_FACE);
 
 			// Main loop
 			while (true)
