@@ -103,58 +103,64 @@ namespace SimpleGameEngine::Loaders
 
 
 
-	void ShaderLoader::loadUniform1f(Shader shader, std::string uniformName, float value)
+	bool ShaderLoader::loadUniform1f(Shader shader, std::string uniformName, float value)
 	{
 		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
-			throw LoadUniformException("Failed to get location of uniform variable " + uniformName);
+			return false;
 		
 		glUniform1f(location, value);
+		return true;
 	}
 
-	void ShaderLoader::loadUniform1i(Shader shader, std::string uniformName, int value)
+	bool ShaderLoader::loadUniform1i(Shader shader, std::string uniformName, int value)
 	{
 		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
-			throw LoadUniformException("Failed to get location of uniform variable " + uniformName);
+			return false;
 		
 		glUniform1i(location, value);
+		return true;
 	}
 
-	void ShaderLoader::loadUniformVec2f(Shader shader, std::string uniformName, Vec2 value)
+	bool ShaderLoader::loadUniformVec2f(Shader shader, std::string uniformName, Vec2 value)
 	{
 		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
-			throw LoadUniformException("Failed to get location of uniform variable " + uniformName);
+			return false;
 		
 		glUniform2f(location, value.x, value.y);
+		return true;
 	}
 
-	void ShaderLoader::loadUniformVec3f(Shader shader, std::string uniformName, Vec3 value)
+	bool ShaderLoader::loadUniformVec3f(Shader shader, std::string uniformName, Vec3 value)
 	{
 		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
-			throw LoadUniformException("Failed to get location of uniform variable " + uniformName);
+			return false;
 		
 		glUniform3f(location, value.x, value.y, value.z);
+		return true;
 	}
 
-	void ShaderLoader::loadUniformVec4f(Shader shader, std::string uniformName, Vec4 value)
+	bool ShaderLoader::loadUniformVec4f(Shader shader, std::string uniformName, Vec4 value)
 	{
 		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
-			throw LoadUniformException("Failed to get location of uniform variable " + uniformName);
+			return false;
 		
 		glUniform4f(location, value.x, value.y, value.z, value.w);
+		return true;
 	}
 
-	void ShaderLoader::loadUniformMat4f(Shader shader, std::string uniformName, Mat4 value)
+	bool ShaderLoader::loadUniformMat4f(Shader shader, std::string uniformName, Mat4 value)
 	{
 		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
-			throw LoadUniformException("Failed to get location of uniform variable " + uniformName);
+			return false;
 		
 		// GLSL matrices are row-major - must transpose matrices passed in
 		glUniformMatrix4fv(location, 1, GL_TRUE, value.elements);
+		return true;
 	}
 }

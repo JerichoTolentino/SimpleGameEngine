@@ -51,7 +51,7 @@ namespace SimpleGameEngine::Loaders
 		/// <param name="shader"></param>
 		/// <param name="uniformName"></param>
 		/// <param name="value"></param>
-		static void loadUniform1f(Shaders::Shader shader, std::string uniformName, float value);
+		static bool loadUniform1f(Shaders::Shader shader, std::string uniformName, float value);
 
 		/// <summary>
 		/// Loads an integer to a uniform variable in a shader.
@@ -59,7 +59,7 @@ namespace SimpleGameEngine::Loaders
 		/// <param name="shader"></param>
 		/// <param name="uniformName"></param>
 		/// <param name="value"></param>
-		static void loadUniform1i(Shaders::Shader shader, std::string uniformName, int value);
+		static bool loadUniform1i(Shaders::Shader shader, std::string uniformName, int value);
 
 		/// <summary>
 		/// Loads a 2D vector to a uniform variable in a shader.
@@ -67,7 +67,7 @@ namespace SimpleGameEngine::Loaders
 		/// <param name="shader"></param>
 		/// <param name="uniformName"></param>
 		/// <param name="value"></param>
-		static void loadUniformVec2f(Shaders::Shader shader, std::string uniformName, Math::Vec2 value);
+		static bool loadUniformVec2f(Shaders::Shader shader, std::string uniformName, Math::Vec2 value);
 		
 		/// <summary>
 		/// Loads a 3D vector to a uniform variable in a shader.
@@ -75,7 +75,7 @@ namespace SimpleGameEngine::Loaders
 		/// <param name="shader"></param>
 		/// <param name="uniformName"></param>
 		/// <param name="value"></param>
-		static void loadUniformVec3f(Shaders::Shader shader, std::string uniformName, Math::Vec3 value);
+		static bool loadUniformVec3f(Shaders::Shader shader, std::string uniformName, Math::Vec3 value);
 		
 		/// <summary>
 		/// Loads a 4D vector to a uniform variable in a shader.
@@ -83,7 +83,7 @@ namespace SimpleGameEngine::Loaders
 		/// <param name="shader"></param>
 		/// <param name="uniformName"></param>
 		/// <param name="value"></param>
-		static void loadUniformVec4f(Shaders::Shader shader, std::string uniformName, Math::Vec4 value);
+		static bool loadUniformVec4f(Shaders::Shader shader, std::string uniformName, Math::Vec4 value);
 		
 		/// <summary>
 		/// Loads a 4x4 matrix to a uniform variable in a shader.
@@ -91,6 +91,6 @@ namespace SimpleGameEngine::Loaders
 		/// <param name="shader"></param>
 		/// <param name="uniformName"></param>
 		/// <param name="value"></param>
-		static void loadUniformMat4f(Shaders::Shader shader, std::string uniformName, Math::Mat4 value);
+		static bool loadUniformMat4f(Shaders::Shader shader, std::string uniformName, Math::Mat4 value);
 	};
 }
