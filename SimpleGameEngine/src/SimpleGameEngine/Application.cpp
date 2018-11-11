@@ -58,6 +58,12 @@ namespace SimpleGameEngine
 			SkyboxRenderer skyboxRenderer(skyboxShader);
 			RenderEngine renderEngine(entityRenderer, terrainRenderer, skyboxRenderer);
 
+			// Load projection matrix
+			int windowWidth, windowHeight;
+			window.getWindowSize(windowWidth, windowHeight);
+			float aspectRatio = windowHeight == 0 ? 1 : windowWidth / windowHeight;
+			Mat4 projectionMatrix = Mat4::generateProjectionMatrix(aspectRatio, 90, 0.1f, 1000.0f);
+
 			// Create stall entity
 			GeometryModel stallModel = WavefrontObjParser::parseFile("D:/Blender Files/stall.obj");
 			Material stallMaterial = MaterialLibraryParser::parseFile("D:/Blender Files/Cube.mtl");
@@ -105,7 +111,7 @@ namespace SimpleGameEngine
 			renderEngine.loadEntity(stallEntity);
 			renderEngine.loadSkybox(skyboxRenderModel);
 			renderEngine.loadTerrain(terrainRenderModel);
-
+			
 			glEnable(GL_DEPTH_TEST);
 			glEnable(GL_CULL_FACE);
 
