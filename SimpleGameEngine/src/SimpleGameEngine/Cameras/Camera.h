@@ -52,6 +52,6 @@ namespace SimpleGameEngine::Cameras
 
 
 
-		Camera operator=(const Camera & other);
+		Camera & operator=(const Camera & other);
 	};
 }

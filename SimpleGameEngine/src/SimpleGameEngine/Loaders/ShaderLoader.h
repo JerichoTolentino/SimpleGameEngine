@@ -10,6 +10,7 @@ namespace SimpleGameEngine::Loaders
 {
 	class ShaderLoader
 	{
+	public:
 		/// <summary>
 		/// Loads a shader program into memory.
 		/// </summary>

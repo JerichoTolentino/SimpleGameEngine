@@ -12,8 +12,8 @@ namespace SimpleGameEngine::Utility
 	}
 
 	AutoGenId::AutoGenId(const AutoGenId & other)
-		: AutoGenId(other.m_id)
 	{
+		m_id = other.m_id;
 	}
 
 

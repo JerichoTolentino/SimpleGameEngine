@@ -200,7 +200,7 @@ namespace SimpleGameEngine::Cameras
 		aroundAngle += angle * timeFactor;
 	}
 
-	Camera Camera::operator=(const Camera & other)
+	Camera & Camera::operator=(const Camera & other)
 	{
 		this->position = other.position;
 		this->rotation = other.rotation;
@@ -209,5 +209,7 @@ namespace SimpleGameEngine::Cameras
 		this->distanceFromEntity = other.distanceFromEntity;
 		this->lockedHorizontal = other.lockedHorizontal;
 		this->lockedVertical = other.lockedVertical;
+
+		return *this;
 	}
 }
