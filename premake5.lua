@@ -31,21 +31,16 @@ project "SimpleGameEngine"
 
     sysincludedirs
     {
-        "../dependencies/GLEW/include",
-        "../dependencies/GLFW/include",
-        "../dependencies/SOIL/include"
+        "dependencies/GLEW/include",
+        "dependencies/GLFW/include",
+        "dependencies/SOIL/include"
     }
 
     syslibdirs
     {
-        "../dependencies/GLEW/lib",
-        "../dependencies/GLFW/lib",
-        "../dependencies/SOIL/lib"
-    }
-
-    buildoptions
-    {
-        "/permissive-"
+        "dependencies/GLEW/lib",
+        "dependencies/GLFW/lib",
+        "dependencies/SOIL/lib"
     }
 
     links
