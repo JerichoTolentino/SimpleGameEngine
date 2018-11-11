@@ -4,6 +4,7 @@
 #include "../IO/FileUtils.h"
 #include "ShaderCompileException.h"
 #include "LoadUniformException.h"
+#include "../Log.h"
 
 using namespace SimpleGameEngine::IO;
 using namespace SimpleGameEngine::Shaders;
@@ -25,6 +26,9 @@ namespace SimpleGameEngine::Loaders
 		glShaderSource(vertexShaderId, 1, &vShader, NULL);
 		GLuint fragmentShaderId = glCreateShader(GL_FRAGMENT_SHADER);
 		glShaderSource(fragmentShaderId, 1, &fShader, NULL);
+
+		SGE_CORE_TRACE("Created shader program ID {0} with vertex shader ID {1} from {2} and fragment shader ID {3} from {4}",
+			vertexShaderId, vertexFilepath, fragmentShaderId, fragmentFilepath);
 
 		// Compile vertex shader
 		GLint vCompileStatus = GL_FALSE;
@@ -72,12 +76,16 @@ namespace SimpleGameEngine::Loaders
 	{
 		glUseProgram(shader.getProgramId());
 		shader.setRunning(true);
+
+		SGE_CORE_TRACE("Started shader ID {0}", shader.getProgramId());
 	}
 
 	void ShaderLoader::stopShader(Shader shader)
 	{
 		glUseProgram(0);
 		shader.setRunning(false);
+
+		SGE_CORE_TRACE("Stopped shader ID {0}", shader.getProgramId());
 	}
 
 	void ShaderLoader::destroyShader(Shader shader)
@@ -87,6 +95,9 @@ namespace SimpleGameEngine::Loaders
 		glDeleteProgram(shader.getProgramId());
 
 		shader.setLoaded(false);
+
+		SGE_CORE_TRACE("Destroyed shader ID {0}, vertex shader ID {1}, fragment shader ID {2}",
+			shader.getProgramId(), shader.getVertexShaderId(), shader.getFragmentShaderId());
 	}
 
 
@@ -99,6 +110,9 @@ namespace SimpleGameEngine::Loaders
 			return false;
 		
 		glUniform1f(location, value);
+
+		SGE_CORE_TRACE("Loaded float {0} to uniform {1} in shader ID {2}", value, uniformName, shader.getProgramId());
+		
 		return true;
 	}
 
@@ -109,6 +123,9 @@ namespace SimpleGameEngine::Loaders
 			return false;
 		
 		glUniform1i(location, value);
+
+		SGE_CORE_TRACE("Loaded int {0} to uniform {1} in shader ID {2}", value, uniformName, shader.getProgramId());
+
 		return true;
 	}
 
@@ -119,6 +136,9 @@ namespace SimpleGameEngine::Loaders
 			return false;
 		
 		glUniform2f(location, value.x, value.y);
+
+		SGE_CORE_TRACE("Loaded Vec2f ({0}, {1}) to uniform {2} in shader ID {3}", value.x, value.y, uniformName, shader.getProgramId());
+
 		return true;
 	}
 
@@ -129,6 +149,9 @@ namespace SimpleGameEngine::Loaders
 			return false;
 		
 		glUniform3f(location, value.x, value.y, value.z);
+
+		SGE_CORE_TRACE("Loaded Vec3f ({0}, {1}, {2}) to uniform {3} in shader ID {4}", value.x, value.y, value.z, uniformName, shader.getProgramId());
+
 		return true;
 	}
 
@@ -139,6 +162,9 @@ namespace SimpleGameEngine::Loaders
 			return false;
 		
 		glUniform4f(location, value.x, value.y, value.z, value.w);
+
+		SGE_CORE_TRACE("Loaded Vec3f ({0}, {1}, {2}, {3}) to uniform {4} in shader ID {5}", value.x, value.y, value.z, value.w, uniformName, shader.getProgramId());
+
 		return true;
 	}
 
@@ -150,6 +176,9 @@ namespace SimpleGameEngine::Loaders
 		
 		// GLSL matrices are row-major - must transpose matrices passed in
 		glUniformMatrix4fv(location, 1, GL_TRUE, value.elements);
+
+		SGE_CORE_TRACE("Loaded Mat4f to uniform {0} in shader ID {1}", uniformName, shader.getProgramId());
+
 		return true;
 	}
 }
