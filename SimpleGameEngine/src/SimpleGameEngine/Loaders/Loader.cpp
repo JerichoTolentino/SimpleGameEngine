@@ -64,7 +64,8 @@ namespace SimpleGameEngine::Loaders
 	GLuint Loader::loadGeometryModel(GeometryModel model)
 	{
 		// Flatten vectors
-		std::vector<float> flattenedVertices = Generic::flatten(model.getVertices().begin(), model.getVertices().end(), (std::function<std::vector<float>(Vec3)>) [](Vec3 vec)
+		auto vertices = model.getVertices();
+		std::vector<float> flattenedVertices = Generic::flatten(vertices.begin(), vertices.end(), (std::function<std::vector<float>(Vec3)>) [](Vec3 vec)
 		{
 			std::vector<float> unpacked;
 			unpacked.push_back(vec.x);
@@ -72,7 +73,8 @@ namespace SimpleGameEngine::Loaders
 			unpacked.push_back(vec.z);
 			return unpacked;
 		});
-		std::vector<float> flattenedNormals = Generic::flatten(model.getNormals().begin(), model.getNormals().end(), (std::function<std::vector<float>(Vec3)>) [](Vec3 vec)
+		auto normals = model.getNormals();
+		std::vector<float> flattenedNormals = Generic::flatten(normals.begin(), normals.end(), (std::function<std::vector<float>(Vec3)>) [](Vec3 vec)
 		{
 			std::vector<float> unpacked;
 			unpacked.push_back(vec.x);
@@ -80,7 +82,8 @@ namespace SimpleGameEngine::Loaders
 			unpacked.push_back(vec.z);
 			return unpacked;
 		});
-		std::vector<float> flattenedUvs = Generic::flatten(model.getTextureUvs().begin(), model.getTextureUvs().end(), (std::function<std::vector<float>(Vec2)>) [](Vec2 vec)
+		auto textureUvs = model.getTextureUvs();
+		std::vector<float> flattenedUvs = Generic::flatten(textureUvs.begin(), textureUvs.end(), (std::function<std::vector<float>(Vec2)>) [](Vec2 vec)
 		{
 			std::vector<float> unpacked;
 			unpacked.push_back(vec.x);
@@ -159,4 +162,17 @@ namespace SimpleGameEngine::Loaders
 		
 		return HeightMap(Generic::toVector(pixels, width * height * channels), width, height, channels, maxHeight);
 	}
+
+	Models::TexturePack Loader::loadTexturePack(std::string redTextureFile, std::string greenTextureFile, std::string blueTextureFile, std::string backgroundTextureFile, std::string blendMapFile)
+	{
+		GLuint redTextureId = loadTexture(redTextureFile);
+		GLuint greenTextureId = loadTexture(greenTextureFile);
+		GLuint blueTextureId = loadTexture(blueTextureFile);
+		GLuint backgroundTextureId = loadTexture(backgroundTextureFile);
+		GLuint blendMapTextureId = loadTexture(blendMapFile);
+
+		return TexturePack(redTextureId, greenTextureId, blueTextureId, backgroundTextureId, blendMapTextureId);
+	}
+
+
 }
