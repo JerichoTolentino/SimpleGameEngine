@@ -9,7 +9,6 @@ namespace SimpleGameEngine::Models
 	{
 	private:
 		GeometryModel m_geometryModel;
-		SpaceModel m_spaceModel;
 		HeightMap m_heightMap;
 		int m_tileSize;
 		int m_rowCount;
@@ -17,14 +16,13 @@ namespace SimpleGameEngine::Models
 
 	public:
 		TerrainModel();
-		TerrainModel(GeometryModel geometryModel, SpaceModel spaceModel, HeightMap heightMap, int tileSize, int rowCount, int columnCount);
+		TerrainModel(GeometryModel geometryModel, HeightMap heightMap, int tileSize, int rowCount, int columnCount);
 		TerrainModel(const TerrainModel & other);
 		virtual ~TerrainModel();
 
 
 
 		GeometryModel getGeometryModel() const;
-		SpaceModel getSpaceModel() const;
 		HeightMap getHeightMap() const;
 		int getTileSize() const;
 		int getRowCount() const;
@@ -36,6 +34,6 @@ namespace SimpleGameEngine::Models
 
 
 
-		static GeometryModel GenerateTerrainMesh(int tileSize, int rowCount, int columnCount, HeightMap heightMap);
+		static TerrainModel GenerateTerrainModel(int tileSize, int rowCount, int columnCount, HeightMap heightMap);
 	};
 }

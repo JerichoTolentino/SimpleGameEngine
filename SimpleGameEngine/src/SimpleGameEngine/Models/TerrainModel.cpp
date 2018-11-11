@@ -10,10 +10,9 @@ namespace SimpleGameEngine::Models
 	{
 	}
 
-	TerrainModel::TerrainModel(GeometryModel geometryModel, SpaceModel spaceModel, HeightMap heightMap, int tileSize, int rowCount, int columnCount)
+	TerrainModel::TerrainModel(GeometryModel geometryModel, HeightMap heightMap, int tileSize, int rowCount, int columnCount)
 	{
 		m_geometryModel = geometryModel;
-		m_spaceModel = spaceModel;
 		m_heightMap = heightMap;
 		m_tileSize = tileSize;
 		m_rowCount = rowCount;
@@ -21,7 +20,7 @@ namespace SimpleGameEngine::Models
 	}
 
 	TerrainModel::TerrainModel(const TerrainModel & other)
-		: TerrainModel(other.m_geometryModel, other.m_spaceModel, other.m_heightMap, other.m_tileSize, other.m_rowCount, other.m_columnCount)
+		: TerrainModel(other.m_geometryModel, other.m_heightMap, other.m_tileSize, other.m_rowCount, other.m_columnCount)
 	{
 	}
 
@@ -34,11 +33,6 @@ namespace SimpleGameEngine::Models
 	GeometryModel TerrainModel::getGeometryModel() const
 	{
 		return m_geometryModel;
-	}
-
-	SpaceModel TerrainModel::getSpaceModel() const
-	{
-		return m_spaceModel;
 	}
 
 	HeightMap TerrainModel::getHeightMap() const
@@ -64,7 +58,6 @@ namespace SimpleGameEngine::Models
 	TerrainModel & TerrainModel::operator=(const TerrainModel & other)
 	{
 		m_geometryModel = other.m_geometryModel;
-		m_spaceModel = other.m_spaceModel;
 		m_heightMap = other.m_heightMap;
 		m_tileSize = other.m_tileSize;
 		m_rowCount = other.m_rowCount;
@@ -75,7 +68,7 @@ namespace SimpleGameEngine::Models
 
 
 	// TODO: Test that this actually works (kinda blindly refactored)
-	GeometryModel TerrainModel::GenerateTerrainMesh(int tileSize, int rowCount, int columnCount, HeightMap heightMap)
+	TerrainModel TerrainModel::GenerateTerrainModel(int tileSize, int rowCount, int columnCount, HeightMap heightMap)
 	{
 		float fRows = rowCount;
 		float fCols = columnCount;
@@ -173,6 +166,6 @@ namespace SimpleGameEngine::Models
 			}
 		}
 
-		return GeometryModel(vertices, textureUvs, normals, indices);
+		return TerrainModel(GeometryModel(vertices, textureUvs, normals, indices), heightMap, tileSize, rowCount, columnCount);
 	}
 }
