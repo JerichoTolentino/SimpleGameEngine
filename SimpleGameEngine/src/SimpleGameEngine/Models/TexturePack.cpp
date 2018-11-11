@@ -53,7 +53,7 @@ namespace SimpleGameEngine::Models
 
 
 
-	TexturePack TexturePack::operator=(const TexturePack & other)
+	TexturePack & TexturePack::operator=(const TexturePack & other)
 	{
 		m_redTextureId = other.m_redTextureId;
 		m_greenTextureId = other.m_greenTextureId;

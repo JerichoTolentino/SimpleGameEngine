@@ -60,6 +60,10 @@ namespace SimpleGameEngine::Renderers
 		void loadCamera(Cameras::Camera camera);
 		void loadLight(Math::Vec3 lightPosition);
 		void render() const;
+
+
+
+		RenderEngine & operator=(const RenderEngine & other);
 	};
 }
 

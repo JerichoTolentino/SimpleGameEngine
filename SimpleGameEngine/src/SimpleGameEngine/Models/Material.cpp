@@ -35,7 +35,7 @@ namespace SimpleGameEngine::Models
 
 
 
-	Material& Material::operator=(const Material &other)
+	Material & Material::operator=(const Material &other)
 	{
 		m_lightingModel = other.m_lightingModel;
 		return *this;

@@ -32,6 +32,10 @@ namespace SimpleGameEngine::Models
 
 
 
+		TerrainModel & operator=(const TerrainModel & other);
+
+
+
 		static GeometryModel GenerateTerrainMesh(int tileSize, int rowCount, int columnCount, HeightMap heightMap);
 	};
 }

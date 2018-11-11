@@ -61,6 +61,18 @@ namespace SimpleGameEngine::Models
 		return m_columnCount;
 	}
 
+	TerrainModel & TerrainModel::operator=(const TerrainModel & other)
+	{
+		m_geometryModel = other.m_geometryModel;
+		m_spaceModel = other.m_spaceModel;
+		m_heightMap = other.m_heightMap;
+		m_tileSize = other.m_tileSize;
+		m_rowCount = other.m_rowCount;
+		m_columnCount = other.m_columnCount;
+
+		return *this;
+	}
+
 
 	// TODO: Test that this actually works (kinda blindly refactored)
 	GeometryModel TerrainModel::GenerateTerrainMesh(int tileSize, int rowCount, int columnCount, HeightMap heightMap)

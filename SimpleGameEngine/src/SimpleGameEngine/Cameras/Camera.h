@@ -22,6 +22,7 @@ namespace SimpleGameEngine::Cameras
 	public:
 		Camera();
 		Camera(Math::Vec3 pos, Math::Vec3 rot);
+		Camera(const Camera & other);
 		~Camera();
 
 
@@ -48,5 +49,9 @@ namespace SimpleGameEngine::Cameras
 		void zoom(float distance, float timeFactor);
 		void rotateVertical(float angle, float timeFactor);
 		void rotateAround(float angle, float timeFactor);
+
+
+
+		Camera operator=(const Camera & other);
 	};
 }

@@ -18,6 +18,7 @@ namespace SimpleGameEngine::Utility
 
 	public:
 		AutoGenId();
+		AutoGenId(const AutoGenId & other);
 		virtual ~AutoGenId();
 
 		/// <summary>
@@ -27,5 +28,9 @@ namespace SimpleGameEngine::Utility
 		/// </summary>
 		/// <returns></returns>
 		unsigned int ___getObjectId() const;
+
+
+
+		AutoGenId & operator=(const AutoGenId & other);
 	};
 }

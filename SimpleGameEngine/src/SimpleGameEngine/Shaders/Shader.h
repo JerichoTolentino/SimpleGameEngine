@@ -26,7 +26,15 @@ namespace SimpleGameEngine::Shaders
 		/// <param name="programId"></param>
 		/// <param name="vertexShaderId"></param>
 		/// <param name="fragmentShaderId"></param>
-		Shader(GLuint programId, GLuint vertexShaderId, GLuint fragmentShaderId);
+		/// <param name="isLoaded"></param>
+		/// <param name="isRunning"></param>
+		Shader(GLuint programId, GLuint vertexShaderId, GLuint fragmentShaderId, bool isLoaded = false, bool isRunning = false);
+
+		/// <summary>
+		/// Copy constructor.
+		/// </summary>
+		/// <param name="other"></param>
+		Shader(const Shader & other);
 
 		/// <summary>
 		/// Destructor.
@@ -76,5 +84,9 @@ namespace SimpleGameEngine::Shaders
 		/// </summary>
 		/// <param name="loaded"></param>
 		void setLoaded(bool loaded);
+
+
+
+		Shader & operator=(const Shader & other);
 	};
 }

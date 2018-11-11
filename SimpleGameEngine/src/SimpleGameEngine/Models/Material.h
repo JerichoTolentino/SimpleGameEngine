@@ -23,6 +23,6 @@ namespace SimpleGameEngine::Models
 
 
 
-		Material& operator=(const Material &other);
+		Material & operator=(const Material &other);
 	};
 }

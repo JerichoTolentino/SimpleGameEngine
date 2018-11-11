@@ -73,4 +73,15 @@ namespace SimpleGameEngine::Models
 		
 		return height;
 	}
+
+	HeightMap & HeightMap::operator=(const HeightMap & other)
+	{
+		m_pixels = other.m_pixels;
+		m_width = other.m_width;
+		m_height = other.m_height;
+		m_maxHeight = other.m_maxHeight;
+		m_channels = other.m_channels;
+
+		return *this;
+	}
 }

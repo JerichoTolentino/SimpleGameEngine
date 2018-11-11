@@ -28,6 +28,6 @@ namespace SimpleGameEngine::Models
 
 
 
-		Entity& operator=(const Entity&other);
+		Entity & operator=(const Entity&other);
 	};
 }

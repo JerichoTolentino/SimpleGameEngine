@@ -37,5 +37,9 @@ namespace SimpleGameEngine::Models
 		/// <param name="y"></param>
 		/// <returns></returns>
 		float findHeightAt(int x, int y);
+
+
+
+		HeightMap & operator=(const HeightMap & other);
 	};
 }

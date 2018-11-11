@@ -19,6 +19,11 @@ namespace SimpleGameEngine::Renderers
 		m_shader = shader;
 	}
 
+	EntityRenderer::EntityRenderer(const EntityRenderer & other)
+		: EntityRenderer(other.m_shader)
+	{
+	}
+
 	EntityRenderer::~EntityRenderer()
 	{
 	}
@@ -135,6 +140,15 @@ namespace SimpleGameEngine::Renderers
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 		glBindVertexArray(0);
+	}
+
+
+
+	EntityRenderer & EntityRenderer::operator=(const EntityRenderer & other)
+	{
+		m_shader = other.m_shader;
+
+		return *this;
 	}
 
 

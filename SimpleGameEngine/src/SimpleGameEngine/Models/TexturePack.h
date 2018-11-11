@@ -31,6 +31,6 @@ namespace SimpleGameEngine::Models
 
 
 
-		TexturePack operator=(const TexturePack & other);
+		TexturePack & operator=(const TexturePack & other);
 	};
 }

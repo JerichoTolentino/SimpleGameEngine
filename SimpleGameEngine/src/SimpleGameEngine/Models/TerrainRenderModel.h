@@ -32,6 +32,6 @@ namespace SimpleGameEngine::Models
 
 
 
-		TerrainRenderModel operator=(const TerrainRenderModel & other);
+		TerrainRenderModel & operator=(const TerrainRenderModel & other);
 	};
 }

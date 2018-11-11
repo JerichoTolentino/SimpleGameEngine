@@ -18,6 +18,7 @@ namespace SimpleGameEngine::Renderers
 	public:
 		TerrainRenderer();
 		TerrainRenderer(Shaders::Shader shader);
+		TerrainRenderer(const TerrainRenderer & other);
 		~TerrainRenderer();
 
 
@@ -27,5 +28,9 @@ namespace SimpleGameEngine::Renderers
 		void loadProjectionMatrix(Math::Mat4 proj) const;
 		void loadCamera(Cameras::Camera camera) const;
 		void loadLight(Math::Vec3 light) const;
+
+
+
+		TerrainRenderer & operator=(const TerrainRenderer & other);
 	};
 }

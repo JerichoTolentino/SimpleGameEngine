@@ -152,4 +152,20 @@ namespace SimpleGameEngine::Renderers
 		m_skyboxRenderer.unloadSkybox();
 
 	}
+
+
+
+	RenderEngine & RenderEngine::operator=(const RenderEngine & other)
+	{
+		m_entityBatches = other.m_entityBatches;
+		m_terrainBatches = other.m_terrainBatches;
+		m_skybox = other.m_skybox;
+		m_camera = other.m_camera;
+		m_lightPosition = other.m_lightPosition;
+		m_entityRenderer = other.m_entityRenderer;
+		m_terrainRenderer = other.m_terrainRenderer;
+		m_skyboxRenderer = other.m_skyboxRenderer;
+
+		return *this;
+	}
 }

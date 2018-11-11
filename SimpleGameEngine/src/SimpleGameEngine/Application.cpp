@@ -100,7 +100,7 @@ namespace SimpleGameEngine
 			SkyboxRenderModel skyboxRenderModel(skyboxModel, skyboxVaoId, skyboxTextureId);
 
 			// Create camera
-			Camera camera(Vec3(0, 0, 5), Vec3(0, 0, 0));
+			Camera camera(Vec3(0, 10, 5), Vec3(-20, 0, 0));
 			renderEngine.loadCamera(camera);
 
 			// Create light

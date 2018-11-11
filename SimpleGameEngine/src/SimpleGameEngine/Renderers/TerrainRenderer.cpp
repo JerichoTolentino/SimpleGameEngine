@@ -19,6 +19,11 @@ namespace SimpleGameEngine::Renderers
 		m_shader = shader;
 	}
 
+	TerrainRenderer::TerrainRenderer(const TerrainRenderer & other)
+		: TerrainRenderer(other.m_shader)
+	{
+	}
+
 	TerrainRenderer::~TerrainRenderer()
 	{
 	}
@@ -121,5 +126,14 @@ namespace SimpleGameEngine::Renderers
 		ShaderLoader::startShader(m_shader);
 		ShaderLoader::loadUniformVec3f(m_shader, TerrainShaderConstants::VERT_LIGHT_POSITION, light);
 		ShaderLoader::stopShader(m_shader);
+	}
+
+
+
+	TerrainRenderer & TerrainRenderer::operator=(const TerrainRenderer & other)
+	{
+		m_shader = other.m_shader;
+
+		return *this;
 	}
 }

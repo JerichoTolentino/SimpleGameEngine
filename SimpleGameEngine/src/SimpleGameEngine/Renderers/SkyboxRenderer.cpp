@@ -16,6 +16,11 @@ namespace SimpleGameEngine::Renderers
 		m_shader = shader;
 	}
 
+	SkyboxRenderer::SkyboxRenderer(const SkyboxRenderer & other)
+		: SkyboxRenderer(other.m_shader)
+	{
+	}
+
 
 	SkyboxRenderer::~SkyboxRenderer()
 	{
@@ -62,5 +67,14 @@ namespace SimpleGameEngine::Renderers
 		ShaderLoader::startShader(m_shader);
 		ShaderLoader::loadUniformMat4f(m_shader, SkyboxShaderConstants::VERT_VIEW_MATRIX, camera.generateSkyboxViewMatrix());
 		ShaderLoader::stopShader(m_shader);
+	}
+
+
+
+	SkyboxRenderer & SkyboxRenderer::operator=(const SkyboxRenderer & other)
+	{
+		m_shader = other.m_shader;
+
+		return *this;
 	}
 }

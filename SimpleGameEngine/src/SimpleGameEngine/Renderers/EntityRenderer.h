@@ -13,6 +13,7 @@ namespace SimpleGameEngine::Renderers
 	public:
 		EntityRenderer();
 		EntityRenderer(Shaders::Shader m_shader);
+		EntityRenderer(const EntityRenderer & other);
 		~EntityRenderer();
 
 		void loadCamera(Cameras::Camera camera) const;
@@ -22,5 +23,9 @@ namespace SimpleGameEngine::Renderers
 		void loadEntity(Models::Entity entity, GLuint reflectionMapTextureId) const;
 		void render(Models::Entity entity) const;
 		void unloadEntity() const;
+
+
+
+		EntityRenderer & operator=(const EntityRenderer & other);
 	};
 }

@@ -30,6 +30,11 @@ namespace SimpleGameEngine::Cameras
 		distanceFromEntity = DEFAULT_DISTANCE;
 	}
 
+	Camera::Camera(const Camera & other)
+		: Camera(other.position, other.rotation)
+	{
+	}
+
 	Camera::~Camera()
 	{
 	}
@@ -193,5 +198,16 @@ namespace SimpleGameEngine::Cameras
 	void Camera::rotateAround(float angle, float timeFactor)
 	{
 		aroundAngle += angle * timeFactor;
+	}
+
+	Camera Camera::operator=(const Camera & other)
+	{
+		this->position = other.position;
+		this->rotation = other.rotation;
+		this->groundAngle = other.groundAngle;
+		this->aroundAngle = other.aroundAngle;
+		this->distanceFromEntity = other.distanceFromEntity;
+		this->lockedHorizontal = other.lockedHorizontal;
+		this->lockedVertical = other.lockedVertical;
 	}
 }

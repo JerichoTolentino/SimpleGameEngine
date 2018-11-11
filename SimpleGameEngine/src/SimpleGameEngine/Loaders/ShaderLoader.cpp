@@ -11,17 +11,6 @@ using namespace SimpleGameEngine::Math;
 
 namespace SimpleGameEngine::Loaders
 {
-	ShaderLoader::ShaderLoader()
-	{
-	}
-
-	ShaderLoader::~ShaderLoader()
-	{
-	}
-
-
-
-
 	Shader ShaderLoader::loadShader(std::string vertexFilepath, std::string fragmentFilepath)
 	{
 		// Load shader files

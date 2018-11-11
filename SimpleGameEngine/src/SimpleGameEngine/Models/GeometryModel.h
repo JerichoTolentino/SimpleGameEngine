@@ -36,6 +36,6 @@ namespace SimpleGameEngine::Models
 		/// </summary>
 		/// <param name="other"></param>
 		/// <returns></returns>
-		GeometryModel& operator=(const GeometryModel &other);
+		GeometryModel & operator=(const GeometryModel &other);
 	};
 }

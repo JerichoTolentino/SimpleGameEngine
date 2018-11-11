@@ -53,7 +53,7 @@ namespace SimpleGameEngine::Models
 
 
 
-	TerrainRenderModel TerrainRenderModel::operator=(const TerrainRenderModel & other)
+	TerrainRenderModel & TerrainRenderModel::operator=(const TerrainRenderModel & other)
 	{
 		m_terrainModel = other.m_terrainModel;
 		m_spaceModel = other.m_spaceModel;

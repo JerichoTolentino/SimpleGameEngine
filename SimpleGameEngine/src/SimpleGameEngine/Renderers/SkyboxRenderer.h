@@ -14,6 +14,7 @@ namespace SimpleGameEngine::Renderers
 	public:
 		SkyboxRenderer();
 		SkyboxRenderer(Shaders::Shader shader);
+		SkyboxRenderer(const SkyboxRenderer & other);
 		~SkyboxRenderer();
 
 		
@@ -22,5 +23,9 @@ namespace SimpleGameEngine::Renderers
 		void unloadSkybox() const;
 		void loadProjectionMatrix(Math::Mat4 proj) const;
 		void loadCamera(Cameras::Camera camera) const;
+
+
+
+		SkyboxRenderer & operator=(const SkyboxRenderer & other);
 	};
 }

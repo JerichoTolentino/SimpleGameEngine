@@ -6,11 +6,18 @@ namespace SimpleGameEngine::Shaders
 	{
 	}
 
-	Shader::Shader(GLuint programId, GLuint vertexShaderId, GLuint fragmentShaderId)
+	Shader::Shader(GLuint programId, GLuint vertexShaderId, GLuint fragmentShaderId, bool isLoaded, bool isRunning)
 	{
 		m_programId = programId;
 		m_vertexShaderId = vertexShaderId;
 		m_fragmentShaderId = fragmentShaderId;
+		m_loaded = isRunning;
+		m_running = isLoaded;
+	}
+
+	Shader::Shader(const Shader & other)
+		: Shader(other.m_programId, other.m_vertexShaderId, other.m_fragmentShaderId, other.m_loaded, other.m_running)
+	{
 	}
 
 	Shader::~Shader()
@@ -49,5 +56,18 @@ namespace SimpleGameEngine::Shaders
 	void Shader::setLoaded(bool loaded)
 	{
 		m_loaded = loaded;
+	}
+
+
+
+	Shader & Shader::operator=(const Shader & other)
+	{
+		m_programId = other.m_programId;
+		m_vertexShaderId = other.m_vertexShaderId;
+		m_fragmentShaderId = other.m_fragmentShaderId;
+		m_loaded = other.m_loaded;
+		m_running = other.m_running;
+		
+		return *this;
 	}
 }
