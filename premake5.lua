@@ -74,7 +74,7 @@ project "Sandbox"
 
     includedirs
     {
-        "%{prj.name}/vendor/spdlog/include",
+        "SimpleGameEngine/vendor/spdlog/include",
         "SimpleGameEngine/src"
     }
 
