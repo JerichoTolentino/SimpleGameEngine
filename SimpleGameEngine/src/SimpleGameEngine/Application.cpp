@@ -81,9 +81,9 @@ namespace SimpleGameEngine
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/cobble.jpg",
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/dirt.jpg",
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/zombieBlendMap.png");
-			SpaceModel terrainSpace(Vec3(0, 0, -1), Vec3(0, 0, 0), Vec3(1, 1, 1));
+			SpaceModel terrainSpace(Vec3(-100, -2, -100), Vec3(0, 0, 0), Vec3(1, 1, 1));
 			HeightMap heightMap = Loader::loadHeightMap("C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/zombieHeightMap.png", 20);
-			TerrainModel terrainModel = TerrainModel::GenerateTerrainModel(5, 5, 5, heightMap);
+			TerrainModel terrainModel = TerrainModel::GenerateTerrainModel(1, 20, 20, heightMap);
 			GLuint terrainVaoId = Loader::loadGeometryModel(terrainModel.getGeometryModel());
 			TerrainRenderModel terrainRenderModel(terrainModel, stallMaterial, terrainSpace, texturePack, terrainVaoId);
 
@@ -101,7 +101,7 @@ namespace SimpleGameEngine
 			SkyboxRenderModel skyboxRenderModel(skyboxModel, skyboxVaoId, skyboxTextureId);
 
 			// Create camera
-			Camera camera(Vec3(0, 0.2f, 0.5f), Vec3(-0.2f, 0, 0));
+			std::shared_ptr<Camera> camera = std::make_shared<Camera>(Vec3(0, 0.2f, 0.5f), Vec3(-0.2f, 0, 0));
 			renderEngine.loadCamera(camera);
 
 			// Create light
@@ -122,6 +122,8 @@ namespace SimpleGameEngine
 				window.clear();
 
 				renderEngine.render();
+				camera->setPosition(camera->getPosition().add(Vec3(0, 0.005f, 0)));
+				camera->setRotation(camera->getRotation().add(Vec3(0, 0.5f, 0)));
 
 				window.update();
 			}

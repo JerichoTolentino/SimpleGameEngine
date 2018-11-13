@@ -114,10 +114,10 @@ namespace SimpleGameEngine::Renderers
 		ShaderLoader::stopShader(m_shader);
 	}
 
-	void TerrainRenderer::loadCamera(Cameras::Camera camera) const
+	void TerrainRenderer::loadCamera(const std::shared_ptr<Cameras::Camera> camera) const
 	{
 		ShaderLoader::startShader(m_shader);
-		ShaderLoader::loadUniformMat4f(m_shader, TerrainShaderConstants::VERT_VIEW_MATRIX, camera.generateViewMatrix());
+		ShaderLoader::loadUniformMat4f(m_shader, TerrainShaderConstants::VERT_VIEW_MATRIX, camera->generateViewMatrix());
 		ShaderLoader::stopShader(m_shader);
 	}
 

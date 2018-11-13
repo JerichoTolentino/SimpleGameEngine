@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "../Cameras/Camera.h"
 #include "../Shaders/Shader.h"
 #include "../Models/Entity.h"
@@ -10,13 +11,16 @@ namespace SimpleGameEngine::Renderers
 	{
 	private:
 		Shaders::Shader m_shader;
+
+
+
 	public:
 		EntityRenderer();
 		EntityRenderer(Shaders::Shader m_shader);
 		EntityRenderer(const EntityRenderer & other);
 		~EntityRenderer();
 
-		void loadCamera(Cameras::Camera camera) const;
+		void loadCamera(const std::shared_ptr<Cameras::Camera> camera) const;
 		void loadLight(Math::Vec3 light) const;
 		void loadProjectionMatrix(Math::Mat4 proj) const;
 		void loadEntity(Models::Entity entity) const;

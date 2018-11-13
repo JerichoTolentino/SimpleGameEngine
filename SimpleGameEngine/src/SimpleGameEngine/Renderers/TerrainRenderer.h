@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <memory>
 #include "../Cameras/Camera.h"
 #include "../Shaders/Shader.h"
 #include "../Math/Mat4.h"
@@ -26,7 +27,7 @@ namespace SimpleGameEngine::Renderers
 		void render(Models::TerrainRenderModel terrain) const;
 		void unloadTerrain() const;
 		void loadProjectionMatrix(Math::Mat4 proj) const;
-		void loadCamera(Cameras::Camera camera) const;
+		void loadCamera(const std::shared_ptr<Cameras::Camera> camera) const;
 		void loadLight(Math::Vec3 light) const;
 
 

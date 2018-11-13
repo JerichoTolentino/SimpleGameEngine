@@ -62,10 +62,10 @@ namespace SimpleGameEngine::Renderers
 		ShaderLoader::stopShader(m_shader);
 	}
 
-	void SkyboxRenderer::loadCamera(Cameras::Camera camera) const
+	void SkyboxRenderer::loadCamera(const std::shared_ptr<Cameras::Camera> camera) const
 	{
 		ShaderLoader::startShader(m_shader);
-		ShaderLoader::loadUniformMat4f(m_shader, SkyboxShaderConstants::VERT_VIEW_MATRIX, camera.generateSkyboxViewMatrix());
+		ShaderLoader::loadUniformMat4f(m_shader, SkyboxShaderConstants::VERT_VIEW_MATRIX, camera->generateSkyboxViewMatrix());
 		ShaderLoader::stopShader(m_shader);
 	}
 

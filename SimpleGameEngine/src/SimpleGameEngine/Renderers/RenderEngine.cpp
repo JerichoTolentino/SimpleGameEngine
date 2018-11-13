@@ -42,7 +42,7 @@ namespace SimpleGameEngine::Renderers
 		return m_skybox;
 	}
 
-	Cameras::Camera RenderEngine::getCamera() const
+	std::shared_ptr<Cameras::Camera> RenderEngine::getCamera() const
 	{
 		return m_camera;
 	}
@@ -104,7 +104,7 @@ namespace SimpleGameEngine::Renderers
 		m_skybox = skybox;
 	}
 
-	void RenderEngine::loadCamera(Cameras::Camera camera)
+	void RenderEngine::loadCamera(const std::shared_ptr<Cameras::Camera> camera)
 	{
 		m_camera = camera;
 	}

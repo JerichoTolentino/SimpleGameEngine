@@ -30,11 +30,11 @@ namespace SimpleGameEngine::Renderers
 
 
 
-	void EntityRenderer::loadCamera(Cameras::Camera camera) const
+	void EntityRenderer::loadCamera(const std::shared_ptr<Cameras::Camera> camera) const
 	{
 		ShaderLoader::startShader(m_shader);
-		ShaderLoader::loadUniformVec3f(m_shader, EntityShaderConstants::VERT_EYE_POSITION, camera.getPosition());
-		ShaderLoader::loadUniformMat4f(m_shader, EntityShaderConstants::VERT_VIEW_MATRIX, camera.generateViewMatrix());
+		ShaderLoader::loadUniformVec3f(m_shader, EntityShaderConstants::VERT_EYE_POSITION, camera->getPosition());
+		ShaderLoader::loadUniformMat4f(m_shader, EntityShaderConstants::VERT_VIEW_MATRIX, camera->generateViewMatrix());
 		ShaderLoader::stopShader(m_shader);
 	}
 
