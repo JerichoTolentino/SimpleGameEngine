@@ -12,7 +12,7 @@ using namespace SimpleGameEngine::Math;
 
 namespace SimpleGameEngine::Loaders
 {
-	Shader ShaderLoader::loadShader(std::string vertexFilepath, std::string fragmentFilepath)
+	Shader ShaderLoader::loadShader(const std::string & vertexFilepath, const std::string & fragmentFilepath)
 	{
 		// Load shader files
 		std::string vertexShader = FileUtils::loadFileToString(vertexFilepath);
@@ -72,19 +72,19 @@ namespace SimpleGameEngine::Loaders
 		return shader;
 	}
 
-	void ShaderLoader::startShader(Shader shader)
+	void ShaderLoader::startShader(Shader & shader)
 	{
 		glUseProgram(shader.getProgramId());
 		shader.setRunning(true);
 	}
 
-	void ShaderLoader::stopShader(Shader shader)
+	void ShaderLoader::stopShader(Shader & shader)
 	{
 		glUseProgram(0);
 		shader.setRunning(false);
 	}
 
-	void ShaderLoader::destroyShader(Shader shader)
+	void ShaderLoader::destroyShader(Shader & shader)
 	{
 		glDeleteShader(shader.getVertexShaderId());
 		glDeleteShader(shader.getFragmentShaderId());
@@ -99,7 +99,7 @@ namespace SimpleGameEngine::Loaders
 
 
 
-	bool ShaderLoader::loadUniform1f(Shader shader, std::string uniformName, float value)
+	bool ShaderLoader::loadUniform1f(const Shader & shader, const std::string & uniformName, float value)
 	{
 		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
@@ -109,7 +109,7 @@ namespace SimpleGameEngine::Loaders
 		return true;
 	}
 
-	bool ShaderLoader::loadUniform1i(Shader shader, std::string uniformName, int value)
+	bool ShaderLoader::loadUniform1i(const Shader & shader, const std::string & uniformName, int value)
 	{
 		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
@@ -119,7 +119,7 @@ namespace SimpleGameEngine::Loaders
 		return true;
 	}
 
-	bool ShaderLoader::loadUniformVec2f(Shader shader, std::string uniformName, Vec2 value)
+	bool ShaderLoader::loadUniformVec2f(const Shader & shader, const std::string & uniformName, const Vec2 & value)
 	{
 		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
@@ -129,7 +129,7 @@ namespace SimpleGameEngine::Loaders
 		return true;
 	}
 
-	bool ShaderLoader::loadUniformVec3f(Shader shader, std::string uniformName, Vec3 value)
+	bool ShaderLoader::loadUniformVec3f(const Shader & shader, const std::string & uniformName, const Vec3 & value)
 	{
 		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
@@ -139,7 +139,7 @@ namespace SimpleGameEngine::Loaders
 		return true;
 	}
 
-	bool ShaderLoader::loadUniformVec4f(Shader shader, std::string uniformName, Vec4 value)
+	bool ShaderLoader::loadUniformVec4f(const Shader & shader, const std::string & uniformName, const Vec4 & value)
 	{
 		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
@@ -149,7 +149,7 @@ namespace SimpleGameEngine::Loaders
 		return true;
 	}
 
-	bool ShaderLoader::loadUniformMat4f(Shader shader, std::string uniformName, Mat4 value)
+	bool ShaderLoader::loadUniformMat4f(const Shader & shader, const std::string & uniformName, const Mat4 & value)
 	{
 		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)

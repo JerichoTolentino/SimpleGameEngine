@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <GL/glew.h>
 #include "GeometryModel.h"
 #include "SpaceModel.h"
@@ -8,7 +9,7 @@ namespace SimpleGameEngine::Models
 	class BoundingBox
 	{
 	private:
-		SpaceModel m_spaceModel;
+		std::shared_ptr<SpaceModel> m_spaceModel;
 		float m_minX;
 		float m_minY;
 		float m_minZ;
@@ -20,13 +21,13 @@ namespace SimpleGameEngine::Models
 
 	public:
 		BoundingBox();
-		BoundingBox(float minX, float minY, float minZ, float maxX, float maxY, float maxZ);
+		BoundingBox(const std::shared_ptr<SpaceModel> spaceModel, float minX, float minY, float minZ, float maxX, float maxY, float maxZ);
 		BoundingBox(const BoundingBox & other);
 		~BoundingBox();
 
 
 
-		SpaceModel getSpaceModel() const;
+		std::shared_ptr<SpaceModel> getSpaceModel() const;
 		float getMinX() const;
 		float getMinY() const;
 		float getMinZ() const;

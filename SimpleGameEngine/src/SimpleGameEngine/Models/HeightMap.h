@@ -1,12 +1,13 @@
 #pragma once
 #include <vector>
+#include <memory>
 
 namespace SimpleGameEngine::Models
 {
 	class HeightMap
 	{
 	private:
-		std::vector<unsigned char> m_pixels;
+		std::shared_ptr<std::vector<unsigned char>> m_pixels;
 		int m_width;
 		int m_height;
 		int m_maxHeight;
@@ -16,13 +17,13 @@ namespace SimpleGameEngine::Models
 
 	public:
 		HeightMap();
-		HeightMap(std::vector<unsigned char> pixels, int width, int height, int channels, int maxHeight);
+		HeightMap(const std::shared_ptr<std::vector<unsigned char>> pixels, int width, int height, int channels, int maxHeight);
 		HeightMap(const HeightMap & other);
 		virtual ~HeightMap();
 
 
 
-		std::vector<unsigned char> getPixels() const;
+		std::shared_ptr<std::vector<unsigned char>> getPixels() const;
 		int getWidth() const;
 		int getHeight() const;
 		int getMaxHeight() const;

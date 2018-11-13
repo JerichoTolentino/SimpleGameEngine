@@ -22,6 +22,6 @@ namespace SimpleGameEngine::Parsers
 		/// <param name="filepath"></param>
 		/// <returns></returns>
 		/// <exception cref="ParseException"></exception>
-		static Models::GeometryModel parseFile(std::string filepath);
+		static Models::GeometryModel parseFile(const std::string & filepath);
 	};
 }

@@ -11,7 +11,7 @@ namespace SimpleGameEngine::Renderers
 	{
 	}
 
-	SkyboxRenderer::SkyboxRenderer(Shaders::Shader shader)
+	SkyboxRenderer::SkyboxRenderer(const std::shared_ptr<Shaders::Shader> shader)
 	{
 		m_shader = shader;
 	}
@@ -28,7 +28,7 @@ namespace SimpleGameEngine::Renderers
 
 
 
-	void SkyboxRenderer::loadSkybox(Models::SkyboxRenderModel skybox) const
+	void SkyboxRenderer::loadSkybox(const Models::SkyboxRenderModel & skybox) const
 	{
 		glBindVertexArray(skybox.getSkyboxVaoId());
 		glEnableVertexAttribArray(0);
@@ -38,13 +38,13 @@ namespace SimpleGameEngine::Renderers
 		glBindTexture(GL_TEXTURE_CUBE_MAP, skybox.getTextureId());
 	}
 
-	void SkyboxRenderer::render(Models::SkyboxRenderModel skybox) const
+	void SkyboxRenderer::render(const Models::SkyboxRenderModel & skybox) const
 	{
 		glDisable(GL_CULL_FACE);
 
-		ShaderLoader::startShader(m_shader);
-		glDrawElements(GL_TRIANGLES, (GLsizei) skybox.getSkyboxModel().getIndices().size(), GL_UNSIGNED_INT, 0);
-		ShaderLoader::stopShader(m_shader);
+		ShaderLoader::startShader(*m_shader);
+		glDrawElements(GL_TRIANGLES, (GLsizei) skybox.getSkyboxModel()->getIndices()->size(), GL_UNSIGNED_INT, 0);
+		ShaderLoader::stopShader(*m_shader);
 
 		glEnable(GL_CULL_FACE);
 	}
@@ -55,18 +55,18 @@ namespace SimpleGameEngine::Renderers
 		glBindVertexArray(0);
 	}
 
-	void SkyboxRenderer::loadProjectionMatrix(Math::Mat4 proj) const
+	void SkyboxRenderer::loadProjectionMatrix(const Math::Mat4 & proj) const
 	{
-		ShaderLoader::startShader(m_shader);
-		ShaderLoader::loadUniformMat4f(m_shader, SkyboxShaderConstants::VERT_PROJECTION_MATRIX, proj);
-		ShaderLoader::stopShader(m_shader);
+		ShaderLoader::startShader(*m_shader);
+		ShaderLoader::loadUniformMat4f(*m_shader, SkyboxShaderConstants::VERT_PROJECTION_MATRIX, proj);
+		ShaderLoader::stopShader(*m_shader);
 	}
 
-	void SkyboxRenderer::loadCamera(const std::shared_ptr<Cameras::Camera> camera) const
+	void SkyboxRenderer::loadCamera(const Cameras::Camera & camera) const
 	{
-		ShaderLoader::startShader(m_shader);
-		ShaderLoader::loadUniformMat4f(m_shader, SkyboxShaderConstants::VERT_VIEW_MATRIX, camera->generateSkyboxViewMatrix());
-		ShaderLoader::stopShader(m_shader);
+		ShaderLoader::startShader(*m_shader);
+		ShaderLoader::loadUniformMat4f(*m_shader, SkyboxShaderConstants::VERT_VIEW_MATRIX, camera.generateSkyboxViewMatrix());
+		ShaderLoader::stopShader(*m_shader);
 	}
 
 

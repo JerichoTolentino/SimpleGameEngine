@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "LightingModel.h"
 
 namespace SimpleGameEngine::Models
@@ -6,20 +7,20 @@ namespace SimpleGameEngine::Models
 	class Material
 	{
 	private:
-		LightingModel m_lightingModel;
+		std::shared_ptr<LightingModel> m_lightingModel;
 
 
 
 	public:
 		Material();
-		Material(LightingModel lightingModel);
+		Material(const std::shared_ptr<LightingModel> lightingModel);
 		Material(const Material &other);
 		virtual ~Material();
 
 
 
-		LightingModel getLightingModel() const;
-		void setLightingModel(LightingModel lightingModel);
+		std::shared_ptr<LightingModel> getLightingModel() const;
+		void setLightingModel(const std::shared_ptr<LightingModel> lightingModel);
 
 
 

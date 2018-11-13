@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <memory>
 #include "../Math/Vec3.h"
 
 namespace SimpleGameEngine::Models
@@ -7,22 +8,25 @@ namespace SimpleGameEngine::Models
 	class SkyboxModel
 	{
 	private:
-		std::vector<Math::Vec3> m_vertices;
-		std::vector<Math::Vec3> m_textureUvs;
-		std::vector<unsigned int> m_indices;
+		std::shared_ptr<std::vector<Math::Vec3>> m_vertices;
+		std::shared_ptr<std::vector<Math::Vec3>> m_textureUvs;
+		std::shared_ptr<std::vector<unsigned int>> m_indices;
 
 
 
 	public:
 		SkyboxModel();
 		SkyboxModel(const SkyboxModel & other);
-		SkyboxModel(std::vector<Math::Vec3> vertices, std::vector<Math::Vec3> textureUvs, std::vector<unsigned int> indices);
+		SkyboxModel(
+			const std::shared_ptr<std::vector<Math::Vec3>> vertices, 
+			const std::shared_ptr<std::vector<Math::Vec3>> textureUvs, 
+			const std::shared_ptr<std::vector<unsigned int>> indices);
 		virtual ~SkyboxModel();
 
 
-		std::vector<Math::Vec3> getVertices() const;
-		std::vector<Math::Vec3> getTextureUvs() const;
-		std::vector<unsigned int> getIndices() const;
+		std::shared_ptr<std::vector<Math::Vec3>> getVertices() const;
+		std::shared_ptr<std::vector<Math::Vec3>> getTextureUvs() const;
+		std::shared_ptr<std::vector<unsigned int>> getIndices() const;
 
 
 

@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "GeometryModel.h"
 #include "SpaceModel.h"
 #include "HeightMap.h"
@@ -8,22 +9,22 @@ namespace SimpleGameEngine::Models
 	class TerrainModel
 	{
 	private:
-		GeometryModel m_geometryModel;
-		HeightMap m_heightMap;
+		std::shared_ptr<GeometryModel> m_geometryModel;
+		std::shared_ptr<HeightMap> m_heightMap;
 		int m_tileSize;
 		int m_rowCount;
 		int m_columnCount;
 
 	public:
 		TerrainModel();
-		TerrainModel(GeometryModel geometryModel, HeightMap heightMap, int tileSize, int rowCount, int columnCount);
+		TerrainModel(const std::shared_ptr<GeometryModel> geometryModel, const std::shared_ptr<HeightMap> heightMap, int tileSize, int rowCount, int columnCount);
 		TerrainModel(const TerrainModel & other);
 		virtual ~TerrainModel();
 
 
 
-		GeometryModel getGeometryModel() const;
-		HeightMap getHeightMap() const;
+		std::shared_ptr<GeometryModel> getGeometryModel() const;
+		std::shared_ptr<HeightMap> getHeightMap() const;
 		int getTileSize() const;
 		int getRowCount() const;
 		int getColumnCount() const;
@@ -34,6 +35,6 @@ namespace SimpleGameEngine::Models
 
 
 
-		static TerrainModel GenerateTerrainModel(int tileSize, int rowCount, int columnCount, HeightMap heightMap);
+		static TerrainModel GenerateTerrainModel(int tileSize, int rowCount, int columnCount, const std::shared_ptr<HeightMap> heightMap);
 	};
 }

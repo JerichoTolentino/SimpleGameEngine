@@ -1,4 +1,5 @@
 #include "Application.h"
+#include <memory>
 #include "Display/Window.h"
 #include "Parsers/WavefrontObjParser.h"
 #include "Parsers/MaterialLibraryParser.h"
@@ -42,20 +43,20 @@ namespace SimpleGameEngine
 			Window window;
 
 			// Make shaders
-			Shader entityShader = ShaderLoader::loadShader(
+			auto entityShader = std::make_shared<Shader>(ShaderLoader::loadShader(
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/src/SimpleGameEngine/Shaders/entityVertex.vert", 
-				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/src/SimpleGameEngine/Shaders/entityFragment.frag");
-			Shader terrainShader = ShaderLoader::loadShader(
+				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/src/SimpleGameEngine/Shaders/entityFragment.frag"));
+			auto terrainShader = std::make_shared<Shader>(ShaderLoader::loadShader(
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/src/SimpleGameEngine/Shaders/terrainVertex.vert", 
-				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/src/SimpleGameEngine/Shaders/terrainFragment.frag");
-			Shader skyboxShader = ShaderLoader::loadShader(
+				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/src/SimpleGameEngine/Shaders/terrainFragment.frag"));
+			auto skyboxShader = std::make_shared<Shader>(ShaderLoader::loadShader(
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/src/SimpleGameEngine/Shaders/skyboxVertex.vert", 
-				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/src/SimpleGameEngine/Shaders/skyboxFragment.frag");
+				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/src/SimpleGameEngine/Shaders/skyboxFragment.frag"));
 
 			// Make renderers
-			EntityRenderer entityRenderer(entityShader);
-			TerrainRenderer terrainRenderer(terrainShader);
-			SkyboxRenderer skyboxRenderer(skyboxShader);
+			auto entityRenderer = std::make_shared<EntityRenderer>(EntityRenderer(entityShader));
+			auto terrainRenderer = std::make_shared<TerrainRenderer>(TerrainRenderer(terrainShader));
+			auto skyboxRenderer = std::make_shared<SkyboxRenderer>(SkyboxRenderer(skyboxShader));
 			RenderEngine renderEngine(entityRenderer, terrainRenderer, skyboxRenderer);
 
 			// Load projection matrix
@@ -66,30 +67,31 @@ namespace SimpleGameEngine
 			renderEngine.loadProjectionMatrix(projectionMatrix);
 
 			// Create stall entity
-			GeometryModel stallModel = WavefrontObjParser::parseFile("D:/Blender Files/stall.obj");
-			Material stallMaterial = MaterialLibraryParser::parseFile("D:/Blender Files/Cube.mtl");
-			unsigned int stallModelId = Loader::loadGeometryModel(stallModel);
+			auto stallModel = std::make_shared<GeometryModel>(WavefrontObjParser::parseFile("D:/Blender Files/stall.obj"));
+			auto stallMaterial = std::make_shared<Material>(MaterialLibraryParser::parseFile("D:/Blender Files/Cube.mtl"));
+			unsigned int stallModelId = Loader::loadGeometryModel(*stallModel);
 			unsigned int stallTextureId = Loader::loadTexture("D:/Blender Files/stallTexture.png");
-			RenderModel stallRenderModel = RenderModel(stallModel, stallMaterial, stallModelId, stallTextureId);
-			Entity stallEntity(stallRenderModel, SpaceModel(Vec3(0, 0, -10), Vec3(0, 180, 0), Vec3(1, 1, 1)));
+			auto stallRenderModel = std::make_shared<RenderModel>(RenderModel(stallModel, stallMaterial, stallModelId, stallTextureId));
+			auto stallSpaceModel = std::make_shared<SpaceModel>(SpaceModel(Vec3(0, 0, -10), Vec3(0, 180, 0), Vec3(1, 1, 1)));
+			auto stallEntity = std::make_shared<Entity>(Entity(stallRenderModel, stallSpaceModel));
 			SGE_CORE_WARNING("Successfully loaded stall model.");
 
 			// Create terrain
-			TexturePack texturePack = Loader::loadTexturePack(
+			auto texturePack = std::make_shared<TexturePack>(Loader::loadTexturePack(
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/brickPath.jpg",
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/broken_pavement.jpg",
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/cobble.jpg",
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/dirt.jpg",
-				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/zombieBlendMap.png");
-			SpaceModel terrainSpace(Vec3(-100, -2, -100), Vec3(0, 0, 0), Vec3(1, 1, 1));
-			HeightMap heightMap = Loader::loadHeightMap("C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/zombieHeightMap.png", 20);
-			TerrainModel terrainModel = TerrainModel::GenerateTerrainModel(1, 20, 20, heightMap);
-			GLuint terrainVaoId = Loader::loadGeometryModel(terrainModel.getGeometryModel());
-			TerrainRenderModel terrainRenderModel(terrainModel, stallMaterial, terrainSpace, texturePack, terrainVaoId);
+				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/zombieBlendMap.png"));
+			auto terrainSpace = std::make_shared<SpaceModel>(SpaceModel(Vec3(-100, -2, -100), Vec3(0, 0, 0), Vec3(1, 1, 1)));
+			auto heightMap = std::make_shared<HeightMap>(Loader::loadHeightMap("C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/zombieHeightMap.png", 20));
+			auto terrainModel = std::make_shared<TerrainModel>(TerrainModel::GenerateTerrainModel(1, 20, 20, heightMap));
+			GLuint terrainVaoId = Loader::loadGeometryModel(*(terrainModel->getGeometryModel()));
+			auto terrainRenderModel = std::make_shared<TerrainRenderModel>(TerrainRenderModel(terrainModel, stallMaterial, terrainSpace, texturePack, terrainVaoId));
 
 			// Create skybox
-			SkyboxModel skyboxModel = SkyboxModel::CreateSkyboxModel(500);
-			GLuint skyboxVaoId = Loader::loadSkybox(skyboxModel);
+			auto skyboxModel = std::make_shared<SkyboxModel>(SkyboxModel::CreateSkyboxModel(500));
+			GLuint skyboxVaoId = Loader::loadSkybox(*skyboxModel);
 			GLuint skyboxTextureId = Loader::loadCubemapTexture(
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/Lycksele3/posx.jpg",
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/Lycksele3/negx.jpg",
@@ -98,14 +100,14 @@ namespace SimpleGameEngine
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/Lycksele3/posz.jpg",
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/Lycksele3/negz.jpg"
 			);
-			SkyboxRenderModel skyboxRenderModel(skyboxModel, skyboxVaoId, skyboxTextureId);
+			auto skyboxRenderModel = std::make_shared<SkyboxRenderModel>(SkyboxRenderModel(skyboxModel, skyboxVaoId, skyboxTextureId));
 
 			// Create camera
-			std::shared_ptr<Camera> camera = std::make_shared<Camera>(Vec3(0, 0.2f, 0.5f), Vec3(-0.2f, 0, 0));
+			std::shared_ptr<Camera> camera = std::make_shared<Camera>(Camera(Vec3(0, 0.2f, 0.5f), Vec3(-0.2f, 0, 0)));
 			renderEngine.loadCamera(camera);
 
 			// Create light
-			Vec3 lightPosition(0, 0, 0);
+			auto lightPosition = std::make_shared<Vec3>(Vec3(0, 0, 0));
 			renderEngine.loadLight(lightPosition);
 
 			// Load entity

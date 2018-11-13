@@ -24,42 +24,47 @@ namespace SimpleGameEngine::Renderers
 	class RenderEngine
 	{
 	private:
-		std::map<Models::GeometryModel, std::vector<Models::Entity>> m_entityBatches;
-		std::map<Models::GeometryModel, std::vector<Models::TerrainRenderModel>> m_terrainBatches;
-		Models::SkyboxRenderModel m_skybox;
-		std::shared_ptr<Cameras::Camera> m_camera;
-		Math::Vec3 m_lightPosition;
+		std::shared_ptr<std::map<
+			std::shared_ptr<Models::GeometryModel>, 
+			std::vector<std::shared_ptr<Models::Entity>>>> m_entityBatches;
+		std::shared_ptr<std::map<
+			std::shared_ptr<Models::GeometryModel>, 
+			std::vector<std::shared_ptr<Models::TerrainRenderModel>>>> m_terrainBatches;
 
-		EntityRenderer m_entityRenderer;
-		TerrainRenderer m_terrainRenderer;
-		SkyboxRenderer m_skyboxRenderer;
+		std::shared_ptr<Models::SkyboxRenderModel> m_skybox;
+		std::shared_ptr<Cameras::Camera> m_camera;
+		std::shared_ptr<Math::Vec3> m_lightPosition;
+
+		std::shared_ptr<EntityRenderer> m_entityRenderer;
+		std::shared_ptr<TerrainRenderer> m_terrainRenderer;
+		std::shared_ptr<SkyboxRenderer> m_skyboxRenderer;
 
 
 
 	public:
 		RenderEngine();
-		RenderEngine(EntityRenderer entityRenderer, TerrainRenderer terrainRenderer, SkyboxRenderer skyboxRenderer);
+		RenderEngine(
+			const std::shared_ptr<EntityRenderer> entityRenderer, 
+			const std::shared_ptr<TerrainRenderer> terrainRenderer, 
+			const std::shared_ptr<SkyboxRenderer> skyboxRenderer);
 		RenderEngine(const RenderEngine & other);
 		~RenderEngine();
 
 
-
-		std::map<Models::GeometryModel, std::vector<Models::Entity>> getEntityBatches() const;
-		std::map<Models::GeometryModel, std::vector<Models::TerrainRenderModel>> getTerrainBatches() const;
-		Models::SkyboxRenderModel getSkybox() const;
+		std::shared_ptr<Models::SkyboxRenderModel> getSkybox() const;
 		std::shared_ptr<Cameras::Camera> getCamera() const;
-		Math::Vec3 getLightPosition() const;
-		EntityRenderer getEntityRenderer() const;
-		TerrainRenderer getTerrainRenderer() const;
-		SkyboxRenderer getSkyboxRenderer() const;
+		std::shared_ptr<Math::Vec3> getLightPosition() const;
+		std::shared_ptr<EntityRenderer> getEntityRenderer() const;
+		std::shared_ptr<TerrainRenderer> getTerrainRenderer() const;
+		std::shared_ptr<SkyboxRenderer> getSkyboxRenderer() const;
 
 
-		void loadProjectionMatrix(Math::Mat4 proj);
-		void loadEntity(Models::Entity entity);
-		void loadTerrain(Models::TerrainRenderModel terrain);
-		void loadSkybox(Models::SkyboxRenderModel skybox);
+		void loadProjectionMatrix(const Math::Mat4 & proj);
+		void loadEntity(const std::shared_ptr<Models::Entity> entity);
+		void loadTerrain(const std::shared_ptr<Models::TerrainRenderModel> terrain);
+		void loadSkybox(const std::shared_ptr<Models::SkyboxRenderModel> skybox);
 		void loadCamera(const std::shared_ptr<Cameras::Camera> camera);
-		void loadLight(Math::Vec3 lightPosition);
+		void loadLight(const std::shared_ptr<Math::Vec3> lightPosition);
 		void render() const;
 
 

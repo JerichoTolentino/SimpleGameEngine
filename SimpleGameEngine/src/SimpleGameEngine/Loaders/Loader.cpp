@@ -14,13 +14,13 @@ using namespace SimpleGameEngine::Math;
 namespace SimpleGameEngine::Loaders
 {
 
-	GLuint Loader::loadSkybox(Models::SkyboxModel skybox)
+	GLuint Loader::loadSkybox(const Models::SkyboxModel & skybox)
 	{
-		std::vector<Vec3> vertices = skybox.getVertices();
-		std::vector<Vec3> textureUvs = skybox.getTextureUvs();
+		auto vertices = skybox.getVertices();
+		auto textureUvs = skybox.getTextureUvs();
 
 		// Flatten vectors
-		std::vector<float> flattenedVertices = Generic::flatten(vertices.begin(), vertices.end(), (std::function<std::vector<float>(Vec3)>) [](Vec3 vec)
+		std::vector<float> flattenedVertices = Generic::flatten(vertices->begin(), vertices->end(), (std::function<std::vector<float>(Vec3)>) [](Vec3 vec)
 		{
 			std::vector<float> unpacked;
 			unpacked.push_back(vec.x);
@@ -28,7 +28,7 @@ namespace SimpleGameEngine::Loaders
 			unpacked.push_back(vec.z);
 			return unpacked;
 		});
-		std::vector<float> flattenedUvs = Generic::flatten(textureUvs.begin(), textureUvs.end(), (std::function<std::vector<float>(Vec3)>) [](Vec3 vec)
+		std::vector<float> flattenedUvs = Generic::flatten(textureUvs->begin(), textureUvs->end(), (std::function<std::vector<float>(Vec3)>) [](Vec3 vec)
 		{
 			std::vector<float> unpacked;
 			unpacked.push_back(vec.x);
@@ -43,8 +43,9 @@ namespace SimpleGameEngine::Loaders
 		glBindVertexArray(vao);
 
 		// Bind indices
-		GLuint * indicesArray = Generic::toArray(skybox.getIndices());
-		GLsizeiptr numIndices = sizeof(GLuint) * skybox.getIndices().size();
+		auto indices = skybox.getIndices();
+		GLuint * indicesArray = Generic::toArray(*indices);
+		GLsizeiptr numIndices = sizeof(GLuint) * indices->size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices, indicesArray, GL_STATIC_DRAW);
@@ -70,11 +71,11 @@ namespace SimpleGameEngine::Loaders
 		return vao;
 	}
 
-	GLuint Loader::loadGeometryModel(GeometryModel model)
+	GLuint Loader::loadGeometryModel(const GeometryModel & model)
 	{
 		// Flatten vectors
 		auto vertices = model.getVertices();
-		std::vector<float> flattenedVertices = Generic::flatten(vertices.begin(), vertices.end(), (std::function<std::vector<float>(Vec3)>) [](Vec3 vec)
+		std::vector<float> flattenedVertices = Generic::flatten(vertices->begin(), vertices->end(), (std::function<std::vector<float>(Vec3)>) [](Vec3 vec)
 		{
 			std::vector<float> unpacked;
 			unpacked.push_back(vec.x);
@@ -83,7 +84,7 @@ namespace SimpleGameEngine::Loaders
 			return unpacked;
 		});
 		auto normals = model.getNormals();
-		std::vector<float> flattenedNormals = Generic::flatten(normals.begin(), normals.end(), (std::function<std::vector<float>(Vec3)>) [](Vec3 vec)
+		std::vector<float> flattenedNormals = Generic::flatten(normals->begin(), normals->end(), (std::function<std::vector<float>(Vec3)>) [](Vec3 vec)
 		{
 			std::vector<float> unpacked;
 			unpacked.push_back(vec.x);
@@ -92,7 +93,7 @@ namespace SimpleGameEngine::Loaders
 			return unpacked;
 		});
 		auto textureUvs = model.getTextureUvs();
-		std::vector<float> flattenedUvs = Generic::flatten(textureUvs.begin(), textureUvs.end(), (std::function<std::vector<float>(Vec2)>) [](Vec2 vec)
+		std::vector<float> flattenedUvs = Generic::flatten(textureUvs->begin(), textureUvs->end(), (std::function<std::vector<float>(Vec2)>) [](Vec2 vec)
 		{
 			std::vector<float> unpacked;
 			unpacked.push_back(vec.x);
@@ -106,8 +107,9 @@ namespace SimpleGameEngine::Loaders
 		glBindVertexArray(vao);
 
 		// Bind indices
-		GLuint * indicesArray = Generic::toArray(model.getIndices());
-		GLsizeiptr numIndices = sizeof(GLuint) * model.getIndices().size();
+		auto indices = model.getIndices();
+		GLuint * indicesArray = Generic::toArray(*indices);
+		GLsizeiptr numIndices = sizeof(GLuint) * indices->size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices, indicesArray, GL_STATIC_DRAW);
@@ -141,7 +143,7 @@ namespace SimpleGameEngine::Loaders
 		return vao;
 	}
 
-	GLuint Loader::loadTexture(std::string filepath)
+	GLuint Loader::loadTexture(const std::string & filepath)
 	{
 		GLuint id = SOIL_load_OGL_texture(filepath.c_str(), 0, 0, SOIL_FLAG_INVERT_Y);
 		if (id < 0)
@@ -160,7 +162,13 @@ namespace SimpleGameEngine::Loaders
 		return id;
 	}
 
-	GLuint Loader::loadCubemapTexture(std::string right, std::string left, std::string up, std::string down, std::string back, std::string front)
+	GLuint Loader::loadCubemapTexture(
+		const std::string & right, 
+		const std::string & left, 
+		const std::string & up, 
+		const std::string & down, 
+		const std::string & back, 
+		const std::string & front)
 	{
 		GLuint id = SOIL_load_OGL_cubemap(right.c_str(), left.c_str(), up.c_str(), down.c_str(), back.c_str(), front.c_str(), 0, 0, 0);
 		if (id < 0)
@@ -177,20 +185,26 @@ namespace SimpleGameEngine::Loaders
 		return id;
 	}
 
-	Models::HeightMap Loader::loadHeightMap(std::string filepath, int maxHeight)
+	Models::HeightMap Loader::loadHeightMap(const std::string & filepath, int maxHeight)
 	{
 		int width = 0;
 		int height = 0;
 		int channels = 0;
 
 		unsigned char * pixels = SOIL_load_image(filepath.c_str(), &width, &height, &channels, SOIL_LOAD_AUTO);
+		auto pixelsVector = std::make_shared<std::vector<unsigned char>>(Generic::toVector(pixels, width * height * channels));
 
 		SGE_CORE_TRACE("Loaded height map from file {0}", filepath);
 		
-		return HeightMap(Generic::toVector(pixels, width * height * channels), width, height, channels, maxHeight);
+		return HeightMap(pixelsVector, width, height, channels, maxHeight);
 	}
 
-	Models::TexturePack Loader::loadTexturePack(std::string redTextureFile, std::string greenTextureFile, std::string blueTextureFile, std::string backgroundTextureFile, std::string blendMapFile)
+	Models::TexturePack Loader::loadTexturePack(
+		const std::string & redTextureFile, 
+		const std::string & greenTextureFile, 
+		const std::string & blueTextureFile, 
+		const std::string & backgroundTextureFile, 
+		const std::string & blendMapFile)
 	{
 		GLuint redTextureId = loadTexture(redTextureFile);
 		GLuint greenTextureId = loadTexture(greenTextureFile);

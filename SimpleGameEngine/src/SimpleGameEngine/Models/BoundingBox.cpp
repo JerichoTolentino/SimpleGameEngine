@@ -8,8 +8,9 @@ namespace SimpleGameEngine::Models
 	{
 	}
 
-	BoundingBox::BoundingBox(float minX, float minY, float minZ, float maxX, float maxY, float maxZ)
+	BoundingBox::BoundingBox(const std::shared_ptr<SpaceModel> spaceModel, float minX, float minY, float minZ, float maxX, float maxY, float maxZ)
 	{
+		m_spaceModel = spaceModel;
 		m_minX = minX;
 		m_minY = minY;
 		m_minZ = minZ;
@@ -19,7 +20,7 @@ namespace SimpleGameEngine::Models
 	}
 	
 	BoundingBox::BoundingBox(const BoundingBox & other)
-		: BoundingBox(other.m_minX, other.m_minY, other.m_minZ, other.m_maxX, other.m_maxY, other.m_maxZ)
+		: BoundingBox(other.m_spaceModel, other.m_minX, other.m_minY, other.m_minZ, other.m_maxX, other.m_maxY, other.m_maxZ)
 	{
 	}
 	
@@ -29,7 +30,7 @@ namespace SimpleGameEngine::Models
 	
 	
 	
-	SpaceModel BoundingBox::getSpaceModel() const
+	std::shared_ptr<SpaceModel> BoundingBox::getSpaceModel() const
 	{
 		return m_spaceModel;
 	}

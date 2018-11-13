@@ -6,7 +6,7 @@ namespace SimpleGameEngine::Models
 	{
 	}
 
-	RenderModel::RenderModel(GeometryModel geometryModel, Material material, GLuint geometryVaoId, GLuint textureId)
+	RenderModel::RenderModel(const std::shared_ptr<GeometryModel> geometryModel, const std::shared_ptr<Material> material, GLuint geometryVaoId, GLuint textureId)
 	{
 		m_geomtryModel = geometryModel;
 		m_material = material;
@@ -26,12 +26,12 @@ namespace SimpleGameEngine::Models
 
 
 
-	GeometryModel RenderModel::getGeometryModel() const
+	std::shared_ptr<GeometryModel> RenderModel::getGeometryModel() const
 	{
 		return m_geomtryModel;
 	}
 
-	Material RenderModel::getMaterial() const
+	std::shared_ptr<Material> RenderModel::getMaterial() const
 	{
 		return m_material;
 	}

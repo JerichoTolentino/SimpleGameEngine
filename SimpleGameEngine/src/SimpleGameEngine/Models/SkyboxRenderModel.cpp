@@ -11,7 +11,7 @@ namespace SimpleGameEngine::Models
 	{
 	}
 
-	SkyboxRenderModel::SkyboxRenderModel(SkyboxModel skyboxModel, unsigned int skyboxVaoId, unsigned int textureId)
+	SkyboxRenderModel::SkyboxRenderModel(const std::shared_ptr<SkyboxModel> skyboxModel, unsigned int skyboxVaoId, unsigned int textureId)
 	{
 		m_skyboxModel = skyboxModel;
 		m_skyboxVaoId = skyboxVaoId;
@@ -25,7 +25,7 @@ namespace SimpleGameEngine::Models
 
 
 
-	SkyboxModel SkyboxRenderModel::getSkyboxModel() const
+	std::shared_ptr<SkyboxModel> SkyboxRenderModel::getSkyboxModel() const
 	{
 		return m_skyboxModel;
 	}

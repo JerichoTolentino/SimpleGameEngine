@@ -1,6 +1,7 @@
 #include "WavefrontObjParser.h"
 #include <fstream>
 #include <vector>
+#include <memory>
 #include "../IO/FileUtils.h"
 #include "../Utility/StringUtil.h"
 #include "ParseException.h"
@@ -21,20 +22,20 @@ namespace SimpleGameEngine::Parsers
 
 
 
-	Models::GeometryModel WavefrontObjParser::parseFile(std::string filepath)
+	Models::GeometryModel WavefrontObjParser::parseFile(const std::string & filepath)
 	{
 		// Source sets of elements
-		std::vector<Vec3> vertices;
+		auto vertices = std::make_shared<std::vector<Vec3>>();
 		std::vector<Vec2> textureUvs;
 		std::vector<Vec3> normals;
 
 		// Final aligned collections of elements
 		// Note: They are aligned to the vertices collection - that one doesn't need to change
-		std::vector<Vec2> alignedTextureUvs;
-		std::vector<Vec3> alignedNormals;
+		auto alignedTextureUvs = std::make_shared<std::vector<Vec2>>();
+		auto alignedNormals = std::make_shared<std::vector<Vec3>>();
 
 		// Vertex indices to render with an index array
-		std::vector<unsigned int> indices;
+		auto indices = std::make_shared<std::vector<unsigned int>>();
 
 		bool finalArraysInitialized = false;
 
@@ -53,7 +54,7 @@ namespace SimpleGameEngine::Parsers
 				float x = (float) atof(tokens.at(1).c_str());
 				float y = (float) atof(tokens.at(2).c_str());
 				float z = (float) atof(tokens.at(3).c_str());
-				vertices.push_back(Vec3(x, y, z));
+				vertices->push_back(Vec3(x, y, z));
 			}
 			else if (tokens.at(0) == TEXTURE_UV_LINE)
 			{
@@ -86,8 +87,8 @@ namespace SimpleGameEngine::Parsers
 				if (!finalArraysInitialized)
 				{
 					// Resize aligned vectors to match the number of vertices
-					alignedTextureUvs.resize(vertices.size());
-					alignedNormals.resize(vertices.size());
+					alignedTextureUvs->resize(vertices->size());
+					alignedNormals->resize(vertices->size());
 
 					finalArraysInitialized = true;
 				}
@@ -112,11 +113,11 @@ namespace SimpleGameEngine::Parsers
 					int normalIndex = atoi(faceElements.at(2).c_str()) - 1;
 
 					// Align elements with vertices
-					alignedTextureUvs.at(vertexIndex) = textureUvs.at(uvIndex);
-					alignedNormals.at(vertexIndex) = normals.at(normalIndex);
+					alignedTextureUvs->at(vertexIndex) = textureUvs.at(uvIndex);
+					alignedNormals->at(vertexIndex) = normals.at(normalIndex);
 
 					// Build index array
-					indices.push_back(vertexIndex);
+					indices->push_back(vertexIndex);
 				}
 			}
 			else if (tokens.at(0) == PARAM_SPACE_VERTEX_LINE || tokens.at(0) == LINE_ELEMENT_LINE)
@@ -124,7 +125,7 @@ namespace SimpleGameEngine::Parsers
 		}
 
 		SGE_CORE_TRACE("Parsed wavefront obj file {0} with {1} vertices, {2} texture uvs, {3} normals, and {4} indices",
-			filepath, vertices.size(), alignedTextureUvs.size(), alignedNormals.size(), indices.size());
+			filepath, vertices->size(), alignedTextureUvs->size(), alignedNormals->size(), indices->size());
 
 		return Models::GeometryModel(vertices, alignedTextureUvs, alignedNormals, indices);
 	}

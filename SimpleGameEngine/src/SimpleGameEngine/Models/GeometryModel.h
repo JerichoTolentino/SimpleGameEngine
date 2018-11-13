@@ -1,5 +1,6 @@
 #pragma once
 #include <vector>
+#include <memory>
 #include "../Math/Vec2.h"
 #include "../Math/Vec3.h"
 #include "../Utility/AutoGenId.h"
@@ -9,25 +10,29 @@ namespace SimpleGameEngine::Models
 	class GeometryModel : public Utility::AutoGenId
 	{
 	private:
-		std::vector<Math::Vec3> m_vertices;
-		std::vector<Math::Vec2> m_textureUvs;
-		std::vector<Math::Vec3> m_normals;
-		std::vector<unsigned int> m_indices;
+		std::shared_ptr<std::vector<Math::Vec3>> m_vertices;
+		std::shared_ptr<std::vector<Math::Vec2>> m_textureUvs;
+		std::shared_ptr<std::vector<Math::Vec3>> m_normals;
+		std::shared_ptr<std::vector<unsigned int>> m_indices;
 
 
 
 	public:
 		GeometryModel();
 		GeometryModel(const GeometryModel &other);
-		GeometryModel(std::vector<Math::Vec3> vertices, std::vector<Math::Vec2> textureUvs, std::vector<Math::Vec3> normals, std::vector<unsigned int> indices);
+		GeometryModel(
+			const std::shared_ptr<std::vector<Math::Vec3>> vertices,
+			const std::shared_ptr<std::vector<Math::Vec2>> textureUvs, 
+			const std::shared_ptr<std::vector<Math::Vec3>> normals, 
+			const std::shared_ptr<std::vector<unsigned int>> indices);
 		virtual ~GeometryModel();
 
 
 
-		std::vector<Math::Vec3> getVertices() const;
-		std::vector<Math::Vec2> getTextureUvs() const;
-		std::vector<Math::Vec3> getNormals() const;
-		std::vector<unsigned int> getIndices() const;
+		std::shared_ptr<std::vector<Math::Vec3>> getVertices() const;
+		std::shared_ptr<std::vector<Math::Vec2>> getTextureUvs() const;
+		std::shared_ptr<std::vector<Math::Vec3>> getNormals() const;
+		std::shared_ptr<std::vector<unsigned int>> getIndices() const;
 
 
 

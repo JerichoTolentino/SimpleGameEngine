@@ -10,7 +10,7 @@ namespace SimpleGameEngine::Models
 	{
 	}
 
-	Entity::Entity(RenderModel renderModel, SpaceModel spaceModel)
+	Entity::Entity(const std::shared_ptr<RenderModel> renderModel, const std::shared_ptr<SpaceModel> spaceModel)
 	{
 		m_renderModel = renderModel;
 		m_spaceModel = spaceModel;
@@ -27,29 +27,29 @@ namespace SimpleGameEngine::Models
 
 
 
-	RenderModel Entity::getRenderModel() const
+	std::shared_ptr<RenderModel> Entity::getRenderModel() const
 	{
 		return m_renderModel;
 	}
 
-	SpaceModel Entity::getSpaceModel() const
+	std::shared_ptr<SpaceModel> Entity::getSpaceModel() const
 	{
 		return m_spaceModel;
 	}
 
 	void Entity::move(Math::Vec3 deltaPos)
 	{
-		ModelTransformer::translate(m_spaceModel, deltaPos);
+		ModelTransformer::translate(*m_spaceModel, deltaPos);
 	}
 
 	void Entity::rotate(Math::Vec3 deltaRot)
 	{
-		ModelTransformer::rotate(m_spaceModel, deltaRot);
+		ModelTransformer::rotate(*m_spaceModel, deltaRot);
 	}
 
 	void Entity::scale(Math::Vec3 deltaScale)
 	{
-		ModelTransformer::scale(m_spaceModel, deltaScale);
+		ModelTransformer::scale(*m_spaceModel, deltaScale);
 	}
 
 

@@ -2,7 +2,7 @@
 
 namespace SimpleGameEngine::Logic
 {
-	bool IntersectionTester::test(Models::BoundingBox a, Models::BoundingBox b)
+	bool IntersectionTester::test(const Models::BoundingBox & a, const Models::BoundingBox & b)
 	{
 		return false;
 	}

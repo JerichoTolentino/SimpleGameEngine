@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include <GL/glew.h>
 #include "GeometryModel.h"
 #include "SpaceModel.h"
@@ -9,8 +10,8 @@ namespace SimpleGameEngine::Models
 	class RenderModel
 	{
 	private:
-		GeometryModel m_geomtryModel;
-		Material m_material;
+		std::shared_ptr<GeometryModel> m_geomtryModel;
+		std::shared_ptr<Material> m_material;
 		GLuint m_textureId;
 		GLuint m_geometryVaoId;
 
@@ -18,14 +19,14 @@ namespace SimpleGameEngine::Models
 
 	public:
 		RenderModel();
-		RenderModel(GeometryModel geometryModel, Material material, GLuint geometryVaoId, GLuint textureId);
+		RenderModel(const std::shared_ptr<GeometryModel> geometryModel, const std::shared_ptr<Material> material, GLuint geometryVaoId, GLuint textureId);
 		RenderModel(const RenderModel & other);
 		virtual ~RenderModel();
 
 
 
-		GeometryModel getGeometryModel() const;
-		Material getMaterial() const;
+		std::shared_ptr<GeometryModel> getGeometryModel() const;
+		std::shared_ptr<Material> getMaterial() const;
 		GLuint getGeometryVaoId() const;
 		GLuint getTextureId() const;
 

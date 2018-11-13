@@ -7,9 +7,15 @@ namespace SimpleGameEngine::Renderers
 {
 	RenderEngine::RenderEngine()
 	{
+		m_entityBatches = std::make_shared<std::map<std::shared_ptr<Models::GeometryModel>, std::vector<std::shared_ptr<Models::Entity>>>>();
+		m_terrainBatches = std::make_shared<std::map<std::shared_ptr<Models::GeometryModel>, std::vector<std::shared_ptr<Models::TerrainRenderModel>>>>();
 	}
 
-	RenderEngine::RenderEngine(EntityRenderer entityRenderer, TerrainRenderer terrainRenderer, SkyboxRenderer skyboxRenderer)
+	RenderEngine::RenderEngine(
+		const std::shared_ptr<EntityRenderer> entityRenderer, 
+		const std::shared_ptr<TerrainRenderer> terrainRenderer, 
+		const std::shared_ptr<SkyboxRenderer> skyboxRenderer)
+		: RenderEngine()
 	{
 		m_entityRenderer = entityRenderer;
 		m_terrainRenderer = terrainRenderer;
@@ -27,17 +33,7 @@ namespace SimpleGameEngine::Renderers
 
 
 
-	std::map<Models::GeometryModel, std::vector<Models::Entity>> RenderEngine::getEntityBatches() const
-	{
-		return m_entityBatches;
-	}
-
-	std::map<Models::GeometryModel, std::vector<Models::TerrainRenderModel>> RenderEngine::getTerrainBatches() const
-	{
-		return m_terrainBatches;
-	}
-
-	Models::SkyboxRenderModel RenderEngine::getSkybox() const
+	std::shared_ptr<Models::SkyboxRenderModel> RenderEngine::getSkybox() const
 	{
 		return m_skybox;
 	}
@@ -47,59 +43,59 @@ namespace SimpleGameEngine::Renderers
 		return m_camera;
 	}
 
-	Math::Vec3 RenderEngine::getLightPosition() const
+	std::shared_ptr<Math::Vec3> RenderEngine::getLightPosition() const
 	{
 		return m_lightPosition;
 	}
-	EntityRenderer RenderEngine::getEntityRenderer() const
+	std::shared_ptr<EntityRenderer> RenderEngine::getEntityRenderer() const
 	{
 		return m_entityRenderer;
 	}
 
-	TerrainRenderer RenderEngine::getTerrainRenderer() const
+	std::shared_ptr<TerrainRenderer> RenderEngine::getTerrainRenderer() const
 	{
 		return m_terrainRenderer;
 	}
 
-	SkyboxRenderer RenderEngine::getSkyboxRenderer() const
+	std::shared_ptr<SkyboxRenderer> RenderEngine::getSkyboxRenderer() const
 	{
 		return m_skyboxRenderer;
 	}
 
 
 
-	void RenderEngine::loadProjectionMatrix(Math::Mat4 proj)
+	void RenderEngine::loadProjectionMatrix(const Math::Mat4 & proj)
 	{
-		m_entityRenderer.loadProjectionMatrix(proj);
-		m_terrainRenderer.loadProjectionMatrix(proj);
-		m_skyboxRenderer.loadProjectionMatrix(proj);
+		m_entityRenderer->loadProjectionMatrix(proj);
+		m_terrainRenderer->loadProjectionMatrix(proj);
+		m_skyboxRenderer->loadProjectionMatrix(proj);
 
 		SGE_CORE_TRACE("Loaded projection matrix into RenderEngine:\n{0}", proj.toString());
 	}
 
-	void RenderEngine::loadEntity(Models::Entity entity)
+	void RenderEngine::loadEntity(const std::shared_ptr<Models::Entity> entity)
 	{
-		GeometryModel model = entity.getRenderModel().getGeometryModel();
-		bool modelAlreadyLoaded = m_entityBatches.count(model);
+		auto model = entity->getRenderModel()->getGeometryModel();
+		bool modelAlreadyLoaded = m_entityBatches->count(model);
 		
 		if (!modelAlreadyLoaded)
-			m_entityBatches.insert(std::pair<GeometryModel, std::vector<Entity>>(model, std::vector<Entity>()));
+			m_entityBatches->insert(std::pair<std::shared_ptr<GeometryModel>, std::vector<std::shared_ptr<Entity>>>(model, std::vector<std::shared_ptr<Entity>>()));
 
-		m_entityBatches[model].push_back(entity);
+		m_entityBatches->at(model).push_back(entity);
 	}
 
-	void RenderEngine::loadTerrain(Models::TerrainRenderModel terrain)
+	void RenderEngine::loadTerrain(const std::shared_ptr<Models::TerrainRenderModel> terrain)
 	{
-		GeometryModel model = terrain.getTerrainModel().getGeometryModel();
-		bool modelAlreadyLoaded = m_terrainBatches.count(model);
+		auto model = terrain->getTerrainModel()->getGeometryModel();
+		bool modelAlreadyLoaded = m_terrainBatches->count(model);
 
 		if (!modelAlreadyLoaded)
-			m_terrainBatches.insert(std::pair<GeometryModel, std::vector<TerrainRenderModel>>(model, std::vector<TerrainRenderModel>()));
+			m_terrainBatches->insert(std::pair<std::shared_ptr<GeometryModel>, std::vector<std::shared_ptr<TerrainRenderModel>>>(model, std::vector<std::shared_ptr<TerrainRenderModel>>()));
 
-		m_terrainBatches[model].push_back(terrain);
+		m_terrainBatches->at(model).push_back(terrain);
 	}
 
-	void RenderEngine::loadSkybox(Models::SkyboxRenderModel skybox)
+	void RenderEngine::loadSkybox(const std::shared_ptr<Models::SkyboxRenderModel> skybox)
 	{
 		m_skybox = skybox;
 	}
@@ -109,7 +105,7 @@ namespace SimpleGameEngine::Renderers
 		m_camera = camera;
 	}
 
-	void RenderEngine::loadLight(Math::Vec3 lightPosition)
+	void RenderEngine::loadLight(const std::shared_ptr<Math::Vec3> lightPosition)
 	{
 		m_lightPosition = lightPosition;
 	}
@@ -117,42 +113,42 @@ namespace SimpleGameEngine::Renderers
 	void RenderEngine::render() const
 	{
 		// Render terrain
-		for (auto batchIter = m_terrainBatches.begin(); batchIter != m_terrainBatches.end(); batchIter++)
+		for (auto batchIter = m_terrainBatches->begin(); batchIter != m_terrainBatches->end(); batchIter++)
 		{
 			auto renderModels = batchIter->second;
 			for (auto modelIter = renderModels.begin(); modelIter != renderModels.end(); modelIter++)
 			{
-				TerrainRenderModel renderModel = *modelIter;
+				auto renderModel = *modelIter;
 
-				m_terrainRenderer.loadCamera(m_camera);
-				m_terrainRenderer.loadLight(m_lightPosition);
-				m_terrainRenderer.loadTerrain(renderModel);
-				m_terrainRenderer.render(renderModel);
-				m_terrainRenderer.unloadTerrain();
+				m_terrainRenderer->loadCamera(*m_camera);
+				m_terrainRenderer->loadLight(*m_lightPosition);
+				m_terrainRenderer->loadTerrain(*renderModel);
+				m_terrainRenderer->render(*renderModel);
+				m_terrainRenderer->unloadTerrain();
 			}
 		}
 
 		// Render entities
-		for (auto batchIter = m_entityBatches.begin(); batchIter != m_entityBatches.end(); batchIter++)
+		for (auto batchIter = m_entityBatches->begin(); batchIter != m_entityBatches->end(); batchIter++)
 		{
 			auto renderModels = batchIter->second;
 			for (auto modelIter = renderModels.begin(); modelIter != renderModels.end(); modelIter++)
 			{
-				Entity entity = *modelIter;
+				auto entity = *modelIter;
 
-				m_entityRenderer.loadCamera(m_camera);
-				m_entityRenderer.loadLight(m_lightPosition);
-				m_entityRenderer.loadEntity(entity);
-				m_entityRenderer.render(entity);
-				m_entityRenderer.unloadEntity();
+				m_entityRenderer->loadCamera(*m_camera);
+				m_entityRenderer->loadLight(*m_lightPosition);
+				m_entityRenderer->loadEntity(*entity);
+				m_entityRenderer->render(*entity);
+				m_entityRenderer->unloadEntity();
 			}
 		}
 
 		// Render skybox
-		m_skyboxRenderer.loadCamera(m_camera);
-		m_skyboxRenderer.loadSkybox(m_skybox);
-		m_skyboxRenderer.render(m_skybox);
-		m_skyboxRenderer.unloadSkybox();
+		m_skyboxRenderer->loadCamera(*m_camera);
+		m_skyboxRenderer->loadSkybox(*m_skybox);
+		m_skyboxRenderer->render(*m_skybox);
+		m_skyboxRenderer->unloadSkybox();
 
 	}
 

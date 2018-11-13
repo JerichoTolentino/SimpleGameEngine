@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "RenderModel.h"
 
 namespace SimpleGameEngine::Models
@@ -6,21 +7,21 @@ namespace SimpleGameEngine::Models
 	class Entity
 	{
 	private:
-		RenderModel m_renderModel;
-		SpaceModel m_spaceModel;
+		std::shared_ptr<RenderModel> m_renderModel;
+		std::shared_ptr<SpaceModel> m_spaceModel;
 		
 
 
 	public:
 		Entity();
-		Entity(RenderModel renderModel, SpaceModel spaceModel);
+		Entity(const std::shared_ptr<RenderModel> renderModel, const std::shared_ptr<SpaceModel> spaceModel);
 		Entity(const Entity &other);
 		virtual ~Entity();
 
 
 
-		RenderModel getRenderModel() const;
-		SpaceModel getSpaceModel() const;
+		std::shared_ptr<RenderModel> getRenderModel() const;
+		std::shared_ptr<SpaceModel> getSpaceModel() const;
 
 		void move(Math::Vec3 deltaPos);
 		void rotate(Math::Vec3 deltaRot);

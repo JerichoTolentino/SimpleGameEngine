@@ -21,7 +21,7 @@ namespace SimpleGameEngine::Parsers
 
 
 
-	Models::Material MaterialLibraryParser::parseFile(std::string filepath)
+	Models::Material MaterialLibraryParser::parseFile(const std::string & filepath)
 	{
 		float emissive;
 		float ambient;
@@ -110,7 +110,7 @@ namespace SimpleGameEngine::Parsers
 		SGE_CORE_TRACE("Parsed material file {0} with opacity {1}, ambient {2}, emissive {3}, diffuse {4}, specular {5}, specular highlight {6}, refractive index {7}",
 			filepath, opacity, ambient, emissive, diffuse, specular, specularHighlight, refractiveIndex);
 
-		LightingModel lightingModel(0.0f, opacity, ambient, emissive, diffuse, specular, specularHighlight, refractiveIndex);
+		auto lightingModel = std::make_shared<LightingModel>(LightingModel(0.0f, opacity, ambient, emissive, diffuse, specular, specularHighlight, refractiveIndex));
 		return Material(lightingModel);
 	}
 }

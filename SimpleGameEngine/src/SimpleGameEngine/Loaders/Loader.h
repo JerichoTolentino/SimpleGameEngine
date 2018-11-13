@@ -3,6 +3,7 @@
 #include <SOIL.h>
 #include <string>
 #include <vector>
+#include <memory>
 
 #include "../Models/Material.h"
 #include "../Models/GeometryModel.h"
@@ -17,10 +18,16 @@ namespace SimpleGameEngine::Loaders
 	{
 	public:
 
-		static GLuint loadSkybox(Models::SkyboxModel skybox);
-		static GLuint loadGeometryModel(Models::GeometryModel model);
-		static GLuint loadTexture(std::string filepath);
-		static GLuint loadCubemapTexture(std::string right, std::string left, std::string up, std::string down, std::string back, std::string front);
+		static GLuint loadSkybox(const Models::SkyboxModel & skybox);
+		static GLuint loadGeometryModel(const Models::GeometryModel & model);
+		static GLuint loadTexture(const std::string & filepath);
+		static GLuint loadCubemapTexture(
+			const std::string & right, 
+			const std::string & left, 
+			const std::string & up, 
+			const std::string & down, 
+			const std::string & back, 
+			const std::string & front);
 
 		/// <summary>
 		/// Loads an image as a height map.
@@ -28,7 +35,7 @@ namespace SimpleGameEngine::Loaders
 		/// <param name="filepath"></param>
 		/// <param name="maxHeight"></param>
 		/// <returns></returns>
-		static Models::HeightMap loadHeightMap(std::string filepath, int maxHeight);
+		static Models::HeightMap loadHeightMap(const std::string & filepath, int maxHeight);
 
 		/// <summary>
 		/// Loads a series of textures as a <see cref="TexturePack"/>.
@@ -39,6 +46,11 @@ namespace SimpleGameEngine::Loaders
 		/// <param name="backgroundTexture"></param>
 		/// <param name="blendMap"></param>
 		/// <returns></returns>
-		static Models::TexturePack loadTexturePack(std::string redTextureFile, std::string greenTextureFile, std::string blueTextureFile, std::string backgroundTextureFile, std::string blendMapFile);
+		static Models::TexturePack loadTexturePack(
+			const std::string & redTextureFile, 
+			const std::string & greenTextureFile, 
+			const std::string & blueTextureFile, 
+			const std::string & backgroundTextureFile, 
+			const std::string & blendMapFile);
 	};
 }

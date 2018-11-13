@@ -13,6 +13,6 @@ namespace SimpleGameEngine::Logic
 		/// <param name="a"></param>
 		/// <param name="b"></param>
 		/// <returns></returns>
-		bool test(Models::BoundingBox a, Models::BoundingBox b);
+		bool test(const Models::BoundingBox & a, const Models::BoundingBox & b);
 	};
 }

@@ -14,7 +14,7 @@ namespace SimpleGameEngine::Renderers
 	{
 	}
 
-	TerrainRenderer::TerrainRenderer(Shaders::Shader shader)
+	TerrainRenderer::TerrainRenderer(const std::shared_ptr<Shaders::Shader> shader)
 	{
 		m_shader = shader;
 	}
@@ -30,63 +30,61 @@ namespace SimpleGameEngine::Renderers
 
 
 
-	void TerrainRenderer::loadTerrain(Models::TerrainRenderModel terrain) const
+	void TerrainRenderer::loadTerrain(const Models::TerrainRenderModel & terrain) const
 	{
-		TerrainModel model = terrain.getTerrainModel();
-
 		// Bind terrain VAO
 		glBindVertexArray(terrain.getGeometryVaoId());
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);
 
-		ShaderLoader::startShader(m_shader);
+		ShaderLoader::startShader(*m_shader);
 
 		// Bind texture pack
-		TexturePack texturePack = terrain.getTexturePack();
+		auto texturePack = terrain.getTexturePack();
 
 		// Blend map
 		glActiveTexture(TerrainShaderConstants::BLEND_MAP_TEXTURE_SLOT_OPENGL);
-		glBindTexture(GL_TEXTURE_2D, texturePack.getBlendMapTextureId());
+		glBindTexture(GL_TEXTURE_2D, texturePack->getBlendMapTextureId());
 
 		// Red texture
 		glActiveTexture(TerrainShaderConstants::RED_TEXTURE_SLOT_OPENGL);
-		glBindTexture(GL_TEXTURE_2D, texturePack.getRedTextureId());
+		glBindTexture(GL_TEXTURE_2D, texturePack->getRedTextureId());
 
 		// Green texture
 		glActiveTexture(TerrainShaderConstants::GREEN_TEXTURE_SLOT_OPENGL);
-		glBindTexture(GL_TEXTURE_2D, texturePack.getGreenTextureId());
+		glBindTexture(GL_TEXTURE_2D, texturePack->getGreenTextureId());
 
 		// Blue texture
 		glActiveTexture(TerrainShaderConstants::BLUE_TEXTURE_SLOT_OPENGL);
-		glBindTexture(GL_TEXTURE_2D, texturePack.getBlueTextureId());
+		glBindTexture(GL_TEXTURE_2D, texturePack->getBlueTextureId());
 
 		// Background texture
 		glActiveTexture(TerrainShaderConstants::BACKGROUND_TEXTURE_SLOT_OPENGL);
-		glBindTexture(GL_TEXTURE_2D, texturePack.getBackgroundTextureId());
+		glBindTexture(GL_TEXTURE_2D, texturePack->getBackgroundTextureId());
 
 
 		// Load texture pack uniforms
-		ShaderLoader::loadUniform1f(m_shader, TerrainShaderConstants::FRAG_BLEND_SAMPLER, TerrainShaderConstants::BLEND_MAP_TEXTURE_SLOT);
-		ShaderLoader::loadUniform1f(m_shader, TerrainShaderConstants::FRAG_RED_SAMPLER, TerrainShaderConstants::RED_TEXTURE_SLOT);
-		ShaderLoader::loadUniform1f(m_shader, TerrainShaderConstants::FRAG_GREEN_SAMPLER, TerrainShaderConstants::GREEN_TEXTURE_SLOT);
-		ShaderLoader::loadUniform1f(m_shader, TerrainShaderConstants::FRAG_BLUE_SAMPLER, TerrainShaderConstants::BLUE_TEXTURE_SLOT);
-		ShaderLoader::loadUniform1f(m_shader, TerrainShaderConstants::FRAG_BACKGROUND_SAMPLER, TerrainShaderConstants::BACKGROUND_TEXTURE_SLOT);
+		ShaderLoader::loadUniform1f(*m_shader, TerrainShaderConstants::FRAG_BLEND_SAMPLER, TerrainShaderConstants::BLEND_MAP_TEXTURE_SLOT);
+		ShaderLoader::loadUniform1f(*m_shader, TerrainShaderConstants::FRAG_RED_SAMPLER, TerrainShaderConstants::RED_TEXTURE_SLOT);
+		ShaderLoader::loadUniform1f(*m_shader, TerrainShaderConstants::FRAG_GREEN_SAMPLER, TerrainShaderConstants::GREEN_TEXTURE_SLOT);
+		ShaderLoader::loadUniform1f(*m_shader, TerrainShaderConstants::FRAG_BLUE_SAMPLER, TerrainShaderConstants::BLUE_TEXTURE_SLOT);
+		ShaderLoader::loadUniform1f(*m_shader, TerrainShaderConstants::FRAG_BACKGROUND_SAMPLER, TerrainShaderConstants::BACKGROUND_TEXTURE_SLOT);
 
 		// Load shading uniforms
-		LightingModel lightingModel = terrain.getMaterial().getLightingModel();
-		ShaderLoader::loadUniform1f(m_shader, TerrainShaderConstants::FRAG_AMBIENT, lightingModel.getAmbient());
-		ShaderLoader::loadUniform1f(m_shader, TerrainShaderConstants::FRAG_DIFFUSE, lightingModel.getDiffuse());
-		ShaderLoader::loadUniform1f(m_shader, TerrainShaderConstants::FRAG_OPACITY, lightingModel.getOpacity());
+		auto lightingModel = terrain.getMaterial()->getLightingModel();
+		ShaderLoader::loadUniform1f(*m_shader, TerrainShaderConstants::FRAG_AMBIENT, lightingModel->getAmbient());
+		ShaderLoader::loadUniform1f(*m_shader, TerrainShaderConstants::FRAG_DIFFUSE, lightingModel->getDiffuse());
+		ShaderLoader::loadUniform1f(*m_shader, TerrainShaderConstants::FRAG_OPACITY, lightingModel->getOpacity());
 
-		ShaderLoader::stopShader(m_shader);
+		ShaderLoader::stopShader(*m_shader);
 	}
 
-	void TerrainRenderer::render(Models::TerrainRenderModel terrain) const
+	void TerrainRenderer::render(const Models::TerrainRenderModel & terrain) const
 	{
-		ShaderLoader::startShader(m_shader);
-		glDrawElements(GL_TRIANGLES, terrain.getTerrainModel().getGeometryModel().getIndices().size(), GL_UNSIGNED_INT, 0);
-		ShaderLoader::stopShader(m_shader);
+		ShaderLoader::startShader(*m_shader);
+		glDrawElements(GL_TRIANGLES, terrain.getTerrainModel()->getGeometryModel()->getIndices()->size(), GL_UNSIGNED_INT, 0);
+		ShaderLoader::stopShader(*m_shader);
 	}
 
 	void TerrainRenderer::unloadTerrain() const
@@ -107,25 +105,25 @@ namespace SimpleGameEngine::Renderers
 		glBindVertexArray(0);
 	}
 
-	void TerrainRenderer::loadProjectionMatrix(Math::Mat4 proj) const
+	void TerrainRenderer::loadProjectionMatrix(const Math::Mat4 & proj) const
 	{
-		ShaderLoader::startShader(m_shader);
-		ShaderLoader::loadUniformMat4f(m_shader, TerrainShaderConstants::VERT_PROJECTION_MATRIX, proj);
-		ShaderLoader::stopShader(m_shader);
+		ShaderLoader::startShader(*m_shader);
+		ShaderLoader::loadUniformMat4f(*m_shader, TerrainShaderConstants::VERT_PROJECTION_MATRIX, proj);
+		ShaderLoader::stopShader(*m_shader);
 	}
 
-	void TerrainRenderer::loadCamera(const std::shared_ptr<Cameras::Camera> camera) const
+	void TerrainRenderer::loadCamera(const Cameras::Camera & camera) const
 	{
-		ShaderLoader::startShader(m_shader);
-		ShaderLoader::loadUniformMat4f(m_shader, TerrainShaderConstants::VERT_VIEW_MATRIX, camera->generateViewMatrix());
-		ShaderLoader::stopShader(m_shader);
+		ShaderLoader::startShader(*m_shader);
+		ShaderLoader::loadUniformMat4f(*m_shader, TerrainShaderConstants::VERT_VIEW_MATRIX, camera.generateViewMatrix());
+		ShaderLoader::stopShader(*m_shader);
 	}
 
-	void TerrainRenderer::loadLight(Math::Vec3 light) const
+	void TerrainRenderer::loadLight(const Math::Vec3 & light) const
 	{
-		ShaderLoader::startShader(m_shader);
-		ShaderLoader::loadUniformVec3f(m_shader, TerrainShaderConstants::VERT_LIGHT_POSITION, light);
-		ShaderLoader::stopShader(m_shader);
+		ShaderLoader::startShader(*m_shader);
+		ShaderLoader::loadUniformVec3f(*m_shader, TerrainShaderConstants::VERT_LIGHT_POSITION, light);
+		ShaderLoader::stopShader(*m_shader);
 	}
 
 

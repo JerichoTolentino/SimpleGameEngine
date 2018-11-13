@@ -10,7 +10,7 @@ namespace SimpleGameEngine::Models
 	{
 	}
 
-	TerrainModel::TerrainModel(GeometryModel geometryModel, HeightMap heightMap, int tileSize, int rowCount, int columnCount)
+	TerrainModel::TerrainModel(const std::shared_ptr<GeometryModel> geometryModel, const std::shared_ptr<HeightMap> heightMap, int tileSize, int rowCount, int columnCount)
 	{
 		m_geometryModel = geometryModel;
 		m_heightMap = heightMap;
@@ -30,12 +30,12 @@ namespace SimpleGameEngine::Models
 
 
 
-	GeometryModel TerrainModel::getGeometryModel() const
+	std::shared_ptr<GeometryModel> TerrainModel::getGeometryModel() const
 	{
 		return m_geometryModel;
 	}
 
-	HeightMap TerrainModel::getHeightMap() const
+	std::shared_ptr<HeightMap> TerrainModel::getHeightMap() const
 	{
 		return m_heightMap;
 	}
@@ -68,16 +68,16 @@ namespace SimpleGameEngine::Models
 
 
 	// TODO: Test that this actually works (kinda blindly refactored)
-	TerrainModel TerrainModel::GenerateTerrainModel(int tileSize, int rowCount, int columnCount, HeightMap heightMap)
+	TerrainModel TerrainModel::GenerateTerrainModel(int tileSize, int rowCount, int columnCount, const std::shared_ptr<HeightMap> heightMap)
 	{
 		float fRows = rowCount;
 		float fCols = columnCount;
 		float rowEdge = (float) (rowCount * tileSize);	// Used when calculating z-coordinate for winding (since -z is forwards)
 
-		std::vector<Vec3> vertices;
-		std::vector<Vec3> normals; // TODO: These normals are all set to point Y-up for now
-		std::vector<Vec2> textureUvs;
-		std::vector<unsigned int> indices;
+		auto vertices = std::make_shared<std::vector<Vec3>>();
+		auto normals = std::make_shared<std::vector<Vec3>>(); // TODO: These normals are all set to point Y-up for now
+		auto textureUvs = std::make_shared<std::vector<Vec2>>();
+		auto indices = std::make_shared<std::vector<unsigned int>>();
 
 		for (int row = 0; row < rowCount; row++)
 		{
@@ -91,26 +91,26 @@ namespace SimpleGameEngine::Models
 				// Bottom left
 				x = (float) (col * tileSize);
 				z = (float) (rowEdge - row * tileSize);
-				y = (float) (heightMap.findHeightAt(x, z));
-				vertices.push_back(Vec3(x, y, z));
+				y = (float) (heightMap->findHeightAt(x, z));
+				vertices->push_back(Vec3(x, y, z));
 
 				// Bottom right
 				x = (float) ((col + 1) * tileSize);
 				z = (float) (rowEdge - row * tileSize);
-				y = (float) (heightMap.findHeightAt(x, z));
-				vertices.push_back(Vec3(x, y, z));
+				y = (float) (heightMap->findHeightAt(x, z));
+				vertices->push_back(Vec3(x, y, z));
 
 				// Top left
 				x = (float) (col * tileSize);
 				z = (float) (rowEdge - (row + 1) * tileSize);
-				y = (float) (heightMap.findHeightAt(x, z));
-				vertices.push_back(Vec3(x, y, z));
+				y = (float) (heightMap->findHeightAt(x, z));
+				vertices->push_back(Vec3(x, y, z));
 
 				// Top right
 				x = (float) ((col + 1) * tileSize);
 				z = (float) (rowEdge - (row + 1) * tileSize);
-				y = (float) (heightMap.findHeightAt(x, z));
-				vertices.push_back(Vec3(x, y, z));
+				y = (float) (heightMap->findHeightAt(x, z));
+				vertices->push_back(Vec3(x, y, z));
 
 				//calculate 4 normals
 				x = 0;
@@ -118,54 +118,54 @@ namespace SimpleGameEngine::Models
 				z = 0;
 
 				// Bottom left
-				normals.push_back(Vec3(x, y, z));
+				normals->push_back(Vec3(x, y, z));
 
 				//bot right
-				normals.push_back(Vec3(x, y, z));
+				normals->push_back(Vec3(x, y, z));
 
 				//top left
-				normals.push_back(Vec3(x, y, z));
+				normals->push_back(Vec3(x, y, z));
 
 				//top right
-				normals.push_back(Vec3(x, y, z));
+				normals->push_back(Vec3(x, y, z));
 
 				//calculate 4 texture coords
 
 				//bot left
 				u = col / fCols;
 				v = row / fRows;
-				textureUvs.push_back(Vec2(u, v));
+				textureUvs->push_back(Vec2(u, v));
 
 				//bot right
 				u = (col + 1) / fCols;
 				v = row / fRows;
-				textureUvs.push_back(Vec2(u, v));
+				textureUvs->push_back(Vec2(u, v));
 
 				//top left
 				u = col / fCols;
 				v = (row + 1) / fRows;
-				textureUvs.push_back(Vec2(u, v));
+				textureUvs->push_back(Vec2(u, v));
 
 				//top right
 				u = (col + 1) / fCols;
 				v = (row + 1) / fRows;
-				textureUvs.push_back(Vec2(u, v));
+				textureUvs->push_back(Vec2(u, v));
 
 				//calculate indices
 				int indexOffset = col * 6 + row * 6 * columnCount;
 
 				//bot left triangle
-				indices.push_back(tileOffset + 2);
-				indices.push_back(tileOffset);
-				indices.push_back(tileOffset + 1);
+				indices->push_back(tileOffset + 2);
+				indices->push_back(tileOffset);
+				indices->push_back(tileOffset + 1);
 
 				//top right triangle
-				indices.push_back(tileOffset + 1);
-				indices.push_back(tileOffset + 3);
-				indices.push_back(tileOffset + 2);
+				indices->push_back(tileOffset + 1);
+				indices->push_back(tileOffset + 3);
+				indices->push_back(tileOffset + 2);
 			}
 		}
 
-		return TerrainModel(GeometryModel(vertices, textureUvs, normals, indices), heightMap, tileSize, rowCount, columnCount);
+		return TerrainModel(std::make_shared<GeometryModel>(GeometryModel(vertices, textureUvs, normals, indices)), heightMap, tileSize, rowCount, columnCount);
 	}
 }

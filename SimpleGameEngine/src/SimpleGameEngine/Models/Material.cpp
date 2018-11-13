@@ -7,7 +7,7 @@ namespace SimpleGameEngine::Models
 	{
 	}
 
-	Material::Material(LightingModel lightingModel)
+	Material::Material(const std::shared_ptr<LightingModel> lightingModel)
 	{
 		m_lightingModel = lightingModel;
 	}
@@ -23,12 +23,12 @@ namespace SimpleGameEngine::Models
 
 
 
-	LightingModel Material::getLightingModel() const
+	std::shared_ptr<LightingModel> Material::getLightingModel() const
 	{
 		return m_lightingModel;
 	}
 
-	void Material::setLightingModel(LightingModel lightingModel)
+	void Material::setLightingModel(const std::shared_ptr<LightingModel> lightingModel)
 	{
 		m_lightingModel = lightingModel;
 	}

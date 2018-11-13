@@ -10,22 +10,22 @@ namespace SimpleGameEngine::Renderers
 	class EntityRenderer
 	{
 	private:
-		Shaders::Shader m_shader;
+		std::shared_ptr<Shaders::Shader> m_shader;
 
 
 
 	public:
 		EntityRenderer();
-		EntityRenderer(Shaders::Shader m_shader);
+		EntityRenderer(const std::shared_ptr<Shaders::Shader> m_shader);
 		EntityRenderer(const EntityRenderer & other);
 		~EntityRenderer();
 
-		void loadCamera(const std::shared_ptr<Cameras::Camera> camera) const;
-		void loadLight(Math::Vec3 light) const;
-		void loadProjectionMatrix(Math::Mat4 proj) const;
-		void loadEntity(Models::Entity entity) const;
-		void loadEntity(Models::Entity entity, GLuint reflectionMapTextureId) const;
-		void render(Models::Entity entity) const;
+		void loadCamera(const Cameras::Camera & camera) const;
+		void loadLight(const Math::Vec3 & light) const;
+		void loadProjectionMatrix(const Math::Mat4 & proj) const;
+		void loadEntity(const Models::Entity & entity) const;
+		void loadEntity(const Models::Entity & entity, GLuint reflectionMapTextureId) const;
+		void render(const Models::Entity & entity) const;
 		void unloadEntity() const;
 
 

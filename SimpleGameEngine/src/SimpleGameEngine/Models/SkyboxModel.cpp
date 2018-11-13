@@ -13,7 +13,10 @@ namespace SimpleGameEngine::Models
 	{
 	}
 
-	SkyboxModel::SkyboxModel(std::vector<Math::Vec3> vertices, std::vector<Math::Vec3> textureUvs, std::vector<unsigned int> indices)
+	SkyboxModel::SkyboxModel(
+		const std::shared_ptr<std::vector<Math::Vec3>> vertices, 
+		const std::shared_ptr<std::vector<Math::Vec3>> textureUvs, 
+		const std::shared_ptr<std::vector<unsigned int>> indices)
 	{
 		m_vertices = vertices;
 		m_textureUvs = textureUvs;
@@ -27,17 +30,17 @@ namespace SimpleGameEngine::Models
 
 
 
-	std::vector<Math::Vec3> SkyboxModel::getVertices() const
+	std::shared_ptr<std::vector<Math::Vec3>> SkyboxModel::getVertices() const
 	{
 		return m_vertices;
 	}
 
-	std::vector<Math::Vec3> SkyboxModel::getTextureUvs() const
+	std::shared_ptr<std::vector<Math::Vec3>> SkyboxModel::getTextureUvs() const
 	{
 		return m_textureUvs;
 	}
 
-	std::vector<unsigned int> SkyboxModel::getIndices() const
+	std::shared_ptr<std::vector<unsigned int>> SkyboxModel::getIndices() const
 	{
 		return m_indices;
 	}
@@ -175,13 +178,13 @@ namespace SimpleGameEngine::Models
 		};
 
 		// Assign arrays to vectors
-		std::vector<Vec3> verts;
-		std::vector<Vec3> texts;
-		std::vector<unsigned int> inds;
+		auto verts = std::make_shared<std::vector<Vec3>>();
+		auto texts = std::make_shared<std::vector<Vec3>>();
+		auto inds = std::make_shared<std::vector<unsigned int>>();
 
-		verts.assign(vertices, vertices + numVertices);
-		texts.assign(textures, textures + numVertices);
-		inds.assign(indices, indices + numIndices);
+		verts->assign(vertices, vertices + numVertices);
+		texts->assign(textures, textures + numVertices);
+		inds->assign(indices, indices + numIndices);
 
 		return SkyboxModel(verts, texts, inds);
 	}

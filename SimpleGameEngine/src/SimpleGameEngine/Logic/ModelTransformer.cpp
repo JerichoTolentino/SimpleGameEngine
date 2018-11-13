@@ -5,7 +5,7 @@ using namespace SimpleGameEngine::Models;
 
 namespace SimpleGameEngine::Logic
 {
-	void ModelTransformer::translate(SpaceModel & spaceModel, Math::Vec3 translation)
+	void ModelTransformer::translate(SpaceModel & spaceModel, const Math::Vec3 & translation)
 	{
 		Vec3 pos = spaceModel.getPosition();
 		pos += translation;
@@ -13,7 +13,7 @@ namespace SimpleGameEngine::Logic
 		spaceModel.setPosition(pos);
 	}
 
-	void ModelTransformer::rotate(SpaceModel & spaceModel, Math::Vec3 rotation)
+	void ModelTransformer::rotate(SpaceModel & spaceModel, const Math::Vec3 & rotation)
 	{
 		Vec3 rot = spaceModel.getRotation();
 		rot += rotation;
@@ -21,7 +21,7 @@ namespace SimpleGameEngine::Logic
 		spaceModel.setRotation(rot);
 	}
 
-	void ModelTransformer::scale(SpaceModel & spaceModel, Math::Vec3 scaling)
+	void ModelTransformer::scale(SpaceModel & spaceModel, const Math::Vec3 & scaling)
 	{
 		Vec3 scale = spaceModel.getScale();
 		scale *= scaling;
@@ -29,7 +29,7 @@ namespace SimpleGameEngine::Logic
 		spaceModel.setScale(scale);
 	}
 
-	void ModelTransformer::transform(SpaceModel & spaceModel, Math::Vec3 translation, Math::Vec3 rotation, Math::Vec3 scaling)
+	void ModelTransformer::transform(SpaceModel & spaceModel, const Math::Vec3 & translation, const Math::Vec3 & rotation, const Math::Vec3 & scaling)
 	{
 		scale(spaceModel, scaling);
 		rotate(spaceModel, rotation);

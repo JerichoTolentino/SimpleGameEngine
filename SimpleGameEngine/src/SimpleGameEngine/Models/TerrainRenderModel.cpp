@@ -6,7 +6,12 @@ namespace SimpleGameEngine::Models
 	{
 	}
 
-	TerrainRenderModel::TerrainRenderModel(TerrainModel terrainModel, Material material, SpaceModel spaceModel, TexturePack texturePack, GLuint geometryVaoId)
+	TerrainRenderModel::TerrainRenderModel(
+		const std::shared_ptr<TerrainModel> terrainModel, 
+		const std::shared_ptr<Material> material, 
+		const std::shared_ptr<SpaceModel> spaceModel, 
+		const std::shared_ptr<TexturePack> texturePack, 
+		GLuint geometryVaoId)
 	{
 		m_terrainModel = terrainModel;
 		m_material = material;
@@ -26,22 +31,22 @@ namespace SimpleGameEngine::Models
 
 
 
-	TerrainModel TerrainRenderModel::getTerrainModel() const
+	std::shared_ptr<TerrainModel> TerrainRenderModel::getTerrainModel() const
 	{
 		return m_terrainModel;
 	}
 
-	Material TerrainRenderModel::getMaterial() const
+	std::shared_ptr<Material> TerrainRenderModel::getMaterial() const
 	{
 		return m_material;
 	}
 
-	SpaceModel TerrainRenderModel::getSpaceModel() const
+	std::shared_ptr<SpaceModel> TerrainRenderModel::getSpaceModel() const
 	{
 		return m_spaceModel;
 	}
 
-	TexturePack TerrainRenderModel::getTexturePack() const
+	std::shared_ptr<TexturePack> TerrainRenderModel::getTexturePack() const
 	{
 		return m_texturePack;
 	}

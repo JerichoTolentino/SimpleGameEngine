@@ -10,7 +10,7 @@ namespace SimpleGameEngine::Models
 	{
 	}
 
-	HeightMap::HeightMap(std::vector<unsigned char> pixels, int width, int height, int channels, int maxHeight)
+	HeightMap::HeightMap(const std::shared_ptr<std::vector<unsigned char>> pixels, int width, int height, int channels, int maxHeight)
 	{
 		m_pixels = pixels;
 		m_width = width;
@@ -30,7 +30,7 @@ namespace SimpleGameEngine::Models
 
 
 
-	std::vector<unsigned char> HeightMap::getPixels() const
+	std::shared_ptr<std::vector<unsigned char>> HeightMap::getPixels() const
 	{
 		return m_pixels;
 	}
@@ -64,7 +64,7 @@ namespace SimpleGameEngine::Models
 			throw std::out_of_range("Location does not exist in height map: (" + std::to_string(x) + ", " + std::to_string(y) + ")");
 
 		// Get the R value (RGB values are all the same since it's a gray scale image)
-		float height = (float) m_pixels[x * m_channels + y * m_channels * m_width];
+		float height = (float) (*m_pixels)[x * m_channels + y * m_channels * m_width];
 
 		// Normalize to max height
 		height -= MAX_COLOR / 2.0;	//-127.5 <= height <= 127.5

@@ -1,4 +1,5 @@
 #pragma once
+#include <memory>
 #include "SkyboxModel.h"
 
 namespace SimpleGameEngine::Models
@@ -6,7 +7,7 @@ namespace SimpleGameEngine::Models
 	class SkyboxRenderModel
 	{
 	private:
-		SkyboxModel m_skyboxModel;
+		std::shared_ptr<SkyboxModel> m_skyboxModel;
 		unsigned int m_skyboxVaoId;
 		unsigned int m_textureId;
 
@@ -15,12 +16,12 @@ namespace SimpleGameEngine::Models
 	public:
 		SkyboxRenderModel();
 		SkyboxRenderModel(const SkyboxRenderModel & other);
-		SkyboxRenderModel(SkyboxModel skyboxModel, unsigned int skyboxVaoId, unsigned int textureId);
+		SkyboxRenderModel(const std::shared_ptr<SkyboxModel> skyboxModel, unsigned int skyboxVaoId, unsigned int textureId);
 		virtual ~SkyboxRenderModel();
 
 
 
-		SkyboxModel getSkyboxModel() const;
+		std::shared_ptr<SkyboxModel> getSkyboxModel() const;
 		unsigned int getSkyboxVaoId() const;
 		unsigned int getTextureId() const;
 

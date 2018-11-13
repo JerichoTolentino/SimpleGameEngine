@@ -7,9 +7,9 @@ namespace SimpleGameEngine::Logic
 	class ModelTransformer
 	{
 	public:
-		static void translate(Models::SpaceModel & spaceModel, Math::Vec3 translation);
-		static void rotate(Models::SpaceModel & spaceModel, Math::Vec3 rotation);
-		static void scale(Models::SpaceModel & spaceModel, Math::Vec3 scaling);
-		static void transform(Models::SpaceModel & spaceModel, Math::Vec3 translation, Math::Vec3 rotation, Math::Vec3 scaling);
+		static void translate(Models::SpaceModel & spaceModel, const Math::Vec3 & translation);
+		static void rotate(Models::SpaceModel & spaceModel, const Math::Vec3 & rotation);
+		static void scale(Models::SpaceModel & spaceModel, const Math::Vec3 & scaling);
+		static void transform(Models::SpaceModel & spaceModel, const Math::Vec3 & translation, const Math::Vec3 & rotation, const Math::Vec3 & scaling);
 	};
 }
