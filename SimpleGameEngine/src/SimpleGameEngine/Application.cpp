@@ -61,7 +61,7 @@ namespace SimpleGameEngine
 			// Load projection matrix
 			int windowWidth, windowHeight;
 			window.getWindowSize(windowWidth, windowHeight);
-			float aspectRatio = windowHeight == 0 ? 1 : windowWidth / windowHeight;
+			float aspectRatio = windowHeight == 0 ? 1 : (float) windowWidth / windowHeight;
 			Mat4 projectionMatrix = Mat4::generateProjectionMatrix(aspectRatio, 90, 0.1f, 1000.0f);
 			renderEngine.loadProjectionMatrix(projectionMatrix);
 
@@ -71,7 +71,7 @@ namespace SimpleGameEngine
 			unsigned int stallModelId = Loader::loadGeometryModel(stallModel);
 			unsigned int stallTextureId = Loader::loadTexture("D:/Blender Files/stallTexture.png");
 			RenderModel stallRenderModel = RenderModel(stallModel, stallMaterial, stallModelId, stallTextureId);
-			Entity stallEntity(stallRenderModel, SpaceModel(Vec3(0, 0, -10), Vec3(0, 0, 0), Vec3(1, 1, 1)));
+			Entity stallEntity(stallRenderModel, SpaceModel(Vec3(0, 0, -10), Vec3(0, 180, 0), Vec3(1, 1, 1)));
 			SGE_CORE_WARNING("Successfully loaded stall model.");
 
 			// Create terrain
@@ -88,7 +88,7 @@ namespace SimpleGameEngine
 			TerrainRenderModel terrainRenderModel(terrainModel, stallMaterial, terrainSpace, texturePack, terrainVaoId);
 
 			// Create skybox
-			SkyboxModel skyboxModel = SkyboxModel::CreateSkyboxModel(5);
+			SkyboxModel skyboxModel = SkyboxModel::CreateSkyboxModel(500);
 			GLuint skyboxVaoId = Loader::loadSkybox(skyboxModel);
 			GLuint skyboxTextureId = Loader::loadCubemapTexture(
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/Lycksele3/posx.jpg",
@@ -114,7 +114,7 @@ namespace SimpleGameEngine
 			renderEngine.loadTerrain(terrainRenderModel);
 			
 			glEnable(GL_DEPTH_TEST);
-			glEnable(GL_CULL_FACE);
+			glDisable(GL_CULL_FACE);
 
 			// Main loop
 			while (true)

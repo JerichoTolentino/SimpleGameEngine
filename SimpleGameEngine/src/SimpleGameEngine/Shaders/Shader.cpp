@@ -11,8 +11,8 @@ namespace SimpleGameEngine::Shaders
 		m_programId = programId;
 		m_vertexShaderId = vertexShaderId;
 		m_fragmentShaderId = fragmentShaderId;
-		m_loaded = isRunning;
-		m_running = isLoaded;
+		m_loaded = isLoaded;
+		m_running = isRunning;
 	}
 
 	Shader::Shader(const Shader & other)

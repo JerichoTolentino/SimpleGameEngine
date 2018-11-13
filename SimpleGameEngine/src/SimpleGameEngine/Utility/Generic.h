@@ -25,9 +25,12 @@ namespace SimpleGameEngine::Utility
 		}
 
 		template <typename T>
-		static T* toArray(std::vector<T> vector)
+		static T* toArray(const std::vector<T> & vector)
 		{
-			return &vector[0];
+			T * arr = new T[vector.size()];
+			std::copy(vector.begin(), vector.end(), arr);
+			
+			return arr;
 		}
 
 		template <typename T>
