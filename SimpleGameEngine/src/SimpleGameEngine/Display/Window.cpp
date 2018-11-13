@@ -1,5 +1,6 @@
 #include "Window.h"
 #include "DisplayException.h"
+#include "../Log.h"
 
 #define MAXKEYS 349
 #define MAXBUTTONS 20
@@ -56,10 +57,13 @@ namespace SimpleGameEngine::Display
 		this->m_height = h;
 
 		glViewport(0, 0, w, h);
+
+		SGE_CORE_TRACE("Resized window to {0}x{1}", w, h);
 	}
 
 	void Window::forceClose()
 	{
+		SGE_CORE_TRACE("Forcing window to close...");
 		glfwTerminate();
 	}
 
@@ -119,6 +123,8 @@ namespace SimpleGameEngine::Display
 		glfwSetWindowUserPointer(this->m_window, this);
 		glfwMakeContextCurrent(this->m_window);
 
+		SGE_CORE_INFO("GLFW Version: {0}", glfwGetVersionString());
+
 		// Set callbacks
 		glfwSetKeyCallback(this->m_window, key_callback);
 		glfwSetCursorPosCallback(this->m_window, cursor_position_callback);
@@ -141,6 +147,8 @@ namespace SimpleGameEngine::Display
 		{
 			throw DisplayException("Failed to initialized GLEW.");
 		}
+
+		SGE_CORE_INFO("OpenGL Version: {0}", glGetString(GL_VERSION));
 	}
 
 

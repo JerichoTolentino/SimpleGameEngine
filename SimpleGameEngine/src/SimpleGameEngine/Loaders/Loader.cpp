@@ -171,7 +171,8 @@ namespace SimpleGameEngine::Loaders
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 
-		SGE_CORE_TRACE("Loaded cubemap texture ID {0} from files [{1}, {2}, {3}, {4}, {5}, {6}]", id, right, left, up, down, back, front);
+		SGE_CORE_TRACE("Loaded cubemap texture ID {0} from files\n[\nright: {1},\nleft: {2},\nup: {3},\ndown: {4},\nback: {5},\nfront: {6}\n]", 
+			id, right, left, up, down, back, front);
 
 		return id;
 	}

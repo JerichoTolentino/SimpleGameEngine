@@ -63,6 +63,7 @@ namespace SimpleGameEngine
 			window.getWindowSize(windowWidth, windowHeight);
 			float aspectRatio = windowHeight == 0 ? 1 : windowWidth / windowHeight;
 			Mat4 projectionMatrix = Mat4::generateProjectionMatrix(aspectRatio, 90, 0.1f, 1000.0f);
+			renderEngine.loadProjectionMatrix(projectionMatrix);
 
 			// Create stall entity
 			GeometryModel stallModel = WavefrontObjParser::parseFile("D:/Blender Files/stall.obj");
@@ -113,7 +114,7 @@ namespace SimpleGameEngine
 			renderEngine.loadTerrain(terrainRenderModel);
 			
 			glEnable(GL_DEPTH_TEST);
-			glDisable(GL_CULL_FACE);
+			glEnable(GL_CULL_FACE);
 
 			// Main loop
 			while (true)

@@ -123,6 +123,9 @@ namespace SimpleGameEngine::Parsers
 				throw ParseException("Parameter space vertices and line elements in wavefront OBJ files are currently not supported.");
 		}
 
+		SGE_CORE_TRACE("Parsed wavefront obj file {0} with {1} vertices, {2} texture uvs, {3} normals, and {4} indices",
+			filepath, vertices.size(), alignedTextureUvs.size(), alignedNormals.size(), indices.size());
+
 		return Models::GeometryModel(vertices, alignedTextureUvs, alignedNormals, indices);
 	}
 }

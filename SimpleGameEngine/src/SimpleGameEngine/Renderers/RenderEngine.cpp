@@ -1,4 +1,5 @@
 #include "RenderEngine.h"
+#include "../Log.h"
 
 using namespace SimpleGameEngine::Models;
 
@@ -72,6 +73,8 @@ namespace SimpleGameEngine::Renderers
 		m_entityRenderer.loadProjectionMatrix(proj);
 		m_terrainRenderer.loadProjectionMatrix(proj);
 		m_skyboxRenderer.loadProjectionMatrix(proj);
+
+		SGE_CORE_TRACE("Loaded projection matrix into RenderEngine:\n{0}", proj.toString());
 	}
 
 	void RenderEngine::loadEntity(Models::Entity entity)

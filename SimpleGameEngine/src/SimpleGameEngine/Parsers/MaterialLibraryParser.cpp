@@ -3,6 +3,7 @@
 #include "../IO/FileUtils.h"
 #include "../Utility/StringUtil.h"
 #include "ParseException.h"
+#include "../Log.h"
 
 using namespace SimpleGameEngine::Models;
 using namespace SimpleGameEngine::IO;
@@ -105,6 +106,9 @@ namespace SimpleGameEngine::Parsers
 		}
 
 		file.close();
+
+		SGE_CORE_TRACE("Parsed material file {0} with opacity {1}, ambient {2}, emissive {3}, diffuse {4}, specular {5}, specular highlight {6}, refractive index {7}",
+			filepath, opacity, ambient, emissive, diffuse, specular, specularHighlight, refractiveIndex);
 
 		LightingModel lightingModel(0.0f, opacity, ambient, emissive, diffuse, specular, specularHighlight, refractiveIndex);
 		return Material(lightingModel);
