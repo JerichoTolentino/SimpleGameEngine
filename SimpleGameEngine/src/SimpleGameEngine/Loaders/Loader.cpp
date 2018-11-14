@@ -174,9 +174,14 @@ namespace SimpleGameEngine::Loaders
 		if (id < 0)
 			throw TextureLoadException("Failed to load cubemap texture");
 
-		glBindTexture(GL_TEXTURE_CUBE_MAP, id);
+		glBindTexture(GL_TEXTURE_CUBE_MAP, id); 
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_BASE_LEVEL, 0);
+		glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAX_LEVEL, 0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
 
 		SGE_CORE_TRACE("Loaded cubemap texture ID {0} from files\n[\nright: {1},\nleft: {2},\nup: {3},\ndown: {4},\nback: {5},\nfront: {6}\n]", 

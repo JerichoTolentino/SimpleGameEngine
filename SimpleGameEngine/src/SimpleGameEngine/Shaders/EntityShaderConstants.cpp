@@ -17,4 +17,7 @@ namespace SimpleGameEngine::Shaders
 	const std::string EntityShaderConstants::FRAG_REFLECTIVITY = "u_reflectivity";
 	const std::string EntityShaderConstants::FRAG_REFRACTIVE_INDEX = "u_refractive_index";
 	const std::string EntityShaderConstants::FRAG_OPACITY = "u_opacity";
+
+	const std::string EntityShaderConstants::FRAG_TEXTURE_SAMPLER = "u_texture_sampler";
+	const std::string EntityShaderConstants::FRAG_CUBEMAP_SAMPLER = "u_cubemap_sampler";
 }

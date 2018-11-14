@@ -24,7 +24,6 @@ namespace SimpleGameEngine::Renderers
 		void loadLight(const Math::Vec3 & light) const;
 		void loadProjectionMatrix(const Math::Mat4 & proj) const;
 		void loadEntity(const Models::Entity & entity) const;
-		void loadEntity(const Models::Entity & entity, GLuint reflectionMapTextureId) const;
 		void render(const Models::Entity & entity) const;
 		void unloadEntity() const;
 

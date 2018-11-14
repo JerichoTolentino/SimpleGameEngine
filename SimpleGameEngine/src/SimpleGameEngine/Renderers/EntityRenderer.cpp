@@ -54,8 +54,10 @@ namespace SimpleGameEngine::Renderers
 
 	void EntityRenderer::loadEntity(const Models::Entity & entity) const
 	{
+		auto renderModel = entity.getRenderModel();
+
 		// Bind the geometry model's VAO
-		glBindVertexArray(entity.getRenderModel()->getGeometryVaoId());
+		glBindVertexArray(renderModel->getGeometryVaoId());
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);
@@ -72,48 +74,19 @@ namespace SimpleGameEngine::Renderers
 
 		// Bind the entity's texture
 		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, entity.getRenderModel()->getTextureId());
+		glBindTexture(GL_TEXTURE_2D, renderModel->getTextureId());
+		ShaderLoader::loadUniform1i(*m_shader, EntityShaderConstants::FRAG_TEXTURE_SAMPLER, 0);
+
+		// Bind reflection map
+		if (renderModel->hasReflectionMap())
+		{
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_CUBE_MAP, renderModel->getReflectionMapTextureId());
+			ShaderLoader::loadUniform1i(*m_shader, EntityShaderConstants::FRAG_CUBEMAP_SAMPLER, 1);
+		}
 
 		// Load in the entity's material
-		auto lightingModel = entity.getRenderModel()->getMaterial()->getLightingModel();
-		ShaderLoader::loadUniform1f(*m_shader, EntityShaderConstants::FRAG_AMBIENT, lightingModel->getAmbient());
-		ShaderLoader::loadUniform1f(*m_shader, EntityShaderConstants::FRAG_EMISSIVE, lightingModel->getEmissive());
-		ShaderLoader::loadUniform1f(*m_shader, EntityShaderConstants::FRAG_DIFFUSE, lightingModel->getDiffuse());
-		ShaderLoader::loadUniform1f(*m_shader, EntityShaderConstants::FRAG_SPECULAR, lightingModel->getSpecular());
-		ShaderLoader::loadUniform1f(*m_shader, EntityShaderConstants::FRAG_SPECULAR_HIGHLIGHT, lightingModel->getSpecularHighlight());
-		ShaderLoader::loadUniform1f(*m_shader, EntityShaderConstants::FRAG_REFLECTIVITY, lightingModel->getReflectivity());
-		ShaderLoader::loadUniform1f(*m_shader, EntityShaderConstants::FRAG_REFRACTIVE_INDEX, lightingModel->getRefractiveIndex());
-		ShaderLoader::loadUniform1f(*m_shader, EntityShaderConstants::FRAG_OPACITY, lightingModel->getOpacity());
-
-		// Stop shader
-		ShaderLoader::stopShader(*m_shader);
-	}
-
-	void EntityRenderer::loadEntity(const Models::Entity & entity, GLuint reflectionMapTextureId) const
-	{
-		// Bind the geometry model's VAO
-		glBindVertexArray(entity.getRenderModel()->getGeometryVaoId());
-		glEnableVertexAttribArray(0);
-		glEnableVertexAttribArray(1);
-		glEnableVertexAttribArray(2);
-
-		// Startup shader
-		ShaderLoader::startShader(*m_shader);
-
-		// Load in the entity's transformation
-		auto spaceModel = entity.getSpaceModel();
-		Mat4 entityTransform;
-		entityTransform.setIdentity();
-		entityTransform.transform(spaceModel->getPosition(), spaceModel->getRotation(), spaceModel->getScale());
-		ShaderLoader::loadUniformMat4f(*m_shader, EntityShaderConstants::VERT_MODEL_MATRIX, entityTransform);
-
-		// Bind the entity's texture
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, entity.getRenderModel()->getTextureId());
-		glBindTexture(GL_TEXTURE_CUBE_MAP, reflectionMapTextureId);
-
-		// Load in the entity's material
-		auto lightingModel = entity.getRenderModel()->getMaterial()->getLightingModel();
+		auto lightingModel = renderModel->getMaterial()->getLightingModel();
 		ShaderLoader::loadUniform1f(*m_shader, EntityShaderConstants::FRAG_AMBIENT, lightingModel->getAmbient());
 		ShaderLoader::loadUniform1f(*m_shader, EntityShaderConstants::FRAG_EMISSIVE, lightingModel->getEmissive());
 		ShaderLoader::loadUniform1f(*m_shader, EntityShaderConstants::FRAG_DIFFUSE, lightingModel->getDiffuse());

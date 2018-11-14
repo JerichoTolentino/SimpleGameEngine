@@ -112,22 +112,6 @@ namespace SimpleGameEngine::Renderers
 
 	void RenderEngine::render() const
 	{
-		// Render terrain
-		for (auto batchIter = m_terrainBatches->begin(); batchIter != m_terrainBatches->end(); batchIter++)
-		{
-			auto renderModels = batchIter->second;
-			for (auto modelIter = renderModels.begin(); modelIter != renderModels.end(); modelIter++)
-			{
-				auto renderModel = *modelIter;
-
-				m_terrainRenderer->loadCamera(*m_camera);
-				m_terrainRenderer->loadLight(*m_lightPosition);
-				m_terrainRenderer->loadTerrain(*renderModel);
-				m_terrainRenderer->render(*renderModel);
-				m_terrainRenderer->unloadTerrain();
-			}
-		}
-
 		// Render entities
 		for (auto batchIter = m_entityBatches->begin(); batchIter != m_entityBatches->end(); batchIter++)
 		{
@@ -141,6 +125,22 @@ namespace SimpleGameEngine::Renderers
 				m_entityRenderer->loadEntity(*entity);
 				m_entityRenderer->render(*entity);
 				m_entityRenderer->unloadEntity();
+			}
+		}
+
+		// Render terrain
+		for (auto batchIter = m_terrainBatches->begin(); batchIter != m_terrainBatches->end(); batchIter++)
+		{
+			auto renderModels = batchIter->second;
+			for (auto modelIter = renderModels.begin(); modelIter != renderModels.end(); modelIter++)
+			{
+				auto renderModel = *modelIter;
+
+				m_terrainRenderer->loadCamera(*m_camera);
+				m_terrainRenderer->loadLight(*m_lightPosition);
+				m_terrainRenderer->loadTerrain(*renderModel);
+				m_terrainRenderer->render(*renderModel);
+				m_terrainRenderer->unloadTerrain();
 			}
 		}
 

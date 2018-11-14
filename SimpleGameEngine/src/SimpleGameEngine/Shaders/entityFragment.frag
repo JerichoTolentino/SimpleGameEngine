@@ -16,8 +16,8 @@ uniform float u_reflectivity; //reflectivity
 uniform float u_refractive_index; //refractive index
 uniform float u_opacity; //opacity
 
-uniform sampler2D textureSampler;
-uniform samplerCube cubeMapSampler;
+uniform sampler2D u_texture_sampler;
+uniform samplerCube u_cubemap_sampler;
 
 void main()
 {
@@ -32,8 +32,8 @@ void main()
 	//float specularPart = dot(normal, nHalf);
 	specularPart = clamp(specularPart, 0, 1);
 
-	vec4 finalPhong = vec4(1, 1, 1, u_opacity) * texture(textureSampler, textureCoords) * diffusePart * u_diffuse + u_specular * pow(specularPart, u_specular_highlight);
-	vec4 finalReflection = texture(cubeMapSampler, normalize(reflect(-nToEye, normal)));
+	vec4 finalPhong = vec4(1, 1, 1, u_opacity) * texture(u_texture_sampler, textureCoords) * diffusePart * u_diffuse + u_specular * pow(specularPart, u_specular_highlight);
+	vec4 finalReflection = texture(u_cubemap_sampler, normalize(reflect(-nToEye, normal)));
 
 	//gl_FragColor = finalReflection;
 	gl_FragColor = u_reflectivity * finalReflection + (1 - u_reflectivity) * finalPhong;

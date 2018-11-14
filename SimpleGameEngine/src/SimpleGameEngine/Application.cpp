@@ -66,16 +66,6 @@ namespace SimpleGameEngine
 			Mat4 projectionMatrix = Mat4::generateProjectionMatrix(aspectRatio, 90, 0.1f, 1000.0f);
 			renderEngine.loadProjectionMatrix(projectionMatrix);
 
-			// Create stall entity
-			auto stallModel = std::make_shared<GeometryModel>(WavefrontObjParser::parseFile("D:/Blender Files/stall.obj"));
-			auto stallMaterial = std::make_shared<Material>(MaterialLibraryParser::parseFile("D:/Blender Files/Cube.mtl"));
-			unsigned int stallModelId = Loader::loadGeometryModel(*stallModel);
-			unsigned int stallTextureId = Loader::loadTexture("D:/Blender Files/stallTexture.png");
-			auto stallRenderModel = std::make_shared<RenderModel>(RenderModel(stallModel, stallMaterial, stallModelId, stallTextureId));
-			auto stallSpaceModel = std::make_shared<SpaceModel>(SpaceModel(Vec3(0, 0, -10), Vec3(0, 180, 0), Vec3(1, 1, 1)));
-			auto stallEntity = std::make_shared<Entity>(Entity(stallRenderModel, stallSpaceModel));
-			SGE_CORE_WARNING("Successfully loaded stall model.");
-
 			// Create terrain
 			auto texturePack = std::make_shared<TexturePack>(Loader::loadTexturePack(
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/brickPath.jpg",
@@ -84,10 +74,11 @@ namespace SimpleGameEngine
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/dirt.jpg",
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/zombieBlendMap.png"));
 			auto terrainSpace = std::make_shared<SpaceModel>(SpaceModel(Vec3(-100, -2, -100), Vec3(0, 0, 0), Vec3(1, 1, 1)));
+			auto terrainMaterial = std::make_shared<Material>(MaterialLibraryParser::parseFile("D:/Blender Files/Cube.mtl"));
 			auto heightMap = std::make_shared<HeightMap>(Loader::loadHeightMap("C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/zombieHeightMap.png", 20));
 			auto terrainModel = std::make_shared<TerrainModel>(TerrainModel::GenerateTerrainModel(1, 20, 20, heightMap));
 			GLuint terrainVaoId = Loader::loadGeometryModel(*(terrainModel->getGeometryModel()));
-			auto terrainRenderModel = std::make_shared<TerrainRenderModel>(TerrainRenderModel(terrainModel, stallMaterial, terrainSpace, texturePack, terrainVaoId));
+			auto terrainRenderModel = std::make_shared<TerrainRenderModel>(TerrainRenderModel(terrainModel, terrainMaterial, terrainSpace, texturePack, terrainVaoId));
 
 			// Create skybox
 			auto skyboxModel = std::make_shared<SkyboxModel>(SkyboxModel::CreateSkyboxModel(500));
@@ -101,6 +92,16 @@ namespace SimpleGameEngine
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/Lycksele3/negz.jpg"
 			);
 			auto skyboxRenderModel = std::make_shared<SkyboxRenderModel>(SkyboxRenderModel(skyboxModel, skyboxVaoId, skyboxTextureId));
+
+			// Create stall entity
+			auto stallModel = std::make_shared<GeometryModel>(WavefrontObjParser::parseFile("D:/Blender Files/stall.obj"));
+			auto stallMaterial = std::make_shared<Material>(MaterialLibraryParser::parseFile("D:/Blender Files/Cube.mtl"));
+			stallMaterial->getLightingModel()->setReflectivity(0.5f);
+			unsigned int stallModelId = Loader::loadGeometryModel(*stallModel);
+			unsigned int stallTextureId = Loader::loadTexture("D:/Blender Files/stallTexture.png");
+			auto stallRenderModel = std::make_shared<RenderModel>(RenderModel(stallModel, stallMaterial, stallModelId, stallTextureId, skyboxTextureId));
+			auto stallSpaceModel = std::make_shared<SpaceModel>(SpaceModel(Vec3(0, 0, -10), Vec3(0, 180, 0), Vec3(1, 1, 1)));
+			auto stallEntity = std::make_shared<Entity>(Entity(stallRenderModel, stallSpaceModel));
 
 			// Create camera
 			std::shared_ptr<Camera> camera = std::make_shared<Camera>(Camera(Vec3(0, 0.2f, 0.5f), Vec3(-0.2f, 0, 0)));
@@ -116,7 +117,7 @@ namespace SimpleGameEngine
 			renderEngine.loadTerrain(terrainRenderModel);
 			
 			glEnable(GL_DEPTH_TEST);
-			glDisable(GL_CULL_FACE);
+			glEnable(GL_CULL_FACE);
 
 			// Main loop
 			while (true)
@@ -124,8 +125,8 @@ namespace SimpleGameEngine
 				window.clear();
 
 				renderEngine.render();
-				camera->setPosition(camera->getPosition().add(Vec3(0, 0.005f, 0)));
-				camera->setRotation(camera->getRotation().add(Vec3(0, 0.5f, 0)));
+				stallSpaceModel->setRotation(stallSpaceModel->getRotation().add(Vec3(0, 0.5f, 0)));
+				//camera->setRotation(camera->getRotation().add(Vec3(0, 0.5f, 0)));
 
 				window.update();
 			}

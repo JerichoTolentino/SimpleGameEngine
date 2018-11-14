@@ -21,5 +21,8 @@ namespace SimpleGameEngine::Shaders
 		static const std::string FRAG_REFLECTIVITY;
 		static const std::string FRAG_REFRACTIVE_INDEX;
 		static const std::string FRAG_OPACITY;
+
+		static const std::string FRAG_TEXTURE_SAMPLER;
+		static const std::string FRAG_CUBEMAP_SAMPLER;
 	};
 }
