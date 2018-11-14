@@ -3,11 +3,10 @@
 #include <memory>
 #include "../Math/Vec2.h"
 #include "../Math/Vec3.h"
-#include "../Utility/AutoGenId.h"
 
 namespace SimpleGameEngine::Models
 {
-	class GeometryModel : public Utility::AutoGenId
+	class GeometryModel
 	{
 	private:
 		std::shared_ptr<std::vector<Math::Vec3>> m_vertices;

@@ -8,17 +8,6 @@
 #include "TerrainRenderer.h"
 #include "SkyboxRenderer.h"
 
-/// <summary>
-/// Specialize in std::less so <see cref="GeometryModel"/> can be used as a key in a <see cref="std::map"/>.
-/// </summary>
-template<> struct std::less<SimpleGameEngine::Models::GeometryModel>
-{
-	bool operator() (const SimpleGameEngine::Models::GeometryModel & lhs, const SimpleGameEngine::Models::GeometryModel & rhs) const
-	{
-		return lhs.___getObjectId() < rhs.___getObjectId();
-	}
-};
-
 namespace SimpleGameEngine::Renderers
 {
 	class RenderEngine
