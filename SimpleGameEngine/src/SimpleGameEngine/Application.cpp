@@ -96,7 +96,8 @@ namespace SimpleGameEngine
 			// Create stall entity
 			auto stallModel = std::make_shared<GeometryModel>(WavefrontObjParser::parseFile("D:/Blender Files/stall.obj"));
 			auto stallMaterial = std::make_shared<Material>(MaterialLibraryParser::parseFile("D:/Blender Files/Cube.mtl"));
-			stallMaterial->getLightingModel()->setReflectivity(0.5f);
+			stallMaterial->getLightingModel()->setReflectivity(1.0f);
+			stallMaterial->getLightingModel()->setRefractiveIndex(1.33f);
 			unsigned int stallModelId = Loader::loadGeometryModel(*stallModel);
 			unsigned int stallTextureId = Loader::loadTexture("D:/Blender Files/stallTexture.png");
 			auto stallRenderModel = std::make_shared<RenderModel>(RenderModel(stallModel, stallMaterial, stallModelId, stallTextureId, skyboxTextureId));
@@ -120,7 +121,7 @@ namespace SimpleGameEngine
 			glEnable(GL_CULL_FACE);
 
 			// Main loop
-			while (true)
+			while (!window.isClosed())
 			{
 				window.clear();
 
@@ -128,14 +129,15 @@ namespace SimpleGameEngine
 				stallSpaceModel->setRotation(stallSpaceModel->getRotation().add(Vec3(0, 0.5f, 0)));
 				//camera->setRotation(camera->getRotation().add(Vec3(0, 0.5f, 0)));
 
+				glActiveTexture(GL_DEBUG_SEVERITY_HIGH);
 				window.update();
 			}
-			window.forceClose();
 		}
 		catch (std::exception e)
 		{
 			SGE_ERROR("Unexpected error: " + std::string(e.what()));
-			system("PAUSE");
 		}
+
+		system("PAUSE");
 	}
 }

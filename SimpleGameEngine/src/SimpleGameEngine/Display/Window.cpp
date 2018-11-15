@@ -61,17 +61,18 @@ namespace SimpleGameEngine::Display
 		SGE_CORE_TRACE("Resized window to {0}x{1}", w, h);
 	}
 
-	void Window::forceClose()
+	void Window::forceClose() const
 	{
 		SGE_CORE_TRACE("Forcing window to close...");
-		glfwTerminate();
+		glfwSetWindowShouldClose(m_window, GLFW_TRUE);
+		//glfwTerminate();
 	}
 
 
 
 	bool Window::isClosed() const
 	{
-		return glfwWindowShouldClose(this->m_window) == 1;
+		return glfwWindowShouldClose(this->m_window) == GLFW_TRUE;
 	}
 
 	bool Window::isKeyDown(int key) const
@@ -149,7 +150,7 @@ namespace SimpleGameEngine::Display
 		}
 
 		glEnable(GL_DEBUG_OUTPUT);
-		glDebugMessageCallback(openglDebugCallback, nullptr);
+		glDebugMessageCallback(openglDebugCallback, this);
 
 		SGE_CORE_INFO("OpenGL Version: {0}", glGetString(GL_VERSION));
 	}
@@ -158,10 +159,13 @@ namespace SimpleGameEngine::Display
 
 	void Window::openglDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar * message, const void * userParam)
 	{
+		const Window * w = static_cast<const Window*>(userParam);
+
 		switch (severity)
 		{
 		case GL_DEBUG_SEVERITY_HIGH:
 			SGE_CORE_FATAL("[OpenGL Fatal Error]: ({0}) {1}", id, message);
+			w->forceClose();
 			break;
 
 		case GL_DEBUG_SEVERITY_MEDIUM:

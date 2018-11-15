@@ -63,7 +63,7 @@ namespace SimpleGameEngine::Display
 		/// <summary>
 		/// Forces this window to close.
 		/// </summary>
-		void forceClose();
+		void forceClose() const;
 
 
 
