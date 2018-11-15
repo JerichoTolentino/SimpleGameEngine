@@ -2,20 +2,20 @@
 
 namespace SimpleGameEngine::Shaders
 {
-	const std::string TerrainShaderConstants::VERT_MODEL_MATRIX = "u_model_matrix";
-	const std::string TerrainShaderConstants::VERT_PROJECTION_MATRIX = "u_proj_matrix";
-	const std::string TerrainShaderConstants::VERT_VIEW_MATRIX = "u_view_matrix";
-	const std::string TerrainShaderConstants::VERT_LIGHT_POSITION = "u_light_pos";
+	const std::string TerrainShaderConstants::VERT_MODEL_MATRIX = "uModelMatrix";
+	const std::string TerrainShaderConstants::VERT_PROJECTION_MATRIX = "uProjectionMatrix";
+	const std::string TerrainShaderConstants::VERT_VIEW_MATRIX = "uViewMatrix";
+	const std::string TerrainShaderConstants::VERT_LIGHT_POSITION = "uLightPosition";
 
-	const std::string TerrainShaderConstants::FRAG_AMBIENT = "u_ambient";
-	const std::string TerrainShaderConstants::FRAG_DIFFUSE = "u_diffuse";
-	const std::string TerrainShaderConstants::FRAG_OPACITY = "u_opacity";
-	const std::string TerrainShaderConstants::FRAG_TILE_FACTOR = "u_tile_factor";
-	const std::string TerrainShaderConstants::FRAG_BLEND_SAMPLER = "u_blend_sampler";
-	const std::string TerrainShaderConstants::FRAG_RED_SAMPLER = "u_red_sampler";
-	const std::string TerrainShaderConstants::FRAG_GREEN_SAMPLER = "u_green_sampler";
-	const std::string TerrainShaderConstants::FRAG_BLUE_SAMPLER = "u_blue_sampler";
-	const std::string TerrainShaderConstants::FRAG_BACKGROUND_SAMPLER = "u_back_sampler";
+	const std::string TerrainShaderConstants::FRAG_AMBIENT = "uAmbient";
+	const std::string TerrainShaderConstants::FRAG_DIFFUSE = "uDiffuse";
+	const std::string TerrainShaderConstants::FRAG_OPACITY = "uOpacity";
+	const std::string TerrainShaderConstants::FRAG_TILE_FACTOR = "uTileFactor";
+	const std::string TerrainShaderConstants::FRAG_BLEND_SAMPLER = "uBlendMapSampler";
+	const std::string TerrainShaderConstants::FRAG_RED_SAMPLER = "uRedSampler";
+	const std::string TerrainShaderConstants::FRAG_GREEN_SAMPLER = "uGreenSampler";
+	const std::string TerrainShaderConstants::FRAG_BLUE_SAMPLER = "uBlueSampler";
+	const std::string TerrainShaderConstants::FRAG_BACKGROUND_SAMPLER = "uBackgroundSampler";
 
 	const int TerrainShaderConstants::BLEND_MAP_TEXTURE_SLOT = 0;
 	const int TerrainShaderConstants::RED_TEXTURE_SLOT = 1;

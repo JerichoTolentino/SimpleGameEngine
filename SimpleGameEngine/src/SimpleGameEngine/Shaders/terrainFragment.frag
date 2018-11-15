@@ -1,36 +1,34 @@
 #version 430 core
 
-in vec2 textureCoords;
-in vec3 nToLight;
-in vec3 nNormal;
+in vec2 vTextureCoords;
+in vec3 vToLight;
+in vec3 vNormal;
 
-uniform float u_ambient;
-uniform float u_diffuse;
-uniform float u_opacity;
-uniform float u_tile_factor;
+uniform float uAmbient;
+uniform float uDiffuse;
+uniform float uOpacity;
+uniform float uTileFactor;
 
-uniform sampler2D u_blend_sampler;
-uniform sampler2D u_red_sampler;
-uniform sampler2D u_green_sampler;
-uniform sampler2D u_blue_sampler;
-uniform sampler2D u_back_sampler;
-
-//uniform sampler2D textureSampler;
+uniform sampler2D uBlendMapSampler;
+uniform sampler2D uRedSampler;
+uniform sampler2D uGreenSampler;
+uniform sampler2D uBlueSampler;
+uniform sampler2D uBackgroundSampler;
 
 void main()
 {
-	vec3 normal = normalize(nNormal);
+	vec3 normal = normalize(vNormal);
 
-	float diffusePart = dot(nToLight, normal);
-	diffusePart = clamp(diffusePart, u_ambient, 1.0);
+	float diffusePart = dot(vToLight, normal);
+	diffusePart = clamp(diffusePart, uAmbient, 1.0);
 
-	vec2 tiledTextureCoords = textureCoords * u_tile_factor;
+	vec2 tiledTextureCoords = vTextureCoords * uTileFactor;
 
-	vec3 redTexture = texture(u_red_sampler, tiledTextureCoords).xyz;
-	vec3 greenTexture = texture(u_green_sampler, tiledTextureCoords).xyz;
-	vec3 blueTexture = texture(u_blue_sampler, tiledTextureCoords).xyz;
-	vec3 backTexture = texture(u_back_sampler, tiledTextureCoords).xyz;
-	vec3 blendTexture = texture(u_blend_sampler, textureCoords).xyz;
+	vec3 redTexture = texture(uRedSampler, tiledTextureCoords).xyz;
+	vec3 greenTexture = texture(uGreenSampler, tiledTextureCoords).xyz;
+	vec3 blueTexture = texture(uBlueSampler, tiledTextureCoords).xyz;
+	vec3 backTexture = texture(uBackgroundSampler, tiledTextureCoords).xyz;
+	vec3 blendTexture = texture(uBlendMapSampler, vTextureCoords).xyz;
 
 	float redAmount = blendTexture.r;
 	float greenAmount = blendTexture.g;
@@ -39,6 +37,6 @@ void main()
 
 	vec3 finalColor = redTexture * redAmount + greenTexture * greenAmount + blueTexture * blueAmount + backTexture * backAmount;
 
-	gl_FragColor = vec4(1, 1, 1, u_opacity) * vec4(finalColor, 1) * diffusePart * u_diffuse;
-	//gl_FragColor = vec4(1, 1, 1, u_opacity) * texture(textureSampler, textureCoords) * diffusePart * u_diffuse;
+	gl_FragColor = vec4(1, 1, 1, uOpacity) * vec4(finalColor, 1) * diffusePart * uDiffuse;
+	//gl_FragColor = vec4(1, 1, 1, uOpacity) * texture(textureSampler, vTextureCoords) * diffusePart * uDiffuse;
 }
