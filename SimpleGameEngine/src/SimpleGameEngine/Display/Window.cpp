@@ -148,7 +148,35 @@ namespace SimpleGameEngine::Display
 			throw DisplayException("Failed to initialized GLEW.");
 		}
 
+		glEnable(GL_DEBUG_OUTPUT);
+		glDebugMessageCallback(openglDebugCallback, nullptr);
+
 		SGE_CORE_INFO("OpenGL Version: {0}", glGetString(GL_VERSION));
+	}
+
+
+
+	void Window::openglDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar * message, const void * userParam)
+	{
+		switch (severity)
+		{
+		case GL_DEBUG_SEVERITY_HIGH:
+			SGE_CORE_FATAL("[OpenGL Fatal Error]: ({0}) {1}", id, message);
+			break;
+
+		case GL_DEBUG_SEVERITY_MEDIUM:
+			SGE_CORE_ERROR("[OpenGL Error]: ({0}) {1}", id, message);
+			break;
+
+		case GL_DEBUG_SEVERITY_LOW:
+			SGE_CORE_WARNING("[OpenGL Warning]: ({0}) {1}", id, message);
+			break;
+
+		case GL_DEBUG_SEVERITY_NOTIFICATION:
+			SGE_CORE_TRACE("[OpenGL]: ({0}) {1}", id, message);
+			break;
+		}
+			
 	}
 
 

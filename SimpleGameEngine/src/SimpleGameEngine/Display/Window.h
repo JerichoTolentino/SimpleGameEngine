@@ -116,6 +116,13 @@ namespace SimpleGameEngine::Display
 
 
 
+		/// <summary>
+		/// Callback function that OpenGL calls when an error occurs.
+		/// </summary>
+		static void APIENTRY openglDebugCallback(GLenum source, GLenum type, GLuint id, GLenum severity, GLsizei length, const GLchar * message, const void * userParam);
+
+
+
 	private:
 
 		/// <summary>
