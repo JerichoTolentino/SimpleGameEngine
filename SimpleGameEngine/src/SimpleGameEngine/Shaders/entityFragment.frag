@@ -1,40 +1,44 @@
-#version 400 core
+#version 430 core
 
-in vec2 textureCoords;
-in vec3 nToLight;
-in vec3 nToEye;
-in vec3 nNormal;
-in vec3 nFromLight;
-//in vec3 nHalf;
+in vec2 vTextureCoordinates;
+in vec3 vToLight;
+in vec3 vToEye;
+in vec3 vNormal;
+in vec3 vFromLight;
+out vec3 vLightReflection;
+out vec3 vEyeReflection;
+in vec3 vRefracted;
 
-uniform float u_ambient; //ambient
-uniform float u_emissive; //emissive
-uniform float u_diffuse; //diffuse
-uniform float u_specular; //specular
-uniform float u_specular_highlight; //specular highlight
-uniform float u_reflectivity; //reflectivity
-uniform float u_refractive_index; //refractive index
-uniform float u_opacity; //opacity
+uniform float u_ambient;
+uniform float u_emissive;
+uniform float u_diffuse;
+uniform float u_specular;
+uniform float u_specular_highlight;
+uniform float u_reflectivity;
+uniform float u_opacity;
 
 uniform sampler2D u_texture_sampler;
 uniform samplerCube u_cubemap_sampler;
 
 void main()
 {
-	vec3 normal = normalize(nNormal);
+	// Calculate diffuse portion of color
+	float diffuse_part = dot(vToLight, vNormal);
+	diffuse_part = clamp(diffuse_part, u_ambient, 1.0);
 
-	float diffusePart = dot(nToLight, normal);
-	diffusePart = clamp(diffusePart, u_ambient, 1.0);
+	// Calculate specular portion of color
+	float specular_part = dot(vToEye, vLightReflection);
+	specular_part = clamp(specular_part, 0, 1);
 
-	vec3 reflected = normalize(reflect(nFromLight, normal));
+	// Calculate phong shading color of fragment
+	vec4 texture_color = texture(u_texture_sampler, vTextureCoordinates);
+	vec4 final_phong = vec4(1, 1, 1, u_opacity) * texture_color * diffuse_part * u_diffuse + u_specular * pow(specular_part, u_specular_highlight);
 
-	float specularPart = dot(nToEye, reflected);
-	//float specularPart = dot(normal, nHalf);
-	specularPart = clamp(specularPart, 0, 1);
+	// Calculate color from environment map reflections/refractions
+	vec4 finalReflection = texture(u_cubemap_sampler, reflect(-vToEye, vNormal));
+	vec4 finalRefracted = texture(u_cubemap_sampler, vRefracted);
+	vec4 environmentColor = mix(finalReflection, finalRefracted, 0.5);
 
-	vec4 finalPhong = vec4(1, 1, 1, u_opacity) * texture(u_texture_sampler, textureCoords) * diffusePart * u_diffuse + u_specular * pow(specularPart, u_specular_highlight);
-	vec4 finalReflection = texture(u_cubemap_sampler, normalize(reflect(-nToEye, normal)));
-
-	//gl_FragColor = finalReflection;
-	gl_FragColor = u_reflectivity * finalReflection + (1 - u_reflectivity) * finalPhong;
+	gl_FragColor = mix(environmentColor, final_phong, 0.5);
+	//gl_FragColor = u_reflectivity * finalReflection + (1 - u_reflectivity) * final_phong;
 }
