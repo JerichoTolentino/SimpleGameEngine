@@ -34,8 +34,14 @@ namespace SimpleGameEngine::Renderers
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(2);
 
+		ShaderLoader::startShader(*m_shader);
+
+		// Load skybox texture
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, skybox.getTextureId());
+		ShaderLoader::loadUniform1i(*m_shader, SkyboxShaderConstants::FRAG_CUBEMAP_SAMPLER, 0);
+
+		ShaderLoader::stopShader(*m_shader);
 	}
 
 	void SkyboxRenderer::render(const Models::SkyboxRenderModel & skybox) const

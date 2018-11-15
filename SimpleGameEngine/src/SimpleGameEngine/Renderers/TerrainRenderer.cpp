@@ -40,35 +40,32 @@ namespace SimpleGameEngine::Renderers
 
 		ShaderLoader::startShader(*m_shader);
 
-		// Bind texture pack
+		// Load in texture pack
 		auto texturePack = terrain.getTexturePack();
 
 		// Blend map
 		glActiveTexture(TerrainShaderConstants::BLEND_MAP_TEXTURE_SLOT_OPENGL);
 		glBindTexture(GL_TEXTURE_2D, texturePack->getBlendMapTextureId());
+		ShaderLoader::loadUniform1i(*m_shader, TerrainShaderConstants::FRAG_BLEND_SAMPLER, TerrainShaderConstants::BLEND_MAP_TEXTURE_SLOT);
 
 		// Red texture
 		glActiveTexture(TerrainShaderConstants::RED_TEXTURE_SLOT_OPENGL);
 		glBindTexture(GL_TEXTURE_2D, texturePack->getRedTextureId());
+		ShaderLoader::loadUniform1i(*m_shader, TerrainShaderConstants::FRAG_RED_SAMPLER, TerrainShaderConstants::RED_TEXTURE_SLOT);
 
 		// Green texture
 		glActiveTexture(TerrainShaderConstants::GREEN_TEXTURE_SLOT_OPENGL);
 		glBindTexture(GL_TEXTURE_2D, texturePack->getGreenTextureId());
+		ShaderLoader::loadUniform1i(*m_shader, TerrainShaderConstants::FRAG_GREEN_SAMPLER, TerrainShaderConstants::GREEN_TEXTURE_SLOT);
 
 		// Blue texture
 		glActiveTexture(TerrainShaderConstants::BLUE_TEXTURE_SLOT_OPENGL);
 		glBindTexture(GL_TEXTURE_2D, texturePack->getBlueTextureId());
+		ShaderLoader::loadUniform1i(*m_shader, TerrainShaderConstants::FRAG_BLUE_SAMPLER, TerrainShaderConstants::BLUE_TEXTURE_SLOT);
 
 		// Background texture
 		glActiveTexture(TerrainShaderConstants::BACKGROUND_TEXTURE_SLOT_OPENGL);
 		glBindTexture(GL_TEXTURE_2D, texturePack->getBackgroundTextureId());
-
-
-		// Load texture pack uniforms
-		ShaderLoader::loadUniform1i(*m_shader, TerrainShaderConstants::FRAG_BLEND_SAMPLER, TerrainShaderConstants::BLEND_MAP_TEXTURE_SLOT);
-		ShaderLoader::loadUniform1i(*m_shader, TerrainShaderConstants::FRAG_RED_SAMPLER, TerrainShaderConstants::RED_TEXTURE_SLOT);
-		ShaderLoader::loadUniform1i(*m_shader, TerrainShaderConstants::FRAG_GREEN_SAMPLER, TerrainShaderConstants::GREEN_TEXTURE_SLOT);
-		ShaderLoader::loadUniform1i(*m_shader, TerrainShaderConstants::FRAG_BLUE_SAMPLER, TerrainShaderConstants::BLUE_TEXTURE_SLOT);
 		ShaderLoader::loadUniform1i(*m_shader, TerrainShaderConstants::FRAG_BACKGROUND_SAMPLER, TerrainShaderConstants::BACKGROUND_TEXTURE_SLOT);
 
 		// Load shading uniforms
