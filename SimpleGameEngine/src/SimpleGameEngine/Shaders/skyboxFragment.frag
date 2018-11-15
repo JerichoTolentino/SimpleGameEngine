@@ -4,10 +4,9 @@ in vec3 vTextureCoords;
 
 layout(location = 0) out vec4 OutputColor;
 
-uniform samplerCube cubemapSampler;
+uniform samplerCube uCubemapSampler;
 
 void main()
 {
-	OutputColor = texture(cubemapSampler, vTextureCoords);
-	//gl_FragColor = texture(cubemapSampler, vTextureCoords);
+	OutputColor = texture(uCubemapSampler, vTextureCoords);
 }
