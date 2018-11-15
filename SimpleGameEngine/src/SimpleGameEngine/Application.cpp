@@ -129,7 +129,7 @@ namespace SimpleGameEngine
 
 				renderEngine.render();
 				stallSpaceModel->setRotation(stallSpaceModel->getRotation().add(Vec3(0, 0.5f, 0)));
-				camera->setRotation(camera->getRotation().add(Vec3(0, 0.5f, 0)));
+				//camera->setRotation(camera->getRotation().add(Vec3(0, 0.5f, 0)));
 
 				window.update();
 			}

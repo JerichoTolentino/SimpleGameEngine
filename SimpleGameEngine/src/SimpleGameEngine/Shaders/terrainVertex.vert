@@ -15,12 +15,12 @@ uniform vec3 uLightPosition;
 
 void main()
 {
+	// Calculate world position of vertex
 	vec3 worldPos = (vec4(iPosition, 1.0) * uModelMatrix).xyz;
-	vNormal = normalize(transpose(inverse(uModelMatrix)) * vec4(iNormal, 0.0)).xyz;
-	
-	vec3 toLight = uLightPosition - worldPos;
-	vToLight = normalize(toLight);
 
+	// Pass normalized vectors and texture coordinates
+	vNormal = normalize(transpose(inverse(uModelMatrix)) * vec4(iNormal, 0.0)).xyz;
+	vToLight = normalize(uLightPosition - worldPos);
 	vTextureCoords = iTextureUv;
 
 	gl_Position = vec4(iPosition, 1.0) * uModelMatrix * uViewMatrix * uProjectionMatrix;
