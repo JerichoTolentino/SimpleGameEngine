@@ -150,6 +150,7 @@ namespace SimpleGameEngine::Display
 		}
 
 		glEnable(GL_DEBUG_OUTPUT);
+		glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
 		glDebugMessageCallback(openglDebugCallback, this);
 
 		SGE_CORE_INFO("OpenGL Version: {0}", glGetString(GL_VERSION));

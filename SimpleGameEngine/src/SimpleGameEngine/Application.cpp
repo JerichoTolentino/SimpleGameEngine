@@ -129,7 +129,6 @@ namespace SimpleGameEngine
 				stallSpaceModel->setRotation(stallSpaceModel->getRotation().add(Vec3(0, 0.5f, 0)));
 				//camera->setRotation(camera->getRotation().add(Vec3(0, 0.5f, 0)));
 
-				glActiveTexture(GL_DEBUG_SEVERITY_HIGH);
 				window.update();
 			}
 		}

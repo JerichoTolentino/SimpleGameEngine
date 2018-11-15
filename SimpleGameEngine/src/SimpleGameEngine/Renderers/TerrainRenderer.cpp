@@ -65,11 +65,11 @@ namespace SimpleGameEngine::Renderers
 
 
 		// Load texture pack uniforms
-		ShaderLoader::loadUniform1f(*m_shader, TerrainShaderConstants::FRAG_BLEND_SAMPLER, TerrainShaderConstants::BLEND_MAP_TEXTURE_SLOT);
-		ShaderLoader::loadUniform1f(*m_shader, TerrainShaderConstants::FRAG_RED_SAMPLER, TerrainShaderConstants::RED_TEXTURE_SLOT);
-		ShaderLoader::loadUniform1f(*m_shader, TerrainShaderConstants::FRAG_GREEN_SAMPLER, TerrainShaderConstants::GREEN_TEXTURE_SLOT);
-		ShaderLoader::loadUniform1f(*m_shader, TerrainShaderConstants::FRAG_BLUE_SAMPLER, TerrainShaderConstants::BLUE_TEXTURE_SLOT);
-		ShaderLoader::loadUniform1f(*m_shader, TerrainShaderConstants::FRAG_BACKGROUND_SAMPLER, TerrainShaderConstants::BACKGROUND_TEXTURE_SLOT);
+		ShaderLoader::loadUniform1i(*m_shader, TerrainShaderConstants::FRAG_BLEND_SAMPLER, TerrainShaderConstants::BLEND_MAP_TEXTURE_SLOT);
+		ShaderLoader::loadUniform1i(*m_shader, TerrainShaderConstants::FRAG_RED_SAMPLER, TerrainShaderConstants::RED_TEXTURE_SLOT);
+		ShaderLoader::loadUniform1i(*m_shader, TerrainShaderConstants::FRAG_GREEN_SAMPLER, TerrainShaderConstants::GREEN_TEXTURE_SLOT);
+		ShaderLoader::loadUniform1i(*m_shader, TerrainShaderConstants::FRAG_BLUE_SAMPLER, TerrainShaderConstants::BLUE_TEXTURE_SLOT);
+		ShaderLoader::loadUniform1i(*m_shader, TerrainShaderConstants::FRAG_BACKGROUND_SAMPLER, TerrainShaderConstants::BACKGROUND_TEXTURE_SLOT);
 
 		// Load shading uniforms
 		auto lightingModel = terrain.getMaterial()->getLightingModel();
