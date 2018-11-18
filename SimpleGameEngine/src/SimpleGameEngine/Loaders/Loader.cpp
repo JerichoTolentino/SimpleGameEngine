@@ -20,21 +20,23 @@ namespace SimpleGameEngine::Loaders
 		auto textureUvs = skybox.getTextureUvs();
 
 		// Flatten vectors
-		std::vector<float> flattenedVertices = Generic::flatten(vertices->begin(), vertices->end(), (std::function<std::vector<float>(Vec3)>) [](Vec3 vec)
+		std::vector<float> flattenedVertices = Generic::flatten(
+			vertices->begin(), 
+			vertices->end(), 
+			(std::function<void(Vec3, std::vector<float> &)>) [](Vec3 vec, std::vector<float> & result)
 		{
-			std::vector<float> unpacked;
-			unpacked.push_back(vec.x);
-			unpacked.push_back(vec.y);
-			unpacked.push_back(vec.z);
-			return unpacked;
+			result.push_back(vec.x);
+			result.push_back(vec.y);
+			result.push_back(vec.z);
 		});
-		std::vector<float> flattenedUvs = Generic::flatten(textureUvs->begin(), textureUvs->end(), (std::function<std::vector<float>(Vec3)>) [](Vec3 vec)
+		std::vector<float> flattenedUvs = Generic::flatten(
+			textureUvs->begin(), 
+			textureUvs->end(), 
+			(std::function<void(Vec3, std::vector<float> &)>) [](Vec3 vec, std::vector<float> & result)
 		{
-			std::vector<float> unpacked;
-			unpacked.push_back(vec.x);
-			unpacked.push_back(vec.y);
-			unpacked.push_back(vec.z);
-			return unpacked;
+			result.push_back(vec.x);
+			result.push_back(vec.y);
+			result.push_back(vec.z);
 		});
 
 		// Load into OpenGL
@@ -44,14 +46,14 @@ namespace SimpleGameEngine::Loaders
 
 		// Bind indices
 		auto indices = skybox.getIndices();
-		GLuint * indicesArray = Generic::toArray(*indices);
+		GLuint * indicesArray = Generic::copyToArray(*indices);
 		GLsizeiptr numIndices = sizeof(GLuint) * indices->size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices, indicesArray, GL_STATIC_DRAW);
 
 		// Bind vertices
-		GLfloat * verticesArray = Generic::toArray(flattenedVertices);
+		GLfloat * verticesArray = Generic::copyToArray(flattenedVertices);
 		GLsizeiptr numVertices = sizeof(GLfloat) * flattenedVertices.size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -59,7 +61,7 @@ namespace SimpleGameEngine::Loaders
 		glVertexAttribPointer(VERTICES_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 		// Bind texture UVs
-		GLfloat * textureUvsArray = Generic::toArray(flattenedUvs);
+		GLfloat * textureUvsArray = Generic::copyToArray(flattenedUvs);
 		GLsizeiptr numTextureUvs = sizeof(GLfloat) * flattenedUvs.size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -75,30 +77,32 @@ namespace SimpleGameEngine::Loaders
 	{
 		// Flatten vectors
 		auto vertices = model.getVertices();
-		std::vector<float> flattenedVertices = Generic::flatten(vertices->begin(), vertices->end(), (std::function<std::vector<float>(Vec3)>) [](Vec3 vec)
+		std::vector<float> flattenedVertices = Generic::flatten(
+			vertices->begin(),
+			vertices->end(),
+			(std::function<void(Vec3, std::vector<float> &)>) [](Vec3 vec, std::vector<float> & result)
 		{
-			std::vector<float> unpacked;
-			unpacked.push_back(vec.x);
-			unpacked.push_back(vec.y);
-			unpacked.push_back(vec.z);
-			return unpacked;
+			result.push_back(vec.x);
+			result.push_back(vec.y);
+			result.push_back(vec.z);
 		});
 		auto normals = model.getNormals();
-		std::vector<float> flattenedNormals = Generic::flatten(normals->begin(), normals->end(), (std::function<std::vector<float>(Vec3)>) [](Vec3 vec)
+		std::vector<float> flattenedNormals = Generic::flatten(
+			normals->begin(), 
+			normals->end(), (std::function<void(Vec3, std::vector<float> &)>) [](Vec3 vec, std::vector<float> & result)
 		{
-			std::vector<float> unpacked;
-			unpacked.push_back(vec.x);
-			unpacked.push_back(vec.y);
-			unpacked.push_back(vec.z);
-			return unpacked;
+			result.push_back(vec.x);
+			result.push_back(vec.y);
+			result.push_back(vec.z);
 		});
 		auto textureUvs = model.getTextureUvs();
-		std::vector<float> flattenedUvs = Generic::flatten(textureUvs->begin(), textureUvs->end(), (std::function<std::vector<float>(Vec2)>) [](Vec2 vec)
+		std::vector<float> flattenedUvs = Generic::flatten(
+			textureUvs->begin(),
+			textureUvs->end(),
+			(std::function<void(Vec2, std::vector<float> &)>) [](Vec2 vec, std::vector<float> & result)
 		{
-			std::vector<float> unpacked;
-			unpacked.push_back(vec.x);
-			unpacked.push_back(vec.y);
-			return unpacked;
+			result.push_back(vec.x);
+			result.push_back(vec.y);
 		});
 
 		// Load into OpenGL
@@ -108,14 +112,14 @@ namespace SimpleGameEngine::Loaders
 
 		// Bind indices
 		auto indices = model.getIndices();
-		GLuint * indicesArray = Generic::toArray(*indices);
+		GLuint * indicesArray = Generic::copyToArray(*indices);
 		GLsizeiptr numIndices = sizeof(GLuint) * indices->size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices, indicesArray, GL_STATIC_DRAW);
 		
 		// Bind vertices
-		GLfloat * verticesArray = Generic::toArray(flattenedVertices);
+		GLfloat * verticesArray = Generic::copyToArray(flattenedVertices);
 		GLsizeiptr numVertices = sizeof(GLfloat) * flattenedVertices.size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -123,7 +127,7 @@ namespace SimpleGameEngine::Loaders
 		glVertexAttribPointer(VERTICES_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 		// Bind normals
-		GLfloat * normalsArray = Generic::toArray(flattenedNormals);
+		GLfloat * normalsArray = Generic::copyToArray(flattenedNormals);
 		GLsizeiptr numNormals = sizeof(GLfloat) * flattenedNormals.size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -131,7 +135,7 @@ namespace SimpleGameEngine::Loaders
 		glVertexAttribPointer(NORMALS_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 		// Bind texture UVs
-		GLfloat * textureUvsArray = Generic::toArray(flattenedUvs);
+		GLfloat * textureUvsArray = Generic::copyToArray(flattenedUvs);
 		GLsizeiptr numTextureUvs = sizeof(GLfloat) * flattenedUvs.size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -197,7 +201,7 @@ namespace SimpleGameEngine::Loaders
 		int channels = 0;
 
 		unsigned char * pixels = SOIL_load_image(filepath.c_str(), &width, &height, &channels, SOIL_LOAD_AUTO);
-		auto pixelsVector = std::make_shared<std::vector<unsigned char>>(Generic::toVector(pixels, width * height * channels));
+		auto pixelsVector = std::make_shared<std::vector<unsigned char>>(Generic::wrapInVector(pixels, width * height * channels));
 
 		SGE_CORE_TRACE("Loaded height map from file {0}", filepath);
 		

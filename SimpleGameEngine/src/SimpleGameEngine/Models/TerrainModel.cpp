@@ -66,90 +66,154 @@ namespace SimpleGameEngine::Models
 		return *this;
 	}
 
-
-	// TODO: Test that this actually works (kinda blindly refactored)
-	TerrainModel TerrainModel::GenerateTerrainModel(int tileSize, int rowCount, int columnCount, const std::shared_ptr<HeightMap> heightMap)
+	TerrainModel TerrainModel::GenerateTerrainModel(int tileSize, const std::shared_ptr<HeightMap> heightMap)
 	{
+		int rows = heightMap->getWidth() - 1;
+		int cols = heightMap->getHeight() - 1;
+		int totalVertices = rows * cols * 4;
+		int totalIndices = rows * cols * 6;
+
+		auto vertices = std::make_shared<std::vector<Vec3>>(totalVertices);
+		auto normals = std::make_shared<std::vector<Vec3>>(totalVertices);
+		auto textureUvs = std::make_shared<std::vector<Vec2>>(totalVertices);
+		auto indices = std::make_shared<std::vector<unsigned int>>(totalIndices);
+
+		// Calculate vertices, normals, and texture uvs
+		for (int row = 0; row <= rows; row++)
+		{
+			for (int col = 0; col <= cols; col++)
+			{
+				float x, y, z, u, v;
+
+				// Calculate vertex
+				x = col * tileSize;
+				z = row * tileSize;
+				y = heightMap->findHeightAt(x, z);
+				vertices->push_back(Vec3(x, y, z));
+
+				// Calculate normal
+				x = 0;
+				y = 1;
+				z = 0;
+				normals->push_back(Vec3(x, y, z));
+
+				// Calculate texture uv
+				u = (float) col / (float) cols;
+				v = (float) row / (float) rows;
+				textureUvs->push_back(Vec2(u, v));
+			}
+		}
+
+		// Calculate indices
+		for (int row = 0; row < rows; row++)
+		{
+			for (int col = 0; col < cols; col++)
+			{
+				unsigned int topLeft = row * cols + col;
+				unsigned int topRight = topLeft + 1;
+				unsigned int bottomLeft = (row + 1) * cols + col;
+				unsigned int bottomRight = bottomLeft + 1;
+
+				// Add indices to form 2 CCW triangles making a square
+				indices->push_back(topLeft);
+				indices->push_back(bottomLeft);
+				indices->push_back(bottomRight);
+
+				indices->push_back(bottomRight);
+				indices->push_back(topRight);
+				indices->push_back(topLeft);
+			}
+		}
+		return TerrainModel(std::make_shared<GeometryModel>(vertices, textureUvs, normals, indices), heightMap, tileSize, rows, cols);
+	}
+
+	/*
+	// TODO: Test that this actually works (kinda blindly refactored)
+	TerrainModel TerrainModel::GenerateTerrainModel(int tileSize, const std::shared_ptr<HeightMap> heightMap)
+	{
+		int rowCount = heightMap->getWidth() - 1;
+		int columnCount = heightMap->getHeight() - 1;
 		float fRows = rowCount;
 		float fCols = columnCount;
 		float rowEdge = (float) (rowCount * tileSize);	// Used when calculating z-coordinate for winding (since -z is forwards)
 
-		auto vertices = std::make_shared<std::vector<Vec3>>();
-		auto normals = std::make_shared<std::vector<Vec3>>(); // TODO: These normals are all set to point Y-up for now
-		auto textureUvs = std::make_shared<std::vector<Vec2>>();
-		auto indices = std::make_shared<std::vector<unsigned int>>();
+		auto vertices = std::make_shared<std::vector<Vec3>>(rowCount * columnCount * 4);
+		auto normals = std::make_shared<std::vector<Vec3>>(rowCount * columnCount * 4); // TODO: These normals are all set to point Y-up for now
+		auto textureUvs = std::make_shared<std::vector<Vec2>>(rowCount * columnCount * 4);
+		auto indices = std::make_shared<std::vector<unsigned int>>(rowCount * columnCount * 6);
 
 		for (int row = 0; row < rowCount; row++)
 		{
 			for (int col = 0; col < columnCount; col++)
 			{
 				int tileOffset = col * 4 + row * 4 * columnCount;
-				float x, y, z, u, v;
 
 				// Calculates 4 vertices
+				Vec3 vertex;
 
 				// Bottom left
-				x = (float) (col * tileSize);
-				z = (float) (rowEdge - row * tileSize);
-				y = (float) (heightMap->findHeightAt(x, z));
-				vertices->push_back(Vec3(x, y, z));
+				vertex.x = (float) (col * tileSize);
+				vertex.z = (float) (rowEdge - row * tileSize);
+				vertex.y = (float)(heightMap->findHeightAt(vertex.x, vertex.z));
+				vertices->push_back(vertex);
 
 				// Bottom right
-				x = (float) ((col + 1) * tileSize);
-				z = (float) (rowEdge - row * tileSize);
-				y = (float) (heightMap->findHeightAt(x, z));
-				vertices->push_back(Vec3(x, y, z));
+				vertex.x = (float) ((col + 1) * tileSize);
+				vertex.z = (float) (rowEdge - row * tileSize);
+				vertex.y = (float)(heightMap->findHeightAt(vertex.x, vertex.z));
+				vertices->push_back(vertex);
 
 				// Top left
-				x = (float) (col * tileSize);
-				z = (float) (rowEdge - (row + 1) * tileSize);
-				y = (float) (heightMap->findHeightAt(x, z));
-				vertices->push_back(Vec3(x, y, z));
+				vertex.x = (float) (col * tileSize);
+				vertex.z = (float) (rowEdge - (row + 1) * tileSize);
+				vertex.y = (float)(heightMap->findHeightAt(vertex.x, vertex.z));
+				vertices->push_back(vertex);
 
 				// Top right
-				x = (float) ((col + 1) * tileSize);
-				z = (float) (rowEdge - (row + 1) * tileSize);
-				y = (float) (heightMap->findHeightAt(x, z));
-				vertices->push_back(Vec3(x, y, z));
+				vertex.x = (float)((col + 1) * tileSize);
+				vertex.z = (float) (rowEdge - (row + 1) * tileSize);
+				vertex.y = (float)(heightMap->findHeightAt(vertex.x, vertex.z));
+				vertices->push_back(vertex);
 
 				//calculate 4 normals
-				x = 0;
-				y = 1; // TODO: Use neighbouring vertices to set this
-				z = 0;
+				vertex.x = 0;
+				vertex.y = 1; // TODO: Use neighbouring vertices to set this
+				vertex.z = 0;
 
 				// Bottom left
-				normals->push_back(Vec3(x, y, z));
+				vertices->push_back(vertex);
 
 				//bot right
-				normals->push_back(Vec3(x, y, z));
+				vertices->push_back(vertex);
 
 				//top left
-				normals->push_back(Vec3(x, y, z));
+				vertices->push_back(vertex);
 
 				//top right
-				normals->push_back(Vec3(x, y, z));
+				vertices->push_back(vertex);
 
 				//calculate 4 texture coords
+				Vec2 textureCoordinate;
 
 				//bot left
-				u = col / fCols;
-				v = row / fRows;
-				textureUvs->push_back(Vec2(u, v));
+				textureCoordinate.x = col / fCols;
+				textureCoordinate.y = row / fRows;
+				textureUvs->push_back(textureCoordinate);
 
 				//bot right
-				u = (col + 1) / fCols;
-				v = row / fRows;
-				textureUvs->push_back(Vec2(u, v));
+				textureCoordinate.x = (col + 1) / fCols;
+				textureCoordinate.y = row / fRows;
+				textureUvs->push_back(textureCoordinate);
 
 				//top left
-				u = col / fCols;
-				v = (row + 1) / fRows;
-				textureUvs->push_back(Vec2(u, v));
+				textureCoordinate.x = col / fCols;
+				textureCoordinate.y = (row + 1) / fRows;
+				textureUvs->push_back(textureCoordinate);
 
 				//top right
-				u = (col + 1) / fCols;
-				v = (row + 1) / fRows;
-				textureUvs->push_back(Vec2(u, v));
+				textureCoordinate.x = (col + 1) / fCols;
+				textureCoordinate.y = (row + 1) / fRows;
+				textureUvs->push_back(textureCoordinate);
 
 				//calculate indices
 				int indexOffset = col * 6 + row * 6 * columnCount;
@@ -168,4 +232,5 @@ namespace SimpleGameEngine::Models
 
 		return TerrainModel(std::make_shared<GeometryModel>(GeometryModel(vertices, textureUvs, normals, indices)), heightMap, tileSize, rowCount, columnCount);
 	}
+	*/
 }

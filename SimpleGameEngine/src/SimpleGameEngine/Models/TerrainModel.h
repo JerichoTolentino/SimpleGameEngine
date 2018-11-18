@@ -35,6 +35,6 @@ namespace SimpleGameEngine::Models
 
 
 
-		static TerrainModel GenerateTerrainModel(int tileSize, int rowCount, int columnCount, const std::shared_ptr<HeightMap> heightMap);
+		static TerrainModel GenerateTerrainModel(int tileSize, const std::shared_ptr<HeightMap> heightMap);
 	};
 }

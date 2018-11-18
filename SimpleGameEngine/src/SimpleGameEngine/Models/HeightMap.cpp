@@ -84,4 +84,14 @@ namespace SimpleGameEngine::Models
 
 		return *this;
 	}
+
+
+
+	HeightMap HeightMap::GenerateFlatHeightMap(int width, int height, int channels)
+	{
+		int size = width * height * channels;
+		auto pixels = std::make_shared<std::vector<unsigned char>>(size, 0U);
+
+		return HeightMap(pixels, width, height, channels, 0);
+	}
 }

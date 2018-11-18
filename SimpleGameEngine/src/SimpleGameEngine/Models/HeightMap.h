@@ -42,5 +42,12 @@ namespace SimpleGameEngine::Models
 
 
 		HeightMap & operator=(const HeightMap & other);
+
+
+
+		/// <summary>
+		/// Generates a <see cref="HeightMap"/> with a maximum height of 0.
+		/// </summary>
+		static HeightMap GenerateFlatHeightMap(int width, int height, int channels);
 	};
 }

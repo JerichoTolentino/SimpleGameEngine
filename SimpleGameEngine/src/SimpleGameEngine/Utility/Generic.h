@@ -9,23 +9,19 @@ namespace SimpleGameEngine::Utility
 	{
 	public:
 		template <typename ForwardIter, typename T, typename R>
-		static std::vector<R> flatten(ForwardIter begin, ForwardIter end, std::function<std::vector<R>(T)> func)
+		static std::vector<R> flatten(ForwardIter begin, ForwardIter end, std::function<void(T, std::vector<R> &)> func)
 		{
 			std::vector<R> result;
 			for (; begin != end; begin++)
 			{
-				std::vector<R> flattened = func(*begin);
-				for (auto b = flattened.begin(); b != flattened.end(); b++)
-				{
-					result.push_back(*b);
-				}
+				func(*begin, result);
 			}
 
 			return result;
 		}
 
 		template <typename T>
-		static T* toArray(const std::vector<T> & vector)
+		static T* copyToArray(const std::vector<T> & vector)
 		{
 			T * arr = new T[vector.size()];
 			std::copy(vector.begin(), vector.end(), arr);
@@ -34,7 +30,7 @@ namespace SimpleGameEngine::Utility
 		}
 
 		template <typename T>
-		static std::vector<T> toVector(T * arr, int len)
+		static std::vector<T> wrapInVector(T * arr, int len)
 		{
 			std::vector<T> vec;
 			vec.assign(arr, arr + len);

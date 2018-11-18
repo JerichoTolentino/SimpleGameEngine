@@ -75,10 +75,10 @@ namespace SimpleGameEngine
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/cobble.jpg",
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/dirt.jpg",
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/zombieBlendMap.png"));
-			auto terrainSpace = std::make_shared<SpaceModel>(SpaceModel(Vec3(0, -2, 0), Vec3(0, 0, 0), Vec3(1, 1, 1)));
+			auto terrainSpace = std::make_shared<SpaceModel>(SpaceModel(Vec3(-100, -2, -100), Vec3(0, 0, 0), Vec3(1, 1, 1)));
 			auto terrainMaterial = std::make_shared<Material>(MaterialLibraryParser::parseFile("D:/Blender Files/Cube.mtl"));
 			auto heightMap = std::make_shared<HeightMap>(Loader::loadHeightMap("C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/zombieHeightMap.png", 20));
-			auto terrainModel = std::make_shared<TerrainModel>(TerrainModel::GenerateTerrainModel(1, 20, 20, heightMap));
+			auto terrainModel = std::make_shared<TerrainModel>(TerrainModel::GenerateTerrainModel(1, heightMap));
 			GLuint terrainVaoId = Loader::loadGeometryModel(*(terrainModel->getGeometryModel()));
 			auto terrainRenderModel = std::make_shared<TerrainRenderModel>(TerrainRenderModel(terrainModel, terrainMaterial, terrainSpace, texturePack, terrainVaoId));
 
@@ -129,7 +129,7 @@ namespace SimpleGameEngine
 
 				renderEngine.render();
 				stallSpaceModel->setRotation(stallSpaceModel->getRotation().add(Vec3(0, 0.5f, 0)));
-				//camera->setRotation(camera->getRotation().add(Vec3(0, 0.5f, 0)));
+				camera->setRotation(camera->getRotation().add(Vec3(0, 0.5f, 0)));
 
 				window.update();
 			}
