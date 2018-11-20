@@ -117,7 +117,7 @@ namespace SimpleGameEngine::Loaders
 		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
 		{
-			SGE_CORE_WARNING("Failed to load uniform {0} to shader ID {0}", uniformName, shader.getProgramId());
+			SGE_CORE_WARNING("Failed to load uniform {0} to shader ID {1}", uniformName, shader.getProgramId());
 			return false;
 		}
 		
@@ -130,7 +130,7 @@ namespace SimpleGameEngine::Loaders
 		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
 		{
-			SGE_CORE_WARNING("Failed to load uniform {0} to shader ID {0}", uniformName, shader.getProgramId());
+			SGE_CORE_WARNING("Failed to load uniform {0} to shader ID {1}", uniformName, shader.getProgramId());
 			return false;
 		}
 		
@@ -143,7 +143,7 @@ namespace SimpleGameEngine::Loaders
 		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
 		{
-			SGE_CORE_WARNING("Failed to load uniform {0} to shader ID {0}", uniformName, shader.getProgramId());
+			SGE_CORE_WARNING("Failed to load uniform {0} to shader ID {1}", uniformName, shader.getProgramId());
 			return false;
 		}
 		
@@ -156,7 +156,7 @@ namespace SimpleGameEngine::Loaders
 		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
 		{
-			SGE_CORE_WARNING("Failed to load uniform {0} to shader ID {0}", uniformName, shader.getProgramId());
+			SGE_CORE_WARNING("Failed to load uniform {0} to shader ID {1}", uniformName, shader.getProgramId());
 			return false;
 		}
 		
@@ -169,7 +169,7 @@ namespace SimpleGameEngine::Loaders
 		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
 		{
-			SGE_CORE_WARNING("Failed to load uniform {0} to shader ID {0}", uniformName, shader.getProgramId());
+			SGE_CORE_WARNING("Failed to load uniform {0} to shader ID {1}", uniformName, shader.getProgramId());
 			return false;
 		}
 		
