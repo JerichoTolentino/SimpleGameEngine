@@ -103,7 +103,10 @@ namespace SimpleGameEngine::Loaders
 	{
 		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
+		{
+			SGE_CORE_WARNING("Failed to load uniform {0} to shader ID {0}", uniformName, shader.getProgramId());
 			return false;
+		}
 		
 		glUniform1f(location, value);
 		return true;
@@ -113,7 +116,10 @@ namespace SimpleGameEngine::Loaders
 	{
 		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
+		{
+			SGE_CORE_WARNING("Failed to load uniform {0} to shader ID {0}", uniformName, shader.getProgramId());
 			return false;
+		}
 		
 		glUniform1i(location, value);
 		return true;
@@ -123,7 +129,10 @@ namespace SimpleGameEngine::Loaders
 	{
 		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
+		{
+			SGE_CORE_WARNING("Failed to load uniform {0} to shader ID {0}", uniformName, shader.getProgramId());
 			return false;
+		}
 		
 		glUniform2f(location, value.x, value.y);
 		return true;
@@ -133,7 +142,10 @@ namespace SimpleGameEngine::Loaders
 	{
 		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
+		{
+			SGE_CORE_WARNING("Failed to load uniform {0} to shader ID {0}", uniformName, shader.getProgramId());
 			return false;
+		}
 		
 		glUniform3f(location, value.x, value.y, value.z);
 		return true;
@@ -143,7 +155,10 @@ namespace SimpleGameEngine::Loaders
 	{
 		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
+		{
+			SGE_CORE_WARNING("Failed to load uniform {0} to shader ID {0}", uniformName, shader.getProgramId());
 			return false;
+		}
 		
 		glUniform4f(location, value.x, value.y, value.z, value.w);
 		return true;
@@ -153,7 +168,10 @@ namespace SimpleGameEngine::Loaders
 	{
 		GLint location = glGetUniformLocation(shader.getProgramId(), uniformName.c_str());
 		if (location == -1)
+		{
+			SGE_CORE_WARNING("Failed to load uniform {0} to shader ID {0}", uniformName, shader.getProgramId());
 			return false;
+		}
 		
 		// GLSL matrices are row-major - must transpose matrices passed in
 		glUniformMatrix4fv(location, 1, GL_TRUE, value.elements);
