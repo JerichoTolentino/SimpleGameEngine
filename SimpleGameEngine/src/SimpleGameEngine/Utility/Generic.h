@@ -9,7 +9,7 @@ namespace SimpleGameEngine::Utility
 	{
 	public:
 		template <typename ForwardIter, typename T, typename R>
-		static std::vector<R> flatten(ForwardIter begin, ForwardIter end, std::function<void(T, std::vector<R> &)> func)
+		static std::vector<R> flatten(ForwardIter begin, ForwardIter end, std::function<void(const T &, std::vector<R> &)> func)
 		{
 			std::vector<R> result;
 			for (; begin != end; begin++)

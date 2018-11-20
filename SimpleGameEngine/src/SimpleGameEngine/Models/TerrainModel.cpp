@@ -73,10 +73,14 @@ namespace SimpleGameEngine::Models
 		int totalVertices = rows * cols * 4;
 		int totalIndices = rows * cols * 6;
 
-		auto vertices = std::make_shared<std::vector<Vec3>>(totalVertices);
-		auto normals = std::make_shared<std::vector<Vec3>>(totalVertices);
-		auto textureUvs = std::make_shared<std::vector<Vec2>>(totalVertices);
-		auto indices = std::make_shared<std::vector<unsigned int>>(totalIndices);
+		auto vertices = std::make_shared<std::vector<Vec3>>();
+		vertices->reserve(totalVertices);
+		auto normals = std::make_shared<std::vector<Vec3>>();
+		normals->reserve(totalVertices);
+		auto textureUvs = std::make_shared<std::vector<Vec2>>();
+		textureUvs->reserve(totalVertices);
+		auto indices = std::make_shared<std::vector<unsigned int>>();
+		indices->reserve(totalIndices);
 
 		// Calculate vertices, normals, and texture uvs
 		for (int row = 0; row <= rows; row++)

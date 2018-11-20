@@ -23,7 +23,7 @@ namespace SimpleGameEngine::Loaders
 		std::vector<float> flattenedVertices = Generic::flatten(
 			vertices->begin(), 
 			vertices->end(), 
-			(std::function<void(Vec3, std::vector<float> &)>) [](Vec3 vec, std::vector<float> & result)
+			(std::function<void(const Vec3 &, std::vector<float> &)>) [](const Vec3 & vec, std::vector<float> & result)
 		{
 			result.push_back(vec.x);
 			result.push_back(vec.y);
@@ -32,7 +32,7 @@ namespace SimpleGameEngine::Loaders
 		std::vector<float> flattenedUvs = Generic::flatten(
 			textureUvs->begin(), 
 			textureUvs->end(), 
-			(std::function<void(Vec3, std::vector<float> &)>) [](Vec3 vec, std::vector<float> & result)
+			(std::function<void(const Vec3 &, std::vector<float> &)>) [](const Vec3 & vec, std::vector<float> & result)
 		{
 			result.push_back(vec.x);
 			result.push_back(vec.y);
@@ -80,7 +80,7 @@ namespace SimpleGameEngine::Loaders
 		std::vector<float> flattenedVertices = Generic::flatten(
 			vertices->begin(),
 			vertices->end(),
-			(std::function<void(Vec3, std::vector<float> &)>) [](Vec3 vec, std::vector<float> & result)
+			(std::function<void(const Vec3 &, std::vector<float> &)>) [](const Vec3 & vec, std::vector<float> & result)
 		{
 			result.push_back(vec.x);
 			result.push_back(vec.y);
@@ -89,7 +89,8 @@ namespace SimpleGameEngine::Loaders
 		auto normals = model.getNormals();
 		std::vector<float> flattenedNormals = Generic::flatten(
 			normals->begin(), 
-			normals->end(), (std::function<void(Vec3, std::vector<float> &)>) [](Vec3 vec, std::vector<float> & result)
+			normals->end(),
+			(std::function<void(const Vec3 &, std::vector<float> &)>) [](const Vec3 & vec, std::vector<float> & result)
 		{
 			result.push_back(vec.x);
 			result.push_back(vec.y);
@@ -99,7 +100,7 @@ namespace SimpleGameEngine::Loaders
 		std::vector<float> flattenedUvs = Generic::flatten(
 			textureUvs->begin(),
 			textureUvs->end(),
-			(std::function<void(Vec2, std::vector<float> &)>) [](Vec2 vec, std::vector<float> & result)
+			(std::function<void(const Vec2 &, std::vector<float> &)>) [](const Vec2 & vec, std::vector<float> & result)
 		{
 			result.push_back(vec.x);
 			result.push_back(vec.y);

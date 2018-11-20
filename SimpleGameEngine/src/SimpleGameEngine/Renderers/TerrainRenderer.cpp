@@ -40,6 +40,16 @@ namespace SimpleGameEngine::Renderers
 
 		ShaderLoader::startShader(*m_shader);
 
+		// Load in model matrix
+		SpaceModel spaceModel = *(terrain.getSpaceModel());
+		Mat4 modelMatrix;
+		modelMatrix.setIdentity();
+		modelMatrix.transform(spaceModel.getPosition(), spaceModel.getRotation(), spaceModel.getScale());
+		ShaderLoader::loadUniformMat4f(*m_shader, TerrainShaderConstants::VERT_MODEL_MATRIX, modelMatrix);
+
+		// Load in tile factor
+		ShaderLoader::loadUniform1f(*m_shader, TerrainShaderConstants::FRAG_TILE_FACTOR, terrain.getTerrainModel()->getTileSize());
+
 		// Load in texture pack
 		auto texturePack = terrain.getTexturePack();
 
@@ -79,9 +89,13 @@ namespace SimpleGameEngine::Renderers
 
 	void TerrainRenderer::render(const Models::TerrainRenderModel & terrain) const
 	{
+		glDisable(GL_CULL_FACE);
+
 		ShaderLoader::startShader(*m_shader);
 		glDrawElements(GL_TRIANGLES, terrain.getTerrainModel()->getGeometryModel()->getIndices()->size(), GL_UNSIGNED_INT, 0);
 		ShaderLoader::stopShader(*m_shader);
+
+		glEnable(GL_CULL_FACE);
 	}
 
 	void TerrainRenderer::unloadTerrain() const

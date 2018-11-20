@@ -75,12 +75,13 @@ namespace SimpleGameEngine
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/cobble.jpg",
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/dirt.jpg",
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/zombieBlendMap.png"));
-			auto terrainSpace = std::make_shared<SpaceModel>(SpaceModel(Vec3(-100, -2, -100), Vec3(0, 0, 0), Vec3(1, 1, 1)));
+			auto terrainSpace = std::make_shared<SpaceModel>(SpaceModel(Vec3(0, -20, 0), Vec3(0, 0, 0), Vec3(1, 1, 1)));
 			auto terrainMaterial = std::make_shared<Material>(MaterialLibraryParser::parseFile("D:/Blender Files/Cube.mtl"));
 			auto heightMap = std::make_shared<HeightMap>(Loader::loadHeightMap("C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/zombieHeightMap.png", 20));
 			auto terrainModel = std::make_shared<TerrainModel>(TerrainModel::GenerateTerrainModel(1, heightMap));
 			GLuint terrainVaoId = Loader::loadGeometryModel(*(terrainModel->getGeometryModel()));
 			auto terrainRenderModel = std::make_shared<TerrainRenderModel>(TerrainRenderModel(terrainModel, terrainMaterial, terrainSpace, texturePack, terrainVaoId));
+			ModelTransformer::translate(*terrainSpace, Vec3(-heightMap->getWidth() / 2.0f, 0, -heightMap->getHeight() / 2.0f));
 
 			// Create skybox
 			auto skyboxModel = std::make_shared<SkyboxModel>(SkyboxModel::CreateSkyboxModel(500));
@@ -107,7 +108,7 @@ namespace SimpleGameEngine
 			auto stallEntity = std::make_shared<Entity>(Entity(stallRenderModel, stallSpaceModel));
 
 			// Create camera
-			std::shared_ptr<Camera> camera = std::make_shared<Camera>(Camera(Vec3(0, 0.2f, 0.5f), Vec3(-0.2f, 0, 0)));
+			std::shared_ptr<Camera> camera = std::make_shared<Camera>(Camera(Vec3(0, 0.2f, 0.5f), Vec3(-0.2f, 180, 0)));
 			renderEngine.loadCamera(camera);
 
 			// Create light
