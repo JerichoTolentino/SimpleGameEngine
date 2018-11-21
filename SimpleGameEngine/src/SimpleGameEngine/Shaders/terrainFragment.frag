@@ -41,5 +41,4 @@ void main()
 	vec3 finalColor = redTexture * redAmount + greenTexture * greenAmount + blueTexture * blueAmount + backTexture * backAmount;
 
 	OutputColor = vec4(1, 1, 1, uOpacity) * vec4(finalColor, 1) * diffusePart * uDiffuse;
-	//gl_FragColor = vec4(1, 1, 1, uOpacity) * vec4(finalColor, 1) * diffusePart * uDiffuse;
 }
