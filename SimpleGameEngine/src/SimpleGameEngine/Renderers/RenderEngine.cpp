@@ -43,9 +43,9 @@ namespace SimpleGameEngine::Renderers
 		return m_camera;
 	}
 
-	std::shared_ptr<Math::Vec3> RenderEngine::getLightPosition() const
+	std::shared_ptr<std::vector<Models::LightSource>> RenderEngine::getLights() const
 	{
-		return m_lightPosition;
+		return m_lights;
 	}
 	std::shared_ptr<EntityRenderer> RenderEngine::getEntityRenderer() const
 	{
@@ -105,9 +105,9 @@ namespace SimpleGameEngine::Renderers
 		m_camera = camera;
 	}
 
-	void RenderEngine::loadLight(const std::shared_ptr<Math::Vec3> lightPosition)
+	void RenderEngine::loadLights(const std::shared_ptr<std::vector<Models::LightSource>> lights)
 	{
-		m_lightPosition = lightPosition;
+		m_lights = lights;
 	}
 
 	void RenderEngine::render() const
@@ -121,7 +121,7 @@ namespace SimpleGameEngine::Renderers
 				auto entity = *modelIter;
 
 				m_entityRenderer->loadCamera(*m_camera);
-				m_entityRenderer->loadLight(*m_lightPosition);
+				m_entityRenderer->loadLights(*m_lights);
 				m_entityRenderer->loadEntity(*entity);
 				m_entityRenderer->render(*entity);
 				m_entityRenderer->unloadEntity();
@@ -137,7 +137,7 @@ namespace SimpleGameEngine::Renderers
 				auto renderModel = *modelIter;
 
 				m_terrainRenderer->loadCamera(*m_camera);
-				m_terrainRenderer->loadLight(*m_lightPosition);
+				m_terrainRenderer->loadLights(*m_lights);
 				m_terrainRenderer->loadTerrain(*renderModel);
 				m_terrainRenderer->render(*renderModel);
 				m_terrainRenderer->unloadTerrain();
@@ -160,7 +160,7 @@ namespace SimpleGameEngine::Renderers
 		m_terrainBatches = other.m_terrainBatches;
 		m_skybox = other.m_skybox;
 		m_camera = other.m_camera;
-		m_lightPosition = other.m_lightPosition;
+		m_lights = other.m_lights;
 		m_entityRenderer = other.m_entityRenderer;
 		m_terrainRenderer = other.m_terrainRenderer;
 		m_skyboxRenderer = other.m_skyboxRenderer;

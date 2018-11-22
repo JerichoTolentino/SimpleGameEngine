@@ -10,7 +10,7 @@ namespace SimpleGameEngine::Shaders
 		static const std::string VERT_MODEL_MATRIX;
 		static const std::string VERT_PROJECTION_MATRIX;
 		static const std::string VERT_VIEW_MATRIX;
-		static const std::string VERT_LIGHT_POSITION;
+		static const std::string VERT_LIGHT_POSITIONS;
 
 		static const std::string FRAG_AMBIENT;
 		static const std::string FRAG_DIFFUSE;
@@ -21,6 +21,8 @@ namespace SimpleGameEngine::Shaders
 		static const std::string FRAG_GREEN_SAMPLER;
 		static const std::string FRAG_BLUE_SAMPLER;
 		static const std::string FRAG_BACKGROUND_SAMPLER;
+		static const std::string FRAG_LIGHT_COLORS;
+		static const std::string FRAG_LIGHT_ATTENUATIONS;
 
 		static const int BLEND_MAP_TEXTURE_SLOT;
 		static const int RED_TEXTURE_SLOT;
@@ -33,5 +35,7 @@ namespace SimpleGameEngine::Shaders
 		static const GLenum GREEN_TEXTURE_SLOT_OPENGL;
 		static const GLenum BLUE_TEXTURE_SLOT_OPENGL;
 		static const GLenum BACKGROUND_TEXTURE_SLOT_OPENGL;
+
+		static const int MAX_LIGHTS;
 	};
 }

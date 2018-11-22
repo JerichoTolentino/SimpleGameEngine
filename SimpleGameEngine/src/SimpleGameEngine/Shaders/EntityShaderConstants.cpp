@@ -6,7 +6,7 @@ namespace SimpleGameEngine::Shaders
 	const std::string EntityShaderConstants::VERT_PROJECTION_MATRIX = "uProjectionMatrix";
 	const std::string EntityShaderConstants::VERT_VIEW_MATRIX = "uViewMatrix";
 	const std::string EntityShaderConstants::VERT_NORMAL_MATRIX = "uNormalMatrix";
-	const std::string EntityShaderConstants::VERT_LIGHT_POSITION = "uLightPosition";
+	const std::string EntityShaderConstants::VERT_LIGHT_POSITIONS = "uLightPositions";
 	const std::string EntityShaderConstants::VERT_EYE_POSITION = "uEyePosition";
 
 	const std::string EntityShaderConstants::FRAG_AMBIENT = "uAmbient";
@@ -17,7 +17,11 @@ namespace SimpleGameEngine::Shaders
 	const std::string EntityShaderConstants::FRAG_REFLECTIVITY = "uReflectivity";
 	const std::string EntityShaderConstants::FRAG_REFRACTIVE_INDEX = "uRefractiveIndex";
 	const std::string EntityShaderConstants::FRAG_OPACITY = "uOpacity";
+	const std::string EntityShaderConstants::FRAG_LIGHT_COLORS = "uLightColors";
+	const std::string EntityShaderConstants::FRAG_LIGHT_ATTENUATIONS = "uLightAttenuations";
 
 	const std::string EntityShaderConstants::FRAG_TEXTURE_SAMPLER = "uTextureSampler";
 	const std::string EntityShaderConstants::FRAG_CUBEMAP_SAMPLER = "uCubemapSampler";
+
+	const int EntityShaderConstants::MAX_LIGHTS = 5;
 }

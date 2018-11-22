@@ -6,6 +6,7 @@
 #include "../Math/Mat4.h"
 #include "../Math/Vec3.h"
 #include "../Models/TerrainRenderModel.h"
+#include "../Models/LightSource.h"
 
 namespace SimpleGameEngine::Renderers
 {
@@ -28,7 +29,7 @@ namespace SimpleGameEngine::Renderers
 		void unloadTerrain() const;
 		void loadProjectionMatrix(const Math::Mat4 & proj) const;
 		void loadCamera(const Cameras::Camera & camera) const;
-		void loadLight(const Math::Vec3 & light) const;
+		void loadLights(const std::vector<Models::LightSource> & lights) const;
 
 
 

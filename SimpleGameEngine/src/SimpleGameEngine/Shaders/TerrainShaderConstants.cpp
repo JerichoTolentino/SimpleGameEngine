@@ -5,7 +5,7 @@ namespace SimpleGameEngine::Shaders
 	const std::string TerrainShaderConstants::VERT_MODEL_MATRIX = "uModelMatrix";
 	const std::string TerrainShaderConstants::VERT_PROJECTION_MATRIX = "uProjectionMatrix";
 	const std::string TerrainShaderConstants::VERT_VIEW_MATRIX = "uViewMatrix";
-	const std::string TerrainShaderConstants::VERT_LIGHT_POSITION = "uLightPosition";
+	const std::string TerrainShaderConstants::VERT_LIGHT_POSITIONS = "uLightPositions";
 
 	const std::string TerrainShaderConstants::FRAG_AMBIENT = "uAmbient";
 	const std::string TerrainShaderConstants::FRAG_DIFFUSE = "uDiffuse";
@@ -16,6 +16,8 @@ namespace SimpleGameEngine::Shaders
 	const std::string TerrainShaderConstants::FRAG_GREEN_SAMPLER = "uGreenSampler";
 	const std::string TerrainShaderConstants::FRAG_BLUE_SAMPLER = "uBlueSampler";
 	const std::string TerrainShaderConstants::FRAG_BACKGROUND_SAMPLER = "uBackgroundSampler";
+	const std::string TerrainShaderConstants::FRAG_LIGHT_COLORS = "uLightColors";
+	const std::string TerrainShaderConstants::FRAG_LIGHT_ATTENUATIONS = "uLightAttenuations";
 
 	const int TerrainShaderConstants::BLEND_MAP_TEXTURE_SLOT = 0;
 	const int TerrainShaderConstants::RED_TEXTURE_SLOT = 1;
@@ -28,4 +30,6 @@ namespace SimpleGameEngine::Shaders
 	const GLenum TerrainShaderConstants::GREEN_TEXTURE_SLOT_OPENGL = GL_TEXTURE2;
 	const GLenum TerrainShaderConstants::BLUE_TEXTURE_SLOT_OPENGL = GL_TEXTURE3;
 	const GLenum TerrainShaderConstants::BACKGROUND_TEXTURE_SLOT_OPENGL = GL_TEXTURE4;
+
+	const int TerrainShaderConstants::MAX_LIGHTS = 5;
 }

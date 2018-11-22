@@ -3,6 +3,7 @@
 #include "../Cameras/Camera.h"
 #include "../Shaders/Shader.h"
 #include "../Models/Entity.h"
+#include "../Models/LightSource.h"
 #include "../Math/Mat4.h"
 
 namespace SimpleGameEngine::Renderers
@@ -21,7 +22,7 @@ namespace SimpleGameEngine::Renderers
 		~EntityRenderer();
 
 		void loadCamera(const Cameras::Camera & camera) const;
-		void loadLight(const Math::Vec3 & light) const;
+		void loadLights(const std::vector<Models::LightSource> & lights) const;
 		void loadProjectionMatrix(const Math::Mat4 & proj) const;
 		void loadEntity(const Models::Entity & entity) const;
 		void render(const Models::Entity & entity) const;
