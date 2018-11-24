@@ -115,17 +115,19 @@ namespace SimpleGameEngine::Renderers
 		// Render entities
 		for (auto batchIter = m_entityBatches->begin(); batchIter != m_entityBatches->end(); batchIter++)
 		{
-			auto renderModels = batchIter->second;
-			for (auto modelIter = renderModels.begin(); modelIter != renderModels.end(); modelIter++)
-			{
-				auto entity = *modelIter;
+			auto entities = batchIter->second;
 
+			m_entityRenderer->loadRenderModel(*entities.at(0)->getRenderModel());
+
+			for (auto entity : entities)
+			{
 				m_entityRenderer->loadCamera(*m_camera);
 				m_entityRenderer->loadLights(*m_lights);
 				m_entityRenderer->loadEntity(*entity);
 				m_entityRenderer->render(*entity);
-				m_entityRenderer->unloadEntity();
 			}
+
+			m_entityRenderer->unloadRenderModel();
 		}
 
 		// Render terrain

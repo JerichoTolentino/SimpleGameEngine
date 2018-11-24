@@ -70,15 +70,29 @@ namespace SimpleGameEngine::Renderers
 		ShaderLoader::stopShader(*m_shader);
 	}
 
-	void EntityRenderer::loadEntity(const Models::Entity & entity) const
+	void EntityRenderer::loadRenderModel(const Models::RenderModel & renderModel) const
 	{
-		auto renderModel = entity.getRenderModel();
-
 		// Bind the geometry model's VAO
-		glBindVertexArray(renderModel->getGeometryVaoId());
+		glBindVertexArray(renderModel.getGeometryVaoId());
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
 		glEnableVertexAttribArray(2);
+
+		// Bind entity texture
+		glActiveTexture(GL_TEXTURE0);
+		glBindTexture(GL_TEXTURE_2D, renderModel.getTextureId());
+
+		// Bind reflection map
+		if (renderModel.hasReflectionMap())
+		{
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_CUBE_MAP, renderModel.getReflectionMapTextureId());
+		}
+	}
+
+	void EntityRenderer::loadEntity(const Models::Entity & entity) const
+	{
+		auto renderModel = entity.getRenderModel();
 
 		// Startup shader
 		ShaderLoader::startShader(*m_shader);
@@ -90,16 +104,10 @@ namespace SimpleGameEngine::Renderers
 		entityTransform.transform(spaceModel->getPosition(), spaceModel->getRotation(), spaceModel->getScale());
 		ShaderLoader::loadUniformMat4f(*m_shader, EntityShaderConstants::VERT_MODEL_MATRIX, entityTransform);
 
-		// Bind the entity's texture
-		glActiveTexture(GL_TEXTURE0);
-		glBindTexture(GL_TEXTURE_2D, renderModel->getTextureId());
+		// Load in entity texture sampler locations
 		ShaderLoader::loadUniform1i(*m_shader, EntityShaderConstants::FRAG_TEXTURE_SAMPLER, 0);
-
-		// Bind reflection map
 		if (renderModel->hasReflectionMap())
 		{
-			glActiveTexture(GL_TEXTURE1);
-			glBindTexture(GL_TEXTURE_CUBE_MAP, renderModel->getReflectionMapTextureId());
 			ShaderLoader::loadUniform1i(*m_shader, EntityShaderConstants::FRAG_CUBEMAP_SAMPLER, 1);
 		}
 
@@ -126,7 +134,7 @@ namespace SimpleGameEngine::Renderers
 		ShaderLoader::stopShader(*m_shader);
 	}
 
-	void EntityRenderer::unloadEntity() const
+	void EntityRenderer::unloadRenderModel() const
 	{
 		glBindTexture(GL_TEXTURE_2D, 0);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
