@@ -19,7 +19,6 @@ void main()
 	vec3 world_position = (vec4(iPosition, 1.0) * uModelMatrix).xyz;
 
 	// Pass normalized vectors and texture coordinates
-	//vNormal = normalize(transpose(inverse(uModelMatrix)) * vec4(iNormal, 0.0)).xyz;
 	vNormal = (uModelMatrix * vec4(iNormal, 0.0)).xyz;
 	vTextureCoords = iTextureUv;
 	for (int i = 0; i < 5; i++)

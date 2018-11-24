@@ -77,7 +77,7 @@ namespace SimpleGameEngine
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/dirt.jpg",
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/zombieBlendMap.png"));
 			auto terrainSpace = std::make_shared<SpaceModel>(SpaceModel(Vec3(0, -20, 0), Vec3(0, 0, 0), Vec3(1, 1, 1)));
-			auto terrainMaterial = std::make_shared<Material>(std::make_shared<LightingModel>(LightingModel(0.0f, 1, 0.2f, 0, 0.8f, 0.0f, 0.0f, 0)));
+			auto terrainMaterial = std::make_shared<Material>(std::make_shared<LightingModel>(LightingModel(0.0f, 1, 0.1f, 0, 0.8f, 0.0f, 0.0f, 0)));
 			auto heightMap = std::make_shared<HeightMap>(Loader::loadHeightMap("C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/zombieHeightMap.png", 20));
 			auto terrainModel = std::make_shared<TerrainModel>(TerrainModel::GenerateTerrainModel(1, heightMap));
 			GLuint terrainVaoId = Loader::loadGeometryModel(*(terrainModel->getGeometryModel()));
@@ -99,22 +99,23 @@ namespace SimpleGameEngine
 
 			// Create stall entity
 			auto stallModel = std::make_shared<GeometryModel>(WavefrontObjParser::parseFile("D:/Blender Files/stall.obj"));
-			auto stallMaterial = std::make_shared<Material>(std::make_shared<LightingModel>(LightingModel(0.4f, 0.8f, 0.2f, 0, 0.8f, 0.4f, 0.05f, 1.33f)));
+			auto stallMaterial = std::make_shared<Material>(std::make_shared<LightingModel>(LightingModel(0.0f, 1.0f, 0.1f, 0, 1.0f, 1.0f, 32, 1.33f)));
 			unsigned int stallModelId = Loader::loadGeometryModel(*stallModel);
 			unsigned int stallTextureId = Loader::loadTexture("D:/Blender Files/stallTexture.png");
 			auto stallRenderModel = std::make_shared<RenderModel>(RenderModel(stallModel, stallMaterial, stallModelId, stallTextureId, skyboxTextureId));
-			auto stallSpaceModel = std::make_shared<SpaceModel>(SpaceModel(Vec3(0, -1, -10), Vec3(0, 180, 0), Vec3(1, 1, 1)));
+			auto stallSpaceModel = std::make_shared<SpaceModel>(SpaceModel(Vec3(0, -3, -10), Vec3(0, 180, 0), Vec3(1, 1, 1)));
 			auto stallEntity = std::make_shared<Entity>(Entity(stallRenderModel, stallSpaceModel));
 
 			// Create camera
-			std::shared_ptr<Camera> camera = std::make_shared<Camera>(Camera(Vec3(0, 0.2f, 0.5f), Vec3(-0.2f, 0, 0)));
+			std::shared_ptr<Camera> camera = std::make_shared<Camera>(Camera(Vec3(0, 0.2f, 0), Vec3(-0.2f, 0, 0)));
 			renderEngine.loadCamera(camera);
 
 			// Create lights
 			auto lightSources = std::make_shared<std::vector<Models::LightSource>>();
-			lightSources->push_back(LightSource(Vec3(0, 2, 0), Vec3(1, 0, 0), Vec3(1, 0.01f, 0.002f)));
-			lightSources->push_back(LightSource(Vec3(5, 2, -10), Vec3(0, 0, 1), Vec3(1, 0.01f, 0.002f)));
-			lightSources->push_back(LightSource(Vec3(-50, 2, -100), Vec3(0, 1, 0), Vec3(1, 0.01f, 0.002f)));
+			//lightSources->push_back(LightSource(Vec3(-1000, 1000, -1000), Vec3(1, 1, 1)));
+			lightSources->push_back(LightSource(Vec3(0, 0.2f, 0), Vec3(1, 0, 0), Vec3(1, 0.01f, 0.002f)));
+			//lightSources->push_back(LightSource(Vec3(5, 2, -10), Vec3(0, 0, 1), Vec3(1, 0.01f, 0.002f)));
+			//lightSources->push_back(LightSource(Vec3(-50, 2, -100), Vec3(0, 1, 0), Vec3(1, 0.01f, 0.002f)));
 			renderEngine.loadLights(lightSources);
 
 			// Load entity

@@ -8,7 +8,6 @@ out vec2 vTextureCoordinates;
 out vec3 vToEye;
 out vec3 vNormal;
 out vec3 vToLights[5];
-out vec3 vFromLights[5];
 out vec3 vLightReflections[5];
 out vec3 vEyeReflection;
 out vec3 vRefracted;
@@ -23,32 +22,33 @@ uniform float uRefractiveIndex;
 
 void main()
 {
-	// Normalize normal vector
-	vNormal = normalize(transpose(inverse(uModelMatrix)) * vec4(iNormal, 0.0)).xyz;
+	// Transform normal vector
+	vNormal = (uModelMatrix * vec4(iNormal, 0.0)).xyz;
+	vec3 n_normal = normalize(vNormal);
 
 	// Transform vertex to world coordinates
-	vec3 world_pos = (vec4(iPosition, 1.0) * uModelMatrix).xyz;
+	vec4 world_pos = vec4(iPosition, 1.0) * uModelMatrix;
 	
 	for (int i = 0; i < 5; i++)
 	{
 		// Calculate vector from vertex to the light source
-		vToLights[i] = normalize(uLightPositions[i] - world_pos);
-
-		// Calculate vector from the light source to the vertex
-		vFromLights[i] = normalize(world_pos - uLightPositions[i]);
+		vToLights[i] = uLightPositions[i] - world_pos.xyz;
 
 		// Calculate light reflection vector
-		vLightReflections[i] = reflect(vFromLights[i], vNormal);
+		vec3 n_to_light = normalize(vToLights[i]);
+		vLightReflections[i] = reflect(-n_to_light, n_normal);
 	}
 
 	// Calculate vector from vertex to the camera
-	vToEye = normalize(uEyePosition - world_pos);
+	vToEye = uEyePosition - world_pos.xyz;
+	//vToEye = (inverse(uViewMatrix) * vec4(0.0, 0.0, 0.0, 1.0)).xyz - world_pos.xyz;
+	vec3 n_to_eye = normalize(vToEye);
 
 	// Calculate eye reflection vector
-	vEyeReflection = reflect(-vToEye, vNormal);
+	vEyeReflection = reflect(-n_to_eye, n_normal);
 
 	// Calculate refraction vector
-	vRefracted = refract(-vToEye, vNormal, 1.0/uRefractiveIndex);
+	vRefracted = refract(-n_to_eye, n_normal, 1.0/uRefractiveIndex);
 
 	// Pass the texture UVs
 	vTextureCoordinates = iTextureUv;
