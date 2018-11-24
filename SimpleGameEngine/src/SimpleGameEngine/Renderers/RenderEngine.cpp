@@ -1,14 +1,14 @@
 #include "RenderEngine.h"
 #include "../Log.h"
 
+using namespace SimpleGameEngine::Math;
 using namespace SimpleGameEngine::Models;
+using namespace SimpleGameEngine::Cameras;
 
 namespace SimpleGameEngine::Renderers
 {
 	RenderEngine::RenderEngine()
 	{
-		m_entityBatches = std::make_shared<std::map<std::shared_ptr<Models::GeometryModel>, std::vector<std::shared_ptr<Models::Entity>>>>();
-		m_terrainBatches = std::make_shared<std::map<std::shared_ptr<Models::GeometryModel>, std::vector<std::shared_ptr<Models::TerrainRenderModel>>>>();
 	}
 
 	RenderEngine::RenderEngine(
@@ -33,20 +33,6 @@ namespace SimpleGameEngine::Renderers
 
 
 
-	std::shared_ptr<Models::SkyboxRenderModel> RenderEngine::getSkybox() const
-	{
-		return m_skybox;
-	}
-
-	std::shared_ptr<Cameras::Camera> RenderEngine::getCamera() const
-	{
-		return m_camera;
-	}
-
-	std::shared_ptr<std::vector<Models::LightSource>> RenderEngine::getLights() const
-	{
-		return m_lights;
-	}
 	std::shared_ptr<EntityRenderer> RenderEngine::getEntityRenderer() const
 	{
 		return m_entityRenderer;
@@ -62,67 +48,34 @@ namespace SimpleGameEngine::Renderers
 		return m_skyboxRenderer;
 	}
 
-
-
-	void RenderEngine::loadProjectionMatrix(const Math::Mat4 & proj)
+	void RenderEngine::loadScene(const RenderScene & scene)
 	{
-		m_entityRenderer->loadProjectionMatrix(proj);
-		m_terrainRenderer->loadProjectionMatrix(proj);
-		m_skyboxRenderer->loadProjectionMatrix(proj);
+		m_scene = scene;
 
-		SGE_CORE_TRACE("Loaded projection matrix into RenderEngine:\n{0}", proj.toString());
-	}
-
-	void RenderEngine::loadEntity(const std::shared_ptr<Models::Entity> entity)
-	{
-		auto model = entity->getRenderModel()->getGeometryModel();
-		bool modelAlreadyLoaded = m_entityBatches->count(model);
-		
-		if (!modelAlreadyLoaded)
-			m_entityBatches->insert(std::pair<std::shared_ptr<GeometryModel>, std::vector<std::shared_ptr<Entity>>>(model, std::vector<std::shared_ptr<Entity>>()));
-
-		m_entityBatches->at(model).push_back(entity);
-	}
-
-	void RenderEngine::loadTerrain(const std::shared_ptr<Models::TerrainRenderModel> terrain)
-	{
-		auto model = terrain->getTerrainModel()->getGeometryModel();
-		bool modelAlreadyLoaded = m_terrainBatches->count(model);
-
-		if (!modelAlreadyLoaded)
-			m_terrainBatches->insert(std::pair<std::shared_ptr<GeometryModel>, std::vector<std::shared_ptr<TerrainRenderModel>>>(model, std::vector<std::shared_ptr<TerrainRenderModel>>()));
-
-		m_terrainBatches->at(model).push_back(terrain);
-	}
-
-	void RenderEngine::loadSkybox(const std::shared_ptr<Models::SkyboxRenderModel> skybox)
-	{
-		m_skybox = skybox;
-	}
-
-	void RenderEngine::loadCamera(const std::shared_ptr<Cameras::Camera> camera)
-	{
-		m_camera = camera;
-	}
-
-	void RenderEngine::loadLights(const std::shared_ptr<std::vector<Models::LightSource>> lights)
-	{
-		m_lights = lights;
+		// Load projection matrix
+		Mat4 projectionMatrix = *scene.getProjectionMatrix();
+		m_entityRenderer->loadProjectionMatrix(projectionMatrix);
+		m_terrainRenderer->loadProjectionMatrix(projectionMatrix);
+		m_skyboxRenderer->loadProjectionMatrix(projectionMatrix);
 	}
 
 	void RenderEngine::render() const
 	{
+		Camera camera = *m_scene.getCamera();
+		auto lights = *m_scene.getLights();
+		SkyboxRenderModel skybox = *m_scene.getSkybox();
+
 		// Render entities
-		for (auto batchIter = m_entityBatches->begin(); batchIter != m_entityBatches->end(); batchIter++)
+		for (const auto & entityBatch : *m_scene.getEntityBatches())
 		{
-			auto entities = batchIter->second;
+			auto entities = entityBatch.second;
 
 			m_entityRenderer->loadRenderModel(*entities.at(0)->getRenderModel());
 
-			for (auto entity : entities)
+			for (const auto entity : entities)
 			{
-				m_entityRenderer->loadCamera(*m_camera);
-				m_entityRenderer->loadLights(*m_lights);
+				m_entityRenderer->loadCamera(camera);
+				m_entityRenderer->loadLights(lights);
 				m_entityRenderer->loadEntity(*entity);
 				m_entityRenderer->render(*entity);
 			}
@@ -131,38 +84,30 @@ namespace SimpleGameEngine::Renderers
 		}
 
 		// Render terrain
-		for (auto batchIter = m_terrainBatches->begin(); batchIter != m_terrainBatches->end(); batchIter++)
+		for (const auto & terrainBatch : *m_scene.getTerrainBatches())
 		{
-			auto renderModels = batchIter->second;
-			for (auto modelIter = renderModels.begin(); modelIter != renderModels.end(); modelIter++)
+			auto terrains = terrainBatch.second;
+			for (const auto terrain : terrains)
 			{
-				auto renderModel = *modelIter;
-
-				m_terrainRenderer->loadCamera(*m_camera);
-				m_terrainRenderer->loadLights(*m_lights);
-				m_terrainRenderer->loadTerrain(*renderModel);
-				m_terrainRenderer->render(*renderModel);
+				m_terrainRenderer->loadCamera(camera);
+				m_terrainRenderer->loadLights(lights);
+				m_terrainRenderer->loadTerrain(*terrain);
+				m_terrainRenderer->render(*terrain);
 				m_terrainRenderer->unloadTerrain();
 			}
 		}
 
 		// Render skybox
-		m_skyboxRenderer->loadCamera(*m_camera);
-		m_skyboxRenderer->loadSkybox(*m_skybox);
-		m_skyboxRenderer->render(*m_skybox);
+		m_skyboxRenderer->loadCamera(camera);
+		m_skyboxRenderer->loadSkybox(skybox);
+		m_skyboxRenderer->render(skybox);
 		m_skyboxRenderer->unloadSkybox();
-
 	}
 
 
 
 	RenderEngine & RenderEngine::operator=(const RenderEngine & other)
 	{
-		m_entityBatches = other.m_entityBatches;
-		m_terrainBatches = other.m_terrainBatches;
-		m_skybox = other.m_skybox;
-		m_camera = other.m_camera;
-		m_lights = other.m_lights;
 		m_entityRenderer = other.m_entityRenderer;
 		m_terrainRenderer = other.m_terrainRenderer;
 		m_skyboxRenderer = other.m_skyboxRenderer;

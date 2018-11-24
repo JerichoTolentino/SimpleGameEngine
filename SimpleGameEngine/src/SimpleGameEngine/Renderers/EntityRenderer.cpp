@@ -38,14 +38,14 @@ namespace SimpleGameEngine::Renderers
 		ShaderLoader::stopShader(*m_shader);
 	}
 
-	void EntityRenderer::loadLights(const std::vector<Models::LightSource> & lights) const
+	void EntityRenderer::loadLights(const std::vector<std::shared_ptr<Models::LightSource>> & lights) const
 	{
 		ShaderLoader::startShader(*m_shader);
 
 		// Load in each light's color and position
 		for (int i = 0; i < EntityShaderConstants::MAX_LIGHTS; i++)
 		{
-			auto light = i < lights.size() ? lights.at(i) : LightSource(Vec3(0, 0, 0), Vec3(0, 0, 0));
+			auto light = i < lights.size() ? *lights.at(i) : LightSource(Vec3(0, 0, 0), Vec3(0, 0, 0));
 			ShaderLoader::loadUniformVec3f(
 				*m_shader, 
 				EntityShaderConstants::VERT_LIGHT_POSITIONS + "[" + std::to_string(i) + "]", 

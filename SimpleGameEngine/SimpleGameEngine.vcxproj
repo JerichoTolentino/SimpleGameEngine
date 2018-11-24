@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SimpleGameEngine\Renderers\RenderScene.h" />
     <ClInclude Include="src\SimpleGameEngine\Models\LightSource.h" />
     <ClInclude Include="src\SimpleGameEngine\Models\HeightMap.h" />
     <ClInclude Include="src\SimpleGameEngine\Shaders\SkyboxShaderConstants.h" />
@@ -63,6 +64,7 @@
     <ClInclude Include="src\SimpleGameEngine\Shaders\TerrainShaderConstants.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\SimpleGameEngine\Renderers\RenderScene.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Models\LightSource.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Models\HeightMap.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Shaders\SkyboxShaderConstants.cpp" />

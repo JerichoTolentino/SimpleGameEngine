@@ -62,12 +62,15 @@ namespace SimpleGameEngine
 			auto skyboxRenderer = std::make_shared<SkyboxRenderer>(SkyboxRenderer(skyboxShader));
 			RenderEngine renderEngine(entityRenderer, terrainRenderer, skyboxRenderer);
 
+			// Build scene
+			RenderScene scene;
+
 			// Load projection matrix
 			int windowWidth, windowHeight;
 			window.getWindowSize(windowWidth, windowHeight);
 			float aspectRatio = windowHeight == 0 ? 1 : (float) windowWidth / windowHeight;
-			Mat4 projectionMatrix = Mat4::generateProjectionMatrix(aspectRatio, 90, 0.1f, 1000.0f);
-			renderEngine.loadProjectionMatrix(projectionMatrix);
+			auto projectionMatrix = std::make_shared<Mat4>(Mat4::generateProjectionMatrix(aspectRatio, 90, 0.1f, 1000.0f));
+			scene.setProjectionMatrix(projectionMatrix);
 
 			// Create terrain
 			auto texturePack = std::make_shared<TexturePack>(Loader::loadTexturePack(
@@ -83,6 +86,7 @@ namespace SimpleGameEngine
 			GLuint terrainVaoId = Loader::loadGeometryModel(*(terrainModel->getGeometryModel()));
 			auto terrainRenderModel = std::make_shared<TerrainRenderModel>(TerrainRenderModel(terrainModel, terrainMaterial, terrainSpace, texturePack, terrainVaoId));
 			ModelTransformer::translate(*terrainSpace, Vec3(-heightMap->getWidth() / 2.0f, 0, -heightMap->getHeight() / 2.0f));
+			scene.addTerrain(terrainRenderModel);
 
 			// Create skybox
 			auto skyboxModel = std::make_shared<SkyboxModel>(SkyboxModel::CreateSkyboxModel(500));
@@ -96,6 +100,7 @@ namespace SimpleGameEngine
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/Lycksele3/negz.jpg"
 			);
 			auto skyboxRenderModel = std::make_shared<SkyboxRenderModel>(SkyboxRenderModel(skyboxModel, skyboxVaoId, skyboxTextureId));
+			scene.setSkybox(skyboxRenderModel);
 
 			// Create stall entity
 			auto stallModel = std::make_shared<GeometryModel>(WavefrontObjParser::parseFile("D:/Blender Files/stall.obj"));
@@ -105,26 +110,27 @@ namespace SimpleGameEngine
 			auto stallRenderModel = std::make_shared<RenderModel>(RenderModel(stallModel, stallMaterial, stallModelId, stallTextureId, skyboxTextureId));
 			auto stallSpaceModel = std::make_shared<SpaceModel>(SpaceModel(Vec3(0, -3, -10), Vec3(0, 180, 0), Vec3(1, 1, 1)));
 			auto stallEntity = std::make_shared<Entity>(Entity(stallRenderModel, stallSpaceModel));
+			scene.addEntity(stallEntity);
 
 			// Create camera
 			std::shared_ptr<Camera> camera = std::make_shared<Camera>(Camera(Vec3(0, 0.2f, 0), Vec3(-0.2f, 0, 0)));
-			renderEngine.loadCamera(camera);
+			scene.setCamera(camera);
 
 			// Create lights
-			auto lightSources = std::make_shared<std::vector<Models::LightSource>>();
-			//lightSources->push_back(LightSource(Vec3(-1000, 1000, -1000), Vec3(1, 1, 1)));
-			lightSources->push_back(LightSource(Vec3(0, 0.2f, 0), Vec3(1, 0, 0), Vec3(1, 0.01f, 0.002f)));
-			//lightSources->push_back(LightSource(Vec3(5, 2, -10), Vec3(0, 0, 1), Vec3(1, 0.01f, 0.002f)));
-			//lightSources->push_back(LightSource(Vec3(-50, 2, -100), Vec3(0, 1, 0), Vec3(1, 0.01f, 0.002f)));
-			renderEngine.loadLights(lightSources);
-
-			// Load entity
-			renderEngine.loadEntity(stallEntity);
-			renderEngine.loadSkybox(skyboxRenderModel);
-			renderEngine.loadTerrain(terrainRenderModel);
+			auto lightSources = std::vector<std::shared_ptr<Models::LightSource>>();
+			lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(-1000, 1000, -1000), Vec3(1, 1, 1))));
+			lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(0, 0.2f, 0), Vec3(1, 0, 0), Vec3(1, 0.01f, 0.002f))));
+			lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(5, 2, -10), Vec3(0, 0, 1), Vec3(1, 0.01f, 0.002f))));
+			lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(-50, 2, -100), Vec3(0, 1, 0), Vec3(1, 0.01f, 0.002f))));
+			for (auto light : lightSources)
+			{
+				scene.addLight(light);
+			}
 			
 			glEnable(GL_DEPTH_TEST);
 			glEnable(GL_CULL_FACE);
+
+			renderEngine.loadScene(scene);
 
 			// Main loop
 			while (!window.isClosed())

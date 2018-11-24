@@ -29,7 +29,7 @@ namespace SimpleGameEngine::Renderers
 		void unloadTerrain() const;
 		void loadProjectionMatrix(const Math::Mat4 & proj) const;
 		void loadCamera(const Cameras::Camera & camera) const;
-		void loadLights(const std::vector<Models::LightSource> & lights) const;
+		void loadLights(const std::vector<std::shared_ptr<Models::LightSource>> & lights) const;
 
 
 
