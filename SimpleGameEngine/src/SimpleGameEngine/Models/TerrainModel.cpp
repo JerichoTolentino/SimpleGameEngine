@@ -10,17 +10,24 @@ namespace SimpleGameEngine::Models
 	{
 	}
 
-	TerrainModel::TerrainModel(const std::shared_ptr<GeometryModel> geometryModel, const std::shared_ptr<HeightMap> heightMap, int tileSize, int rowCount, int columnCount)
+	TerrainModel::TerrainModel(
+		const std::shared_ptr<GeometryModel> geometryModel, 
+		const std::shared_ptr<HeightMap> heightMap, 
+		int tileSize, 
+		int tileFactor, 
+		int rowCount, 
+		int columnCount)
 	{
 		m_geometryModel = geometryModel;
 		m_heightMap = heightMap;
 		m_tileSize = tileSize;
+		m_tileFactor = tileFactor;
 		m_rowCount = rowCount;
 		m_columnCount = columnCount;
 	}
 
 	TerrainModel::TerrainModel(const TerrainModel & other)
-		: TerrainModel(other.m_geometryModel, other.m_heightMap, other.m_tileSize, other.m_rowCount, other.m_columnCount)
+		: TerrainModel(other.m_geometryModel, other.m_heightMap, other.m_tileSize, other.m_tileFactor, other.m_rowCount, other.m_columnCount)
 	{
 	}
 
@@ -45,6 +52,11 @@ namespace SimpleGameEngine::Models
 		return m_tileSize;
 	}
 
+	int TerrainModel::getTileFactor() const
+	{
+		return m_tileFactor;
+	}
+
 	int TerrainModel::getRowCount() const
 	{
 		return m_rowCount;
@@ -60,13 +72,14 @@ namespace SimpleGameEngine::Models
 		m_geometryModel = other.m_geometryModel;
 		m_heightMap = other.m_heightMap;
 		m_tileSize = other.m_tileSize;
+		m_tileFactor = other.m_tileFactor;
 		m_rowCount = other.m_rowCount;
 		m_columnCount = other.m_columnCount;
 
 		return *this;
 	}
 
-	TerrainModel TerrainModel::GenerateTerrainModel(int tileSize, const std::shared_ptr<HeightMap> heightMap)
+	TerrainModel TerrainModel::GenerateTerrainModel(int tileSize, int tileFactor, const std::shared_ptr<HeightMap> heightMap)
 	{
 		int rows = heightMap->getWidth() - 1;
 		int cols = heightMap->getHeight() - 1;
@@ -128,7 +141,7 @@ namespace SimpleGameEngine::Models
 				indices->push_back(topLeft);
 			}
 		}
-		return TerrainModel(std::make_shared<GeometryModel>(vertices, textureUvs, normals, indices), heightMap, tileSize, rows, cols);
+		return TerrainModel(std::make_shared<GeometryModel>(vertices, textureUvs, normals, indices), heightMap, tileSize, tileFactor,  rows, cols);
 	}
 
 	/*

@@ -48,7 +48,7 @@ namespace SimpleGameEngine::Renderers
 		ShaderLoader::loadUniformMat4f(*m_shader, TerrainShaderConstants::VERT_MODEL_MATRIX, modelMatrix);
 
 		// Load in tile factor
-		ShaderLoader::loadUniform1f(*m_shader, TerrainShaderConstants::FRAG_TILE_FACTOR, terrain.getTerrainModel()->getTileSize());
+		ShaderLoader::loadUniform1f(*m_shader, TerrainShaderConstants::FRAG_TILE_FACTOR, terrain.getTerrainModel()->getTileFactor());
 
 		// Load in texture pack
 		auto texturePack = terrain.getTexturePack();

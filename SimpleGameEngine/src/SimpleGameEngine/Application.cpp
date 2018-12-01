@@ -82,7 +82,7 @@ namespace SimpleGameEngine
 			auto terrainSpace = std::make_shared<SpaceModel>(SpaceModel(Vec3(0, -20, 0), Vec3(0, 0, 0), Vec3(1, 1, 1)));
 			auto terrainMaterial = std::make_shared<Material>(std::make_shared<LightingModel>(LightingModel(0.0f, 1, 0.1f, 0, 0.8f, 0.0f, 0.0f, 0)));
 			auto heightMap = std::make_shared<HeightMap>(Loader::loadHeightMap("C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/res/textures/zombieHeightMap.png", 20));
-			auto terrainModel = std::make_shared<TerrainModel>(TerrainModel::GenerateTerrainModel(1, heightMap));
+			auto terrainModel = std::make_shared<TerrainModel>(TerrainModel::GenerateTerrainModel(1, 20, heightMap));
 			GLuint terrainVaoId = Loader::loadGeometryModel(*(terrainModel->getGeometryModel()));
 			auto terrainRenderModel = std::make_shared<TerrainRenderModel>(TerrainRenderModel(terrainModel, terrainMaterial, terrainSpace, texturePack, terrainVaoId));
 			ModelTransformer::translate(*terrainSpace, Vec3(-heightMap->getWidth() / 2.0f, 0, -heightMap->getHeight() / 2.0f));
@@ -108,9 +108,19 @@ namespace SimpleGameEngine
 			unsigned int stallModelId = Loader::loadGeometryModel(*stallModel);
 			unsigned int stallTextureId = Loader::loadTexture("D:/Blender Files/stallTexture.png");
 			auto stallRenderModel = std::make_shared<RenderModel>(RenderModel(stallModel, stallMaterial, stallModelId, stallTextureId, skyboxTextureId));
-			auto stallSpaceModel = std::make_shared<SpaceModel>(SpaceModel(Vec3(0, -3, -10), Vec3(0, 180, 0), Vec3(1, 1, 1)));
+			auto stallSpaceModel = std::make_shared<SpaceModel>(SpaceModel(Vec3(5, -3, -10), Vec3(0, 180, 0), Vec3(1, 1, 1)));
 			auto stallEntity = std::make_shared<Entity>(Entity(stallRenderModel, stallSpaceModel));
 			scene.addEntity(stallEntity);
+
+			// Create ugly water bottle entity
+			auto waterBottleModel = std::make_shared<GeometryModel>(WavefrontObjParser::parseFile("D:/Blender Files/UglyWaterBottle.obj"));
+			auto waterBottleMaterial = std::make_shared<Material>(std::make_shared<LightingModel>(LightingModel(0, 1, 0.1f, 0, 1.0f, 0.4f, 32, 1.5f)));
+			unsigned int waterBottleModelId = Loader::loadGeometryModel(*waterBottleModel);
+			unsigned int waterBottleTextureId = Loader::loadTexture("D:/Blender Files/WaterBottleTexture.png");
+			auto waterBottleRenderModel = std::make_shared<RenderModel>(RenderModel(waterBottleModel, waterBottleMaterial, waterBottleModelId, waterBottleTextureId, skyboxTextureId));
+			auto waterBottleSpaceModel = std::make_shared<SpaceModel>(SpaceModel(Vec3(-5, -3, -10), Vec3(0, 0, 0), Vec3(1, 1, 1)));
+			auto waterBottleEntity = std::make_shared<Entity>(Entity(waterBottleRenderModel, waterBottleSpaceModel));
+			scene.addEntity(waterBottleEntity);
 
 			// Create camera
 			std::shared_ptr<Camera> camera = std::make_shared<Camera>(Camera(Vec3(0, 0.2f, 0), Vec3(-0.2f, 0, 0)));
@@ -118,10 +128,11 @@ namespace SimpleGameEngine
 
 			// Create lights
 			auto lightSources = std::vector<std::shared_ptr<Models::LightSource>>();
-			lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(-1000, 1000, -1000), Vec3(1, 1, 1))));
-			lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(0, 0.2f, 0), Vec3(1, 0, 0), Vec3(1, 0.01f, 0.002f))));
-			lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(5, 2, -10), Vec3(0, 0, 1), Vec3(1, 0.01f, 0.002f))));
-			lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(-50, 2, -100), Vec3(0, 1, 0), Vec3(1, 0.01f, 0.002f))));
+			auto testLight = std::make_shared<LightSource>(LightSource(Vec3(-30, 0.2f, 0), Vec3(1, 0, 0), Vec3(1, 0.01f, 0.002f)));
+			//lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(-1000, 1000, -1000), Vec3(1, 1, 1))));
+			lightSources.push_back(testLight);
+			//lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(5, 2, -10), Vec3(0, 0, 1), Vec3(1, 0.01f, 0.002f))));
+			//lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(-50, 2, -100), Vec3(0, 1, 0), Vec3(1, 0.01f, 0.002f))));
 			for (auto light : lightSources)
 			{
 				scene.addLight(light);
@@ -132,13 +143,27 @@ namespace SimpleGameEngine
 
 			renderEngine.loadScene(scene);
 
+			bool goLeft = false;
+
 			// Main loop
 			while (!window.isClosed())
 			{
 				window.clear();
 
+				ModelTransformer::rotate(*waterBottleSpaceModel, Vec3(0, 0.5f, 0));
 				renderEngine.render();
-				stallSpaceModel->setRotation(stallSpaceModel->getRotation().add(Vec3(0, 0.5f, 0)));
+
+				if (testLight->getPosition().x < -30)
+					goLeft = false;
+				else if (testLight->getPosition().x > 30)
+					goLeft = true;
+
+				if (goLeft)
+					testLight->translate(Vec3(-0.5f, 0, 0));
+				else
+					testLight->translate(Vec3(0.5f, 0, 0));
+				
+
 				//camera->setRotation(camera->getRotation().add(Vec3(0, 0.5f, 0)));
 
 				window.update();
@@ -149,6 +174,7 @@ namespace SimpleGameEngine
 			SGE_ERROR("Unexpected error: " + std::string(e.what()));
 		}
 
-		system("PAUSE");
+		std::cout << "Press enter to exit." << std::endl;
+		std::cin.get();
 	}
 }
