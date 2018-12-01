@@ -67,7 +67,7 @@ namespace SimpleGameEngine::Math
 		/// <param name="translate">The vector to translate this matrix with.</param>
 		/// <param name="rotate">The vector to rotate this matrix with.</param>
 		/// <param name="scale">The vector to scale this matrix with.</param>
-		void transform(Vec3 translate, Vec3 rotate, Vec3 scale);
+		void transform(const Vec3 & translate, const Vec3 & rotate, const Vec3 & scale);
 
 		std::string toString() const;
 
@@ -134,14 +134,14 @@ namespace SimpleGameEngine::Math
 		/// <param name="sourcePos">The position vector of the view source.</param>
 		/// <param name="sourceRot">The rotation vector of the view source.</param>
 		/// <returns></returns>
-		static Mat4 generateViewMatrix(Vec3 sourcePos, Vec3 sourceRot);
+		static Mat4 generateViewMatrix(const Vec3 & sourcePos, const Vec3 & sourceRot);
 
 		/// <summary>
 		/// Generates a normal matrix.
 		/// </summary>
 		/// <param name="modelMatrix">The model matrix to generate a normal matrix for.</param>
 		/// <returns></returns>
-		static Mat4 generateNormalMatrix(Mat4 modelMatrix);
+		static Mat4 generateNormalMatrix(const Mat4 & modelMatrix);
 
 
 
@@ -152,21 +152,21 @@ namespace SimpleGameEngine::Math
 		/// <param name="angle">The angle in degrees.</param>
 		/// <param name="axis">The axis vector to rotate around.</param>
 		/// <returns></returns>
-		static Mat4 generateRotation(float angle, Vec3 axis);
+		static Mat4 generateRotation(float angle, const Vec3 & axis);
 
 		/// <summary>
 		/// Generates a translation matrix.
 		/// </summary>
 		/// <param name="translate">The translation vector.</param>
 		/// <returns></returns>
-		static Mat4 generateTranslation(Vec3 translate);
+		static Mat4 generateTranslation(const Vec3 & translate);
 
 		/// <summary>
 		/// Generates a scale matrix.
 		/// </summary>
 		/// <param name="scale">The scaling vector.</param>
 		/// <returns></returns>
-		static Mat4 generateScaling(Vec3 scale);
+		static Mat4 generateScaling(const Vec3 & scale);
 
 	};
 }

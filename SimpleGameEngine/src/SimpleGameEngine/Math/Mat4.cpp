@@ -279,7 +279,7 @@ namespace SimpleGameEngine::Math
 		memcpy(this->elements, e, sizeof(float) * 16);
 	}
 
-	void Mat4::transform(Vec3 translate, Vec3 rotate, Vec3 scale)
+	void Mat4::transform(const Vec3 & translate, const Vec3 & rotate, const Vec3 & scale)
 	{
 		Mat4 transformations;
 
@@ -442,7 +442,7 @@ namespace SimpleGameEngine::Math
 		return projection;
 	}
 
-	Mat4 Mat4::generateViewMatrix(Vec3 cameraPos, Vec3 cameraRot)
+	Mat4 Mat4::generateViewMatrix(const Vec3 & cameraPos, const Vec3 & cameraRot)
 	{
 		Mat4 view;
 		view.setIdentity();
@@ -457,7 +457,7 @@ namespace SimpleGameEngine::Math
 
 	}
 
-	Mat4 Mat4::generateNormalMatrix(Mat4 modelMatrix)
+	Mat4 Mat4::generateNormalMatrix(const Mat4 & modelMatrix)
 	{
 		Mat4 normalMatrix = modelMatrix;
 
@@ -469,7 +469,7 @@ namespace SimpleGameEngine::Math
 	}
 
 
-	Mat4 Mat4::generateRotation(float angle, Vec3 axis)
+	Mat4 Mat4::generateRotation(float angle, const Vec3 & axis)
 	{
 		Mat4 rotate;
 		float x = axis.x;
@@ -496,7 +496,7 @@ namespace SimpleGameEngine::Math
 		return rotate;
 	}
 
-	Mat4 Mat4::generateTranslation(Vec3 translate)
+	Mat4 Mat4::generateTranslation(const Vec3 & translate)
 	{
 		Mat4 translation;
 
@@ -509,7 +509,7 @@ namespace SimpleGameEngine::Math
 		return translation;
 	}
 
-	Mat4 Mat4::generateScaling(Vec3 scale)
+	Mat4 Mat4::generateScaling(const Vec3 & scale)
 	{
 		Mat4 scaling;
 
