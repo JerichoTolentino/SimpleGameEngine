@@ -80,6 +80,7 @@ namespace SimpleGameEngine::Loaders
 		std::vector<float> flattenedVertices = Generic::flatten(
 			vertices->begin(),
 			vertices->end(),
+			vertices->size() * 3,
 			(std::function<void(const Vec3 &, std::vector<float> &)>) [](const Vec3 & vec, std::vector<float> & result)
 		{
 			result.push_back(vec.x);
@@ -90,6 +91,7 @@ namespace SimpleGameEngine::Loaders
 		std::vector<float> flattenedNormals = Generic::flatten(
 			normals->begin(), 
 			normals->end(),
+			normals->size() * 3,
 			(std::function<void(const Vec3 &, std::vector<float> &)>) [](const Vec3 & vec, std::vector<float> & result)
 		{
 			result.push_back(vec.x);
@@ -100,6 +102,7 @@ namespace SimpleGameEngine::Loaders
 		std::vector<float> flattenedUvs = Generic::flatten(
 			textureUvs->begin(),
 			textureUvs->end(),
+			textureUvs->size() * 2,
 			(std::function<void(const Vec2 &, std::vector<float> &)>) [](const Vec2 & vec, std::vector<float> & result)
 		{
 			result.push_back(vec.x);

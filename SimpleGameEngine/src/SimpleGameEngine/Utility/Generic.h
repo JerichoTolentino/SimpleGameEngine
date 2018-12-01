@@ -20,6 +20,19 @@ namespace SimpleGameEngine::Utility
 			return result;
 		}
 
+		template <typename ForwardIter, typename T, typename R>
+		static std::vector<R> flatten(ForwardIter begin, ForwardIter end, int size, std::function<void(const T &, std::vector<R> &)> func)
+		{
+			std::vector<R> result;
+			result.reserve(size);
+			for (; begin != end; begin++)
+			{
+				func(*begin, result);
+			}
+
+			return result;
+		}
+
 		template <typename T>
 		static T* copyToArray(const std::vector<T> & vector)
 		{
