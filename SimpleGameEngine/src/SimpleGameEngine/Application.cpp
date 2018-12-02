@@ -149,6 +149,7 @@ namespace SimpleGameEngine
 			
 			glEnable(GL_DEPTH_TEST);
 			glEnable(GL_CULL_FACE);
+			glCullFace(GL_BACK);
 
 			renderEngine.loadScene(scene);
 
@@ -163,9 +164,9 @@ namespace SimpleGameEngine
 				ModelTransformer::rotate(*waterBottleSpaceModel, Vec3(0, 0.5f, 0));
 				renderEngine.render();
 
-				if (testLight->getPosition().x < -30)
+				if (testLight->getPosition().x < -50)
 					goLeft = false;
-				else if (testLight->getPosition().x > 30)
+				else if (testLight->getPosition().x > 50)
 					goLeft = true;
 				
 				if (goLeft)
@@ -177,12 +178,12 @@ namespace SimpleGameEngine
 					goBack = false;
 				else if (stallSpaceModel->getPosition().z > -10)
 					goBack = true;
-
+				/*
 				if (goBack)
 					ModelTransformer::translate(*stallSpaceModel, Vec3(0, 0, -0.2f));
 				else
 					ModelTransformer::translate(*stallSpaceModel, Vec3(0, 0, 0.2f));
-
+				*/
 
 				//camera->setRotation(camera->getRotation().add(Vec3(0, 0.5f, 0)));
 

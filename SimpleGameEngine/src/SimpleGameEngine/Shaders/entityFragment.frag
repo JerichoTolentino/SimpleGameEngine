@@ -49,13 +49,14 @@ void main()
 		total_emissive +=  uLightColors[i];
 
 		// Calculate diffuse portion of color
-		float diffuse_amount = max(dot(n_to_light, n_normal), 0.0);
+		float diffuse_amount = clamp(dot(n_to_light, n_normal), 0.0, 1.0);
 		total_diffuse += (diffuse_amount * uLightColors[i]) / attenuation_factor;
 
 		// Calculate specular portion of color
 		vec3 n_light_reflection = normalize(vLightReflections[i]);
-		float specular_amount = pow(max(dot(n_to_eye, n_light_reflection), 0.0), uSpecularHighlight);
-		total_specular += (specular_amount * uLightColors[i]) / attenuation_factor;
+		float specular_amount = dot(n_to_eye, n_light_reflection);
+		float highlighted_specular = specular_amount > 0.0 ? pow(clamp(specular_amount, 0.0, 1.0), uSpecularHighlight) : 0.0;
+		total_specular += (highlighted_specular * uLightColors[i]) / attenuation_factor;
 	}
 
 	// Clamp total values (and apply ambient shading)
