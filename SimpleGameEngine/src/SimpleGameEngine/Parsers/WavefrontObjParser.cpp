@@ -35,6 +35,12 @@ namespace SimpleGameEngine::Parsers
 		// Vertex indices to render with an index array
 		auto indices = std::make_shared<std::vector<unsigned int>>();
 
+		// Handles texture seams
+		// Vector of flags indicating if a vertex at some position has been processed
+		// Vector of Vector<WavefrontObjVertex> storing all duplicate vertices
+		std::vector<bool> processedVertices;
+		std::vector<std::vector<WavefrontObjVertex>> processedVertexData;
+
 		bool finalArraysInitialized = false;
 
 		std::string line;
@@ -84,9 +90,15 @@ namespace SimpleGameEngine::Parsers
 				// elements to line up with the associated vertex.
 				if (!finalArraysInitialized)
 				{
+					int size = vertices->size();
+
 					// Resize aligned vectors to match the number of vertices
-					alignedTextureUvs->resize(vertices->size());
-					alignedNormals->resize(vertices->size());
+					alignedTextureUvs->resize(size);
+					alignedNormals->resize(size);
+
+					// Resize texture seam handling stuff
+					processedVertices.resize(size);
+					processedVertexData.resize(size);
 
 					finalArraysInitialized = true;
 				}
@@ -110,12 +122,53 @@ namespace SimpleGameEngine::Parsers
 					int uvIndex = atoi(faceElements.at(1).c_str()) - 1;
 					int normalIndex = atoi(faceElements.at(2).c_str()) - 1;
 
-					// Align elements with vertices
-					alignedTextureUvs->at(vertexIndex) = textureUvs.at(uvIndex);
-					alignedNormals->at(vertexIndex) = normals.at(normalIndex);
+					if (!processedVertices.at(vertexIndex))
+					{
+						// Align elements with vertices
+						alignedTextureUvs->at(vertexIndex) = textureUvs.at(uvIndex);
+						alignedNormals->at(vertexIndex) = normals.at(normalIndex);
 
-					// Build index array
-					indices->push_back(vertexIndex);
+						// Build index array
+						indices->push_back(vertexIndex);
+
+						// Add processed vertex
+						processedVertices.at(vertexIndex) = true;
+						processedVertexData.at(vertexIndex).push_back(WavefrontObjVertex(vertexIndex, uvIndex, normalIndex));
+					}
+					else
+					{
+						// Handle multiple texture/normal coordinates associated with a single vertex
+						// Look for an equivalent vertex data
+						auto vertexDataList = processedVertexData.at(vertexIndex);
+						WavefrontObjVertex current(vertexIndex, uvIndex, normalIndex);
+						auto vertexDataIter = std::find(vertexDataList.begin(), vertexDataList.end(), current);
+
+						if (vertexDataIter != vertexDataList.end())
+						{
+							// Found an actual duplicate - just add the index as usual
+							indices->push_back(vertexIndex);
+						}
+						else
+						{
+							// Need to create a duplicate position vertex for the uv/normal pair
+
+							// Duplicate position vertex
+							Vec3 position = vertices->at(vertexIndex);
+							vertices->push_back(Vec3(position));
+							int duplicateVertexIndex = vertices->size() - 1;
+
+							// Add duplicate texture and normal values
+							alignedTextureUvs->push_back(textureUvs.at(uvIndex));
+							alignedNormals->push_back(normals.at(normalIndex));
+
+							// Create new vertex data with new position, uv, and normal indexes
+							WavefrontObjVertex duplicateVertexData(duplicateVertexIndex, uvIndex, normalIndex);
+							vertexDataList.push_back(duplicateVertexData);
+							
+							// Push back new vertex index
+							indices->push_back(duplicateVertexIndex);
+						}
+					}
 				}
 			}
 			else if (tokens.at(0) == PARAM_SPACE_VERTEX_LINE || tokens.at(0) == LINE_ELEMENT_LINE)
@@ -127,4 +180,67 @@ namespace SimpleGameEngine::Parsers
 
 		return Models::GeometryModel(vertices, alignedTextureUvs, alignedNormals, indices);
 	}
+
+
+	
+#pragma region WavefrontObjVertex
+
+	WavefrontObjParser::WavefrontObjVertex::WavefrontObjVertex()
+	{
+	}
+
+	WavefrontObjParser::WavefrontObjVertex::WavefrontObjVertex(int positionIndex, int textureUvIndex, int normalIndex)
+	{
+		m_positionIndex = positionIndex;
+		m_textureUvIndex = textureUvIndex;
+		m_normalIndex = normalIndex;
+	}
+	
+	WavefrontObjParser::WavefrontObjVertex::WavefrontObjVertex(const WavefrontObjVertex & other)
+		: WavefrontObjVertex(other.m_positionIndex, other.m_textureUvIndex, other.m_normalIndex)
+	{
+	}
+	
+	WavefrontObjParser::WavefrontObjVertex::~WavefrontObjVertex()
+	{
+	}
+	
+	
+	
+	int WavefrontObjParser::WavefrontObjVertex::getPositionIndex() const
+	{
+		return m_positionIndex;
+	}
+	
+	int WavefrontObjParser::WavefrontObjVertex::getTextureUvIndex() const
+	{
+		return m_textureUvIndex;
+	}
+	
+	int WavefrontObjParser::WavefrontObjVertex::getNormalIndex() const
+	{
+		return m_normalIndex;
+	}
+	
+	
+	
+	WavefrontObjParser::WavefrontObjVertex & WavefrontObjParser::WavefrontObjVertex::operator=(const WavefrontObjVertex & other)
+	{
+		m_positionIndex = other.m_positionIndex;
+		m_textureUvIndex = other.m_textureUvIndex;
+		m_normalIndex = other.m_normalIndex;
+
+		return *this;
+	}
+
+	bool WavefrontObjParser::WavefrontObjVertex::operator==(const WavefrontObjVertex & other)
+	{
+		return
+			m_positionIndex == other.m_positionIndex &&
+			m_textureUvIndex == other.m_textureUvIndex &&
+			m_normalIndex == other.m_normalIndex;
+	}
+
+#pragma endregion
+
 }

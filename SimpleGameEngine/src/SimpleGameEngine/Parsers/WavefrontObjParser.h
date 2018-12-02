@@ -23,5 +23,35 @@ namespace SimpleGameEngine::Parsers
 		/// <returns></returns>
 		/// <exception cref="ParseException"></exception>
 		static Models::GeometryModel parseFile(const std::string & filepath);
+
+
+
+	private:
+		class WavefrontObjVertex
+		{
+		private:
+			int m_positionIndex;
+			int m_textureUvIndex;
+			int m_normalIndex;
+
+
+
+		public:
+			WavefrontObjVertex();
+			WavefrontObjVertex(int positionIndex, int textureUvIndex, int normalIndex);
+			WavefrontObjVertex(const WavefrontObjVertex & other);
+			~WavefrontObjVertex();
+
+
+
+			int getPositionIndex() const;
+			int getTextureUvIndex() const;
+			int getNormalIndex() const;
+
+
+
+			WavefrontObjVertex & operator=(const WavefrontObjVertex & other);
+			bool operator==(const WavefrontObjVertex & other);
+		};
 	};
 }
