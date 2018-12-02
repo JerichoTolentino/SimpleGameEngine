@@ -25,7 +25,7 @@ uniform samplerCube uCubemapSampler;
 
 void main()
 {
-
+	// Initialize running totals of shading colors
 	vec3 total_emissive = vec3(0.0);
 	vec3 total_diffuse = vec3(0.0);
 	vec3 total_specular = vec3(0.0);

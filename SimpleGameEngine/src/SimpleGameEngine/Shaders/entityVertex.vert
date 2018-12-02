@@ -23,7 +23,7 @@ uniform float uRefractiveIndex;
 void main()
 {
 	// Transform position and normal to world coordinates
-	vec4 world_pos = vec4(iPosition, 1.0) * uModelMatrix;
+	vec4 world_position = vec4(iPosition, 1.0) * uModelMatrix;
 	vec4 world_normal = vec4(iNormal, 0.0) * transpose(inverse(uModelMatrix)); // Transpose inverse of model matrix accounts for scaling
 
 	// Pass swizzled normal vector out
@@ -35,7 +35,7 @@ void main()
 	for (int i = 0; i < 5; i++)
 	{
 		// Calculate vector from vertex to the light source
-		vToLights[i] = uLightPositions[i] - world_pos.xyz;
+		vToLights[i] = uLightPositions[i] - world_position.xyz;
 
 		// Calculate light reflection vector
 		vec3 n_to_light = normalize(vToLights[i]);
@@ -43,7 +43,7 @@ void main()
 	}
 
 	// Calculate vector from vertex to the camera
-	vToEye = uEyePosition - world_pos.xyz;
+	vToEye = uEyePosition - world_position.xyz;
 	vec3 n_to_eye = normalize(vToEye);
 
 	// Calculate eye reflection vector
@@ -55,5 +55,5 @@ void main()
 	// Pass the texture UVs
 	vTextureCoordinates = iTextureUv;
 
-	gl_Position = world_pos * uViewMatrix * uProjectionMatrix;
+	gl_Position = world_position * uViewMatrix * uProjectionMatrix;
 }

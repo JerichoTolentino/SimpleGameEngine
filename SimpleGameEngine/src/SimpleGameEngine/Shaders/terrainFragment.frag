@@ -21,6 +21,7 @@ uniform sampler2D uBackgroundSampler;
 
 void main()
 {
+	// Initialize running total of shading color
 	vec3 total_diffuse = vec3(0.0);	
 
 	// Normalize interpolated normal
