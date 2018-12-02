@@ -135,7 +135,7 @@ namespace SimpleGameEngine
 
 			// Create lights
 			auto lightSources = std::vector<std::shared_ptr<Models::LightSource>>();
-			auto testLight = std::make_shared<LightSource>(LightSource(Vec3(0, 0.2f, -25), Vec3(1, 0, 0), Vec3(1, 0.01f, 0.002f)));
+			auto testLight = std::make_shared<LightSource>(LightSource(Vec3(0, 0.2f, 25), Vec3(1, 0, 0), Vec3(1, 0.01f, 0.002f)));
 			auto testLight2 = std::make_shared<LightSource>(LightSource(Vec3(0, 0.2f, 0), Vec3(0, 0, 1), Vec3(1, 0.01f, 0.002f)));
 			lightSources.push_back(testLight);
 			lightSources.push_back(testLight2);
@@ -167,12 +167,12 @@ namespace SimpleGameEngine
 					goLeft = false;
 				else if (testLight->getPosition().x > 30)
 					goLeft = true;
-				/*
+				
 				if (goLeft)
 					testLight->translate(Vec3(-1, 0, 0));
 				else
 					testLight->translate(Vec3(1, 0, 0));
-				*/
+				
 				if (stallSpaceModel->getPosition().z < -50)
 					goBack = false;
 				else if (stallSpaceModel->getPosition().z > -10)

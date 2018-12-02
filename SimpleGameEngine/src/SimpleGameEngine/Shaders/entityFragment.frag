@@ -1,5 +1,7 @@
 #version 430 core
 
+layout(location = 0) out vec4 OutputColor;
+
 in vec2 vTextureCoordinates;
 in vec3 vToEye;
 in vec3 vNormal;
@@ -7,8 +9,6 @@ in vec3 vToLights[5];
 in vec3 vLightReflections[5];
 in vec3 vRefracted;
 in vec3 vEyeReflection;
-
-layout(location = 0) out vec4 OutputColor;
 
 uniform float uAmbient;
 uniform float uEmissive;
@@ -77,5 +77,4 @@ void main()
 	// Mix colors
 	vec4 surface_color = mix(final_phong, final_reflection, uReflectivity);
 	OutputColor = mix(final_refracted, surface_color, uOpacity);
-	//OutputColor = final_phong;
 }
