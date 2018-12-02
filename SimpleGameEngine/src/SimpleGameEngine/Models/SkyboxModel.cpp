@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "SkyboxModel.h"
 
 using namespace SimpleGameEngine::Math;

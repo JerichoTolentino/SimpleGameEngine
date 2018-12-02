@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "MathUtils.h"
 
 namespace SimpleGameEngine::Math

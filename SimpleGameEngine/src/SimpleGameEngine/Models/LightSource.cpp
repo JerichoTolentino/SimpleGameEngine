@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "LightSource.h"
 
 namespace SimpleGameEngine::Models
@@ -43,6 +44,11 @@ namespace SimpleGameEngine::Models
 	Math::Vec3 LightSource::getAttenuation() const
 	{
 		return m_attenuation;
+	}
+
+	void LightSource::translate(const Math::Vec3 & translation)
+	{
+		m_position += translation;
 	}
 
 

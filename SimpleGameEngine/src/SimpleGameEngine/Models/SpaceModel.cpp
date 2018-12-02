@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "SpaceModel.h"
 
 namespace SimpleGameEngine::Models

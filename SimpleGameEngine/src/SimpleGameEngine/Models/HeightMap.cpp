@@ -1,6 +1,5 @@
+#include "sgepch.h"
 #include "HeightMap.h"
-#include <exception>
-#include <string>
 
 constexpr int MAX_COLOR = 255;
 

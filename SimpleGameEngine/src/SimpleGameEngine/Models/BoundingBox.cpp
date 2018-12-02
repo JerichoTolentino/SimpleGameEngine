@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "BoundingBox.h"
 
 using namespace SimpleGameEngine::Math;

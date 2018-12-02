@@ -1,4 +1,6 @@
+#include "sgepch.h"
 #include "TerrainRenderer.h"
+
 #include "../Loaders/ShaderLoader.h"
 #include "../Shaders/TerrainShaderConstants.h"
 

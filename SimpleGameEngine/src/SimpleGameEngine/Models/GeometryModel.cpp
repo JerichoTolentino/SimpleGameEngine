@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "GeometryModel.h"
 
 using namespace SimpleGameEngine::Math;

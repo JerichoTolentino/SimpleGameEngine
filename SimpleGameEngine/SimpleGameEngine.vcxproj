@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\sgepch.h" />
     <ClInclude Include="src\SimpleGameEngine\Renderers\RenderScene.h" />
     <ClInclude Include="src\SimpleGameEngine\Models\LightSource.h" />
     <ClInclude Include="src\SimpleGameEngine\Models\HeightMap.h" />
@@ -64,6 +65,14 @@
     <ClInclude Include="src\SimpleGameEngine\Shaders\TerrainShaderConstants.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\sgepch.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </PrecompiledHeaderFile>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </PrecompiledHeaderFile>
+    </ClCompile>
     <ClCompile Include="src\SimpleGameEngine\Renderers\RenderScene.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Models\LightSource.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Models\HeightMap.cpp" />
@@ -172,7 +181,9 @@
       <ConformanceMode>false</ConformanceMode>
       <PreprocessorDefinitions>GLEW_STATIC;SGE_PLATFORM_WINDOWS;SGE_BUILD_DLL;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)SimpleGameEngine\vendor\spdlog\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)SimpleGameEngine\vendor\spdlog\include;$(SolutionDir)SimpleGameEngine\src</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>sgepch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <AdditionalDependencies>SOIL.lib;glfw3.lib;glew32s.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
@@ -191,7 +202,9 @@
       <ConformanceMode>false</ConformanceMode>
       <PreprocessorDefinitions>GLEW_STATIC;SGE_PLATFORM_WINDOWS;SGE_BUILD_DLL;_WINDLL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <LanguageStandard>stdcpp17</LanguageStandard>
-      <AdditionalIncludeDirectories>$(SolutionDir)SimpleGameEngine\vendor\spdlog\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)SimpleGameEngine\vendor\spdlog\include;$(SolutionDir)SimpleGameEngine\src</AdditionalIncludeDirectories>
+      <PrecompiledHeader>Use</PrecompiledHeader>
+      <PrecompiledHeaderFile>sgepch.h</PrecompiledHeaderFile>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>

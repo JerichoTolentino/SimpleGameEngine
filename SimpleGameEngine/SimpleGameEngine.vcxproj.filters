@@ -168,6 +168,9 @@
     <ClInclude Include="src\SimpleGameEngine\Renderers\RenderScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\sgepch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\SimpleGameEngine\Application.cpp">
@@ -309,6 +312,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\SimpleGameEngine\Renderers\RenderScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sgepch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

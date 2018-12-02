@@ -1,6 +1,5 @@
+#include "sgepch.h"
 #include "TerrainModel.h"
-#include "../Math/Vec3.h"
-#include "../Math/Vec2.h"
 
 using namespace SimpleGameEngine::Math;
 

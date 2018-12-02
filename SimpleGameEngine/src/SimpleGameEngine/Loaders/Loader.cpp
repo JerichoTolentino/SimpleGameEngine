@@ -1,7 +1,8 @@
+#include "sgepch.h"
 #include "Loader.h"
+
 #include "TextureLoadException.h"
 #include "../Utility/Generic.h"
-#include "../Log.h"
 
 #define VERTICES_ATTR 0
 #define NORMALS_ATTR 1

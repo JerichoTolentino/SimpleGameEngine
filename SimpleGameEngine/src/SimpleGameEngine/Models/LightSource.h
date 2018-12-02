@@ -23,6 +23,8 @@ namespace SimpleGameEngine::Models
 		Math::Vec3 getColor() const;
 		Math::Vec3 getAttenuation() const;
 
+		void translate(const Math::Vec3 & translation);
+
 
 
 		LightSource & operator=(const LightSource & other);

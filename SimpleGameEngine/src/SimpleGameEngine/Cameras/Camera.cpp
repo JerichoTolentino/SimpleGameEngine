@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "Camera.h"
 
 #define MOVESPEED 10.0f

@@ -1,11 +1,9 @@
+#include "sgepch.h"
 #include "WavefrontObjParser.h"
-#include <fstream>
-#include <vector>
-#include <memory>
+
 #include "../IO/FileUtils.h"
 #include "../Utility/StringUtil.h"
 #include "ParseException.h"
-#include "../Log.h"
 
 using namespace SimpleGameEngine::IO;
 using namespace SimpleGameEngine::Utility;

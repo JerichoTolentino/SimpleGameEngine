@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "LightingModel.h"
 
 namespace SimpleGameEngine::Models

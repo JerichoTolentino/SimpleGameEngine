@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "RenderModel.h"
 
 namespace SimpleGameEngine::Models

@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "IOException.h"
 
 namespace SimpleGameEngine::IO

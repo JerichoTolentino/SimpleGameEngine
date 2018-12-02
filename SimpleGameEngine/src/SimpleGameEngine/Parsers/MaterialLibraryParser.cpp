@@ -1,9 +1,9 @@
+#include "sgepch.h"
 #include "MaterialLibraryParser.h"
-#include <fstream>
+
 #include "../IO/FileUtils.h"
 #include "../Utility/StringUtil.h"
 #include "ParseException.h"
-#include "../Log.h"
 
 using namespace SimpleGameEngine::Models;
 using namespace SimpleGameEngine::IO;

@@ -1,4 +1,6 @@
+#include "sgepch.h"
 #include "EntityRenderer.h"
+
 #include "../Loaders/ShaderLoader.h"
 #include "../Shaders/EntityShaderConstants.h"
 

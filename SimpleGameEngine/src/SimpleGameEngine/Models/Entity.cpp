@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "Entity.h"
 #include "../Logic/ModelTransformer.h"
 

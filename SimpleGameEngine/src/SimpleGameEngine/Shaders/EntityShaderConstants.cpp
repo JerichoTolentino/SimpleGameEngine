@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "EntityShaderConstants.h"
 
 namespace SimpleGameEngine::Shaders

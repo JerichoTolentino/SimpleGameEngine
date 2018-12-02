@@ -1,10 +1,9 @@
+#include "sgepch.h"
 #include "ShaderLoader.h"
 
-#include <exception>
 #include "../IO/FileUtils.h"
 #include "ShaderCompileException.h"
 #include "LoadUniformException.h"
-#include "../Log.h"
 
 using namespace SimpleGameEngine::IO;
 using namespace SimpleGameEngine::Shaders;

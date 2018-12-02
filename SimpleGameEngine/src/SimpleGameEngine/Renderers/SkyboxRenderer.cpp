@@ -1,4 +1,6 @@
+#include "sgepch.h"
 #include "SkyboxRenderer.h"
+
 #include "../Loaders/ShaderLoader.h"
 #include "../Shaders/SkyboxShaderConstants.h"
 

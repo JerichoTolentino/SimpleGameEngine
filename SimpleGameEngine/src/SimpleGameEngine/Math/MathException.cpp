@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "MathException.h"
 
 namespace SimpleGameEngine::Math

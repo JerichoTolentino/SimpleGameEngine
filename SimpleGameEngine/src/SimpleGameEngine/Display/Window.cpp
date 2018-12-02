@@ -1,6 +1,7 @@
+#include "sgepch.h"
 #include "Window.h"
+
 #include "DisplayException.h"
-#include "../Log.h"
 
 #define MAXKEYS 349
 #define MAXBUTTONS 20

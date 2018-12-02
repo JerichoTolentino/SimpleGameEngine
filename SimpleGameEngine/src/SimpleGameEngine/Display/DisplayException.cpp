@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "DisplayException.h"
 
 namespace SimpleGameEngine::Display

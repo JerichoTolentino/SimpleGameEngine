@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "ParseException.h"
 
 namespace SimpleGameEngine::Parsers

@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "Application.h"
 #include <memory>
 #include "Display/Window.h"
@@ -122,15 +123,23 @@ namespace SimpleGameEngine
 			auto waterBottleEntity = std::make_shared<Entity>(Entity(waterBottleRenderModel, waterBottleSpaceModel));
 			scene.addEntity(waterBottleEntity);
 
+			// Create second ugly water bottle entity
+			auto waterBottleRenderModel2 = std::make_shared<RenderModel>(RenderModel(*waterBottleRenderModel));
+			auto waterBottleSpaceModel2 = std::make_shared<SpaceModel>(SpaceModel(Vec3(0, -3, -10), Vec3(0, 0, 0), Vec3(1, 1, 1)));
+			auto waterBottleEntity2 = std::make_shared<Entity>(Entity(waterBottleRenderModel2, waterBottleSpaceModel2));
+			scene.addEntity(waterBottleEntity2);
+
 			// Create camera
 			std::shared_ptr<Camera> camera = std::make_shared<Camera>(Camera(Vec3(0, 0.2f, 0), Vec3(-0.2f, 0, 0)));
 			scene.setCamera(camera);
 
 			// Create lights
 			auto lightSources = std::vector<std::shared_ptr<Models::LightSource>>();
-			auto testLight = std::make_shared<LightSource>(LightSource(Vec3(-30, 0.2f, 0), Vec3(1, 0, 0), Vec3(1, 0.01f, 0.002f)));
-			//lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(-1000, 1000, -1000), Vec3(1, 1, 1))));
+			auto testLight = std::make_shared<LightSource>(LightSource(Vec3(0, 0.2f, -25), Vec3(1, 0, 0), Vec3(1, 0.01f, 0.002f)));
+			auto testLight2 = std::make_shared<LightSource>(LightSource(Vec3(0, 0.2f, 0), Vec3(0, 0, 1), Vec3(1, 0.01f, 0.002f)));
 			lightSources.push_back(testLight);
+			lightSources.push_back(testLight2);
+			//lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(-1000, 1000, -1000), Vec3(1, 1, 1))));
 			//lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(5, 2, -10), Vec3(0, 0, 1), Vec3(1, 0.01f, 0.002f))));
 			//lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(-50, 2, -100), Vec3(0, 1, 0), Vec3(1, 0.01f, 0.002f))));
 			for (auto light : lightSources)
@@ -144,6 +153,7 @@ namespace SimpleGameEngine
 			renderEngine.loadScene(scene);
 
 			bool goLeft = false;
+			bool goBack = true;
 
 			// Main loop
 			while (!window.isClosed())
@@ -157,12 +167,22 @@ namespace SimpleGameEngine
 					goLeft = false;
 				else if (testLight->getPosition().x > 30)
 					goLeft = true;
-
+				/*
 				if (goLeft)
-					testLight->translate(Vec3(-0.5f, 0, 0));
+					testLight->translate(Vec3(-1, 0, 0));
 				else
-					testLight->translate(Vec3(0.5f, 0, 0));
-				
+					testLight->translate(Vec3(1, 0, 0));
+				*/
+				if (stallSpaceModel->getPosition().z < -50)
+					goBack = false;
+				else if (stallSpaceModel->getPosition().z > -10)
+					goBack = true;
+
+				if (goBack)
+					ModelTransformer::translate(*stallSpaceModel, Vec3(0, 0, -0.2f));
+				else
+					ModelTransformer::translate(*stallSpaceModel, Vec3(0, 0, 0.2f));
+
 
 				//camera->setRotation(camera->getRotation().add(Vec3(0, 0.5f, 0)));
 

@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "LoadUniformException.h"
 
 namespace SimpleGameEngine::Loaders

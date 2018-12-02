@@ -1,4 +1,6 @@
+#include "sgepch.h"
 #include "Mat4.h"
+
 #include "MathException.h"
 
 // Column Major Matrix
@@ -425,18 +427,18 @@ namespace SimpleGameEngine::Math
 
 
 
-	Mat4 Mat4::generateProjectionMatrix(float aspectRatio, float fov, float near, float far)
+	Mat4 Mat4::generateProjectionMatrix(float aspectRatio, float fov, float nearClip, float farClip)
 	{
 		Mat4 projection;
 
 		float s = (float) (1.0 / tan(fov * PI / 360));
-		float fmn = far - near;
+		float fmn = farClip - nearClip;
 
 		projection.elements[0] = s / aspectRatio;
 		projection.elements[5] = s;
-		projection.elements[10] = -(far + near) / fmn;
+		projection.elements[10] = -(farClip + nearClip) / fmn;
 		projection.elements[11] = -1;
-		projection.elements[14] = -2 * far * near / fmn;
+		projection.elements[14] = -2 * farClip * nearClip / fmn;
 		projection.elements[15] = 0;
 
 		return projection;

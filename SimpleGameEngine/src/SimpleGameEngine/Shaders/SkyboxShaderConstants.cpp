@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "SkyboxShaderConstants.h"
 
 namespace SimpleGameEngine::Shaders

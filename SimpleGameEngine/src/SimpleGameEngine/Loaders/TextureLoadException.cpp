@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "TextureLoadException.h"
 
 namespace SimpleGameEngine::Loaders

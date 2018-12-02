@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "StringUtil.h"
 
 namespace SimpleGameEngine::Utility

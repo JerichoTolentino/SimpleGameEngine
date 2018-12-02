@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "TerrainRenderModel.h"
 
 namespace SimpleGameEngine::Models

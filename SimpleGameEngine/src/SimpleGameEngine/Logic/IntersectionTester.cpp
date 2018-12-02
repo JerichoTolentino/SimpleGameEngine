@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "IntersectionTester.h"
 
 namespace SimpleGameEngine::Logic

@@ -1,5 +1,5 @@
+#include "sgepch.h"
 #include "RenderEngine.h"
-#include "../Log.h"
 
 using namespace SimpleGameEngine::Math;
 using namespace SimpleGameEngine::Models;

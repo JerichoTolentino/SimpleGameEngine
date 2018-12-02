@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "TexturePack.h"
 
 namespace SimpleGameEngine::Models

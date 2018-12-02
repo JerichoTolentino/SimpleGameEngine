@@ -1,6 +1,7 @@
+#include "sgepch.h"
 #include "FileUtils.h"
+
 #include "IOException.h"
-#include <fstream>
 
 namespace SimpleGameEngine::IO
 {

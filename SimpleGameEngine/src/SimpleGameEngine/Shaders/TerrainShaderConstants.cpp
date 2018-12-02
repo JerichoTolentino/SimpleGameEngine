@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "TerrainShaderConstants.h"
 
 namespace SimpleGameEngine::Shaders

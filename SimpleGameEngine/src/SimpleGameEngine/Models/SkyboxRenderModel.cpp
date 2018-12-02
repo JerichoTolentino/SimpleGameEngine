@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "SkyboxRenderModel.h"
 
 namespace SimpleGameEngine::Models

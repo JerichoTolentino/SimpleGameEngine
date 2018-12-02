@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "Material.h"
 
 namespace SimpleGameEngine::Models

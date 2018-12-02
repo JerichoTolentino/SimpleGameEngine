@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "Vec3.h"
 
 namespace SimpleGameEngine::Math

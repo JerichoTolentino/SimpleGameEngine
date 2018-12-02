@@ -1,3 +1,4 @@
+#include "sgepch.h"
 #include "ShaderCompileException.h"
 
 namespace SimpleGameEngine::Loaders
