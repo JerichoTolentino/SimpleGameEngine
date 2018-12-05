@@ -171,6 +171,18 @@
     <ClInclude Include="src\sgepch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\Models\GuiElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\Models\GuiRenderElement.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\Renderers\GuiRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\Shaders\GuiShaderConstants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\SimpleGameEngine\Application.cpp">
@@ -317,6 +329,18 @@
     <ClCompile Include="src\sgepch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\Models\GuiElement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\Models\GuiRenderElement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\Renderers\GuiRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\Shaders\GuiShaderConstants.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\SimpleGameEngine\Shaders\entityFragment.frag" />
@@ -325,5 +349,7 @@
     <None Include="src\SimpleGameEngine\Shaders\skyboxVertex.vert" />
     <None Include="src\SimpleGameEngine\Shaders\terrainFragment.frag" />
     <None Include="src\SimpleGameEngine\Shaders\terrainVertex.vert" />
+    <None Include="src\SimpleGameEngine\Shaders\guiFragment.frag" />
+    <None Include="src\SimpleGameEngine\Shaders\guiVertex.vert" />
   </ItemGroup>
 </Project>

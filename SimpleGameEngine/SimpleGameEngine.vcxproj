@@ -11,6 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SimpleGameEngine\Shaders\GuiShaderConstants.h" />
+    <ClInclude Include="src\SimpleGameEngine\Renderers\GuiRenderer.h" />
+    <ClInclude Include="src\SimpleGameEngine\Models\GuiRenderElement.h" />
+    <ClInclude Include="src\SimpleGameEngine\Models\GuiElement.h" />
     <ClInclude Include="src\sgepch.h" />
     <ClInclude Include="src\SimpleGameEngine\Renderers\RenderScene.h" />
     <ClInclude Include="src\SimpleGameEngine\Models\LightSource.h" />
@@ -65,6 +69,10 @@
     <ClInclude Include="src\SimpleGameEngine\Shaders\TerrainShaderConstants.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\SimpleGameEngine\Shaders\GuiShaderConstants.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Renderers\GuiRenderer.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Models\GuiRenderElement.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Models\GuiElement.cpp" />
     <ClCompile Include="src\sgepch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -124,6 +132,8 @@
   <ItemGroup>
     <None Include="src\SimpleGameEngine\Shaders\entityFragment.frag" />
     <None Include="src\SimpleGameEngine\Shaders\entityVertex.vert" />
+    <None Include="src\SimpleGameEngine\Shaders\guiFragment.frag" />
+    <None Include="src\SimpleGameEngine\Shaders\guiVertex.vert" />
     <None Include="src\SimpleGameEngine\Shaders\skyboxFragment.frag" />
     <None Include="src\SimpleGameEngine\Shaders\skyboxVertex.vert" />
     <None Include="src\SimpleGameEngine\Shaders\terrainFragment.frag" />

@@ -14,16 +14,18 @@ namespace SimpleGameEngine::Renderers
 	RenderEngine::RenderEngine(
 		const std::shared_ptr<EntityRenderer> entityRenderer, 
 		const std::shared_ptr<TerrainRenderer> terrainRenderer, 
-		const std::shared_ptr<SkyboxRenderer> skyboxRenderer)
+		const std::shared_ptr<SkyboxRenderer> skyboxRenderer,
+		const std::shared_ptr<GuiRenderer> guiRenderer)
 		: RenderEngine()
 	{
 		m_entityRenderer = entityRenderer;
 		m_terrainRenderer = terrainRenderer;
 		m_skyboxRenderer = skyboxRenderer;
+		m_guiRenderer = guiRenderer;
 	}
 
 	RenderEngine::RenderEngine(const RenderEngine & other)
-		: RenderEngine(other.m_entityRenderer, other.m_terrainRenderer, other.m_skyboxRenderer)
+		: RenderEngine(other.m_entityRenderer, other.m_terrainRenderer, other.m_skyboxRenderer, other.m_guiRenderer)
 	{
 	}
 
@@ -48,6 +50,11 @@ namespace SimpleGameEngine::Renderers
 		return m_skyboxRenderer;
 	}
 
+	std::shared_ptr<GuiRenderer> RenderEngine::getGuiRenderer() const
+	{
+		return m_guiRenderer;
+	}
+
 	void RenderEngine::loadScene(const RenderScene & scene)
 	{
 		m_scene = scene;
@@ -59,11 +66,19 @@ namespace SimpleGameEngine::Renderers
 		m_skyboxRenderer->loadProjectionMatrix(projectionMatrix);
 	}
 
+	void RenderEngine::loadGuiRenderElements(const std::vector<std::shared_ptr<Models::GuiRenderElement>>& guiRenderElements)
+	{
+		for (auto guiRenderElement : guiRenderElements)
+		{
+			m_guiRenderElements.push_back(guiRenderElement);
+		}
+	}
+
 	void RenderEngine::render() const
 	{
 		Camera camera = *m_scene.getCamera();
 		auto lights = *m_scene.getLights();
-		SkyboxRenderModel skybox = *m_scene.getSkybox();
+		auto skybox = m_scene.getSkybox();
 
 		// Render entities
 		for (const auto & entityBatch : *m_scene.getEntityBatches())
@@ -98,10 +113,22 @@ namespace SimpleGameEngine::Renderers
 		}
 
 		// Render skybox
-		m_skyboxRenderer->loadCamera(camera);
-		m_skyboxRenderer->loadSkybox(skybox);
-		m_skyboxRenderer->render(skybox);
-		m_skyboxRenderer->unloadSkybox();
+		if (skybox != nullptr)
+		{
+			m_skyboxRenderer->loadCamera(camera);
+			m_skyboxRenderer->loadSkybox(*skybox);
+			m_skyboxRenderer->render(*skybox);
+			m_skyboxRenderer->unloadSkybox();
+		}
+
+		// Render GUI elements
+		for (const auto & guiRenderElement : m_guiRenderElements)
+		{
+			m_guiRenderer->loadGuiRenderElement(*guiRenderElement);
+			m_guiRenderer->loadGuiElement(*guiRenderElement->getGuiElement());
+			m_guiRenderer->render(*guiRenderElement);
+			m_guiRenderer->unloadGuiRenderElement();
+		}
 	}
 
 
@@ -111,6 +138,7 @@ namespace SimpleGameEngine::Renderers
 		m_entityRenderer = other.m_entityRenderer;
 		m_terrainRenderer = other.m_terrainRenderer;
 		m_skyboxRenderer = other.m_skyboxRenderer;
+		m_guiRenderer = other.m_guiRenderer;
 
 		return *this;
 	}

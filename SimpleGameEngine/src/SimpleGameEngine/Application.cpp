@@ -56,13 +56,19 @@ namespace SimpleGameEngine
 			auto skyboxShader = std::make_shared<Shader>(ShaderLoader::loadShader(
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/src/SimpleGameEngine/Shaders/skyboxVertex.vert", 
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/src/SimpleGameEngine/Shaders/skyboxFragment.frag"));
+			auto guiShader = std::make_shared<Shader>(ShaderLoader::loadShader(
+				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/src/SimpleGameEngine/Shaders/guiVertex.vert",
+				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/src/SimpleGameEngine/Shaders/guiFragment.frag"
+			));
 
 			// Make renderers
 			auto entityRenderer = std::make_shared<EntityRenderer>(EntityRenderer(entityShader));
 			auto terrainRenderer = std::make_shared<TerrainRenderer>(TerrainRenderer(terrainShader));
 			auto skyboxRenderer = std::make_shared<SkyboxRenderer>(SkyboxRenderer(skyboxShader));
-			RenderEngine renderEngine(entityRenderer, terrainRenderer, skyboxRenderer);
+			auto guiRenderer = std::make_shared<GuiRenderer>(GuiRenderer(guiShader));
+			RenderEngine renderEngine(entityRenderer, terrainRenderer, skyboxRenderer, guiRenderer);
 
+			
 			// Build scene
 			RenderScene scene;
 
@@ -147,10 +153,19 @@ namespace SimpleGameEngine
 				scene.addLight(light);
 			}
 			
+
+			// Add GUI elements
+			std::vector<std::shared_ptr<GuiRenderElement>> guiRenderElements;
+			guiRenderElements.push_back(std::make_shared<GuiRenderElement>(GuiRenderElement(
+																			std::make_shared<GuiElement>(GuiElement(Vec2(0, 0), 0, Vec2(0.25f, 0.25f))),
+																			Loader::loadGuiElement(GuiElement()),
+																			Loader::loadTexture("D:/Blender Files/stallTexture.png"))));
+			
 			glEnable(GL_DEPTH_TEST);
 			glEnable(GL_CULL_FACE);
 			glCullFace(GL_BACK);
 
+			renderEngine.loadGuiRenderElements(guiRenderElements);
 			renderEngine.loadScene(scene);
 
 			bool goLeft = false;
@@ -161,9 +176,10 @@ namespace SimpleGameEngine
 			{
 				window.clear();
 
-				ModelTransformer::rotate(*waterBottleSpaceModel, Vec3(0, 0.5f, 0));
 				renderEngine.render();
 
+				ModelTransformer::rotate(*waterBottleSpaceModel, Vec3(0, 0.5f, 0));
+				
 				if (testLight->getPosition().x < -50)
 					goLeft = false;
 				else if (testLight->getPosition().x > 50)
@@ -178,14 +194,11 @@ namespace SimpleGameEngine
 					goBack = false;
 				else if (stallSpaceModel->getPosition().z > -10)
 					goBack = true;
-				/*
+				
 				if (goBack)
 					ModelTransformer::translate(*stallSpaceModel, Vec3(0, 0, -0.2f));
 				else
 					ModelTransformer::translate(*stallSpaceModel, Vec3(0, 0, 0.2f));
-				*/
-
-				//camera->setRotation(camera->getRotation().add(Vec3(0, 0.5f, 0)));
 
 				window.update();
 			}
