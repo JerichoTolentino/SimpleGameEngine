@@ -122,12 +122,17 @@ namespace SimpleGameEngine::Renderers
 		}
 
 		// Render GUI elements
+		glDisable(GL_DEPTH_TEST);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		for (const auto & guiRenderElement : m_guiRenderElements)
 		{
 			m_guiRenderer->loadGuiRenderElement(*guiRenderElement);
 			m_guiRenderer->render(*guiRenderElement);
 			m_guiRenderer->unloadGuiRenderElement();
 		}
+		glDisable(GL_BLEND);
+		glEnable(GL_DEPTH_TEST);
 	}
 
 

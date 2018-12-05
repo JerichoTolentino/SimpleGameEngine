@@ -160,8 +160,8 @@ namespace SimpleGameEngine
 			guiRenderElements.push_back(std::make_shared<GuiRenderElement>(GuiRenderElement(
 																			guiQuad,
 																			Loader::loadGuiElement(*guiQuad),
-																			Loader::loadTexture("D:/Blender Files/stallTexture.png"),
-																			Vec2(0, 0), 
+																			Loader::loadTexture("D:/Blender Files/transparent.png"),
+																			Vec2(0.75, -0.75), 
 																			0, 
 																			Vec2(0.25f, 0.25f))));
 			

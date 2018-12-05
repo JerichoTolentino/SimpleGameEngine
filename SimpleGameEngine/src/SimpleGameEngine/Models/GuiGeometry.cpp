@@ -69,10 +69,10 @@ namespace SimpleGameEngine::Models
 
 		static const float textureUvsArr[] =
 		{
-			0, 0,
 			0, 1,
-			1, 0,
-			1, 1
+			0, 0,
+			1, 1,
+			1, 0
 		};
 		auto textureUvs = std::make_shared<std::vector<float>>(textureUvsArr, textureUvsArr + sizeof(textureUvsArr) / sizeof(textureUvsArr[0]));
 
