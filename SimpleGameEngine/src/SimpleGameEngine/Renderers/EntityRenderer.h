@@ -17,7 +17,7 @@ namespace SimpleGameEngine::Renderers
 
 	public:
 		EntityRenderer();
-		EntityRenderer(const std::shared_ptr<Shaders::Shader> m_shader);
+		EntityRenderer(const std::shared_ptr<Shaders::Shader> shader);
 		EntityRenderer(const EntityRenderer & other);
 		~EntityRenderer();
 
