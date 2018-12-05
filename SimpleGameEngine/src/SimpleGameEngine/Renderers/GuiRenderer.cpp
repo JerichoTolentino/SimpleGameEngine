@@ -40,16 +40,13 @@ namespace SimpleGameEngine::Renderers
 		// Bind entity texture
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, guiRenderElement.getTextureId());
-	}
 
-	void GuiRenderer::loadGuiElement(const Models::GuiElement & guiElement) const
-	{
 		ShaderLoader::startShader(*m_shader);
 
 		// Convert 2D data to 3D data
-		Vec3 position(guiElement.getPosition().x, guiElement.getPosition().y, 0);
-		Vec3 rotation(0, 0, guiElement.getAngle());
-		Vec3 scale(guiElement.getScale().x, guiElement.getScale().y, 1);
+		Vec3 position(guiRenderElement.getPosition().x, guiRenderElement.getPosition().y, 0);
+		Vec3 rotation(0, 0, guiRenderElement.getAngle());
+		Vec3 scale(guiRenderElement.getScale().x, guiRenderElement.getScale().y, 1);
 
 		// Load in transformation matrix
 		Mat4 elementTransform;
@@ -66,7 +63,7 @@ namespace SimpleGameEngine::Renderers
 	void GuiRenderer::render(const Models::GuiRenderElement & guiRenderElement) const
 	{
 		ShaderLoader::startShader(*m_shader);
-		glDrawElements(GL_TRIANGLES, (GLsizei) Models::GuiElement::INDICES_COUNT, GL_UNSIGNED_INT, 0);
+		glDrawElements(GL_TRIANGLES, (GLsizei) guiRenderElement.getGuiGeometry()->getIndices()->size(), GL_UNSIGNED_INT, 0);
 		ShaderLoader::stopShader(*m_shader);
 	}
 	

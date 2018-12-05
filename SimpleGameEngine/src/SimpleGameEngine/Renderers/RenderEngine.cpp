@@ -125,7 +125,6 @@ namespace SimpleGameEngine::Renderers
 		for (const auto & guiRenderElement : m_guiRenderElements)
 		{
 			m_guiRenderer->loadGuiRenderElement(*guiRenderElement);
-			m_guiRenderer->loadGuiElement(*guiRenderElement->getGuiElement());
 			m_guiRenderer->render(*guiRenderElement);
 			m_guiRenderer->unloadGuiRenderElement();
 		}

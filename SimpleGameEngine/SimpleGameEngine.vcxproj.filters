@@ -171,9 +171,6 @@
     <ClInclude Include="src\sgepch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\SimpleGameEngine\Models\GuiElement.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\SimpleGameEngine\Models\GuiRenderElement.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -181,6 +178,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\SimpleGameEngine\Shaders\GuiShaderConstants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\Models\GuiGeometry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -329,9 +329,6 @@
     <ClCompile Include="src\sgepch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\SimpleGameEngine\Models\GuiElement.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\SimpleGameEngine\Models\GuiRenderElement.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -339,6 +336,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\SimpleGameEngine\Shaders\GuiShaderConstants.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\Models\GuiGeometry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

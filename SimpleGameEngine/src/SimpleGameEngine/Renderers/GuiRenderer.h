@@ -20,7 +20,6 @@ namespace SimpleGameEngine::Renderers
 
 
 		void loadGuiRenderElement(const Models::GuiRenderElement & guiRenderElement) const;
-		void loadGuiElement(const Models::GuiElement & guiElement) const;
 		void render(const Models::GuiRenderElement & guiRenderElement) const;
 		void unloadGuiRenderElement() const;
 

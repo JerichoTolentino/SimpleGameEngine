@@ -152,7 +152,7 @@ namespace SimpleGameEngine::Loaders
 		return vao;
 	}
 
-	GLuint Loader::loadGuiElement(const Models::GuiElement & guiElement)
+	GLuint Loader::loadGuiElement(const Models::GuiGeometry & guiGeometry)
 	{
 		// Load into OpenGL
 		GLuint vao, vbo;
@@ -160,26 +160,31 @@ namespace SimpleGameEngine::Loaders
 		glBindVertexArray(vao);
 
 		// Bind indices
-		GLsizeiptr numIndices = sizeof(GLuint) * GuiElement::INDICES_COUNT;
+		GLuint * indicesArray = Generic::copyToArray(*guiGeometry.getIndices());
+		GLsizeiptr numIndices = sizeof(GLuint) * guiGeometry.getIndices()->size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices, (GLuint *) GuiElement::INDICES, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices, indicesArray, GL_STATIC_DRAW);
 
 		// Bind vertices
-		GLsizeiptr numVertices = sizeof(GLfloat) * GuiElement::VERTICES_COUNT;
+		auto vertices = *guiGeometry.getVertices();
+		GLfloat * verticesArray = Generic::copyToArray(vertices);
+		GLsizeiptr numVertices = sizeof(GLfloat) * vertices.size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, numVertices, (GLfloat *) GuiElement::VERTICES, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, numVertices, verticesArray, GL_STATIC_DRAW);
 		glVertexAttribPointer(VERTICES_ATTR, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
 		// Bind texture UVs
-		GLsizeiptr numTextureUvs = sizeof(GLfloat) * GuiElement::TEXTURE_UVS_COUNT;
+		auto textureUvs = *guiGeometry.getTextureUvs();
+		GLfloat * textureUvsArray = Generic::copyToArray(textureUvs);
+		GLsizeiptr numTextureUvs = sizeof(GLfloat) * textureUvs.size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, numTextureUvs, (GLfloat *) GuiElement::TEXTURE_UVS, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, numTextureUvs, textureUvsArray, GL_STATIC_DRAW);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-		SGE_CORE_TRACE("Loaded GuiElement with {0} vertices, {1} textureUvs, and {2} indices.", GuiElement::VERTICES_COUNT, GuiElement::TEXTURE_UVS_COUNT, GuiElement::INDICES_COUNT);
+		SGE_CORE_TRACE("Loaded GuiElement with {0} vertices, {1} textureUvs, and {2} indices.", numVertices, numTextureUvs, numIndices);
 
 		return vao;
 	}

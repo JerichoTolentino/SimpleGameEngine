@@ -14,7 +14,7 @@
     <ClInclude Include="src\SimpleGameEngine\Shaders\GuiShaderConstants.h" />
     <ClInclude Include="src\SimpleGameEngine\Renderers\GuiRenderer.h" />
     <ClInclude Include="src\SimpleGameEngine\Models\GuiRenderElement.h" />
-    <ClInclude Include="src\SimpleGameEngine\Models\GuiElement.h" />
+    <ClInclude Include="src\SimpleGameEngine\Models\GuiGeometry.h" />
     <ClInclude Include="src\sgepch.h" />
     <ClInclude Include="src\SimpleGameEngine\Renderers\RenderScene.h" />
     <ClInclude Include="src\SimpleGameEngine\Models\LightSource.h" />
@@ -72,7 +72,7 @@
     <ClCompile Include="src\SimpleGameEngine\Shaders\GuiShaderConstants.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Renderers\GuiRenderer.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Models\GuiRenderElement.cpp" />
-    <ClCompile Include="src\SimpleGameEngine\Models\GuiElement.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Models\GuiGeometry.cpp" />
     <ClCompile Include="src\sgepch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

@@ -155,11 +155,15 @@ namespace SimpleGameEngine
 			
 
 			// Add GUI elements
+			auto guiQuad = std::make_shared<GuiGeometry>(GuiGeometry::GenerateQuad());
 			std::vector<std::shared_ptr<GuiRenderElement>> guiRenderElements;
 			guiRenderElements.push_back(std::make_shared<GuiRenderElement>(GuiRenderElement(
-																			std::make_shared<GuiElement>(GuiElement(Vec2(0, 0), 0, Vec2(0.25f, 0.25f))),
-																			Loader::loadGuiElement(GuiElement()),
-																			Loader::loadTexture("D:/Blender Files/stallTexture.png"))));
+																			guiQuad,
+																			Loader::loadGuiElement(*guiQuad),
+																			Loader::loadTexture("D:/Blender Files/stallTexture.png"),
+																			Vec2(0, 0), 
+																			0, 
+																			Vec2(0.25f, 0.25f))));
 			
 			glEnable(GL_DEPTH_TEST);
 			glEnable(GL_CULL_FACE);
