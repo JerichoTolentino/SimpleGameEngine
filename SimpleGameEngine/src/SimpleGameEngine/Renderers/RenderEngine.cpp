@@ -12,20 +12,22 @@ namespace SimpleGameEngine::Renderers
 	}
 
 	RenderEngine::RenderEngine(
-		const std::shared_ptr<EntityRenderer> entityRenderer, 
-		const std::shared_ptr<TerrainRenderer> terrainRenderer, 
+		const std::shared_ptr<EntityRenderer> entityRenderer,
+		const std::shared_ptr<TerrainRenderer> terrainRenderer,
 		const std::shared_ptr<SkyboxRenderer> skyboxRenderer,
+		const std::shared_ptr<WaterRenderer> waterRenderer,
 		const std::shared_ptr<GuiRenderer> guiRenderer)
-		: RenderEngine()
+		:
+		m_entityRenderer(entityRenderer),
+		m_terrainRenderer(terrainRenderer),
+		m_skyboxRenderer(skyboxRenderer),
+		m_waterRenderer(waterRenderer),
+		m_guiRenderer(guiRenderer)
 	{
-		m_entityRenderer = entityRenderer;
-		m_terrainRenderer = terrainRenderer;
-		m_skyboxRenderer = skyboxRenderer;
-		m_guiRenderer = guiRenderer;
 	}
 
 	RenderEngine::RenderEngine(const RenderEngine & other)
-		: RenderEngine(other.m_entityRenderer, other.m_terrainRenderer, other.m_skyboxRenderer, other.m_guiRenderer)
+		: RenderEngine(other.m_entityRenderer, other.m_terrainRenderer, other.m_skyboxRenderer, other.m_waterRenderer, other.m_guiRenderer)
 	{
 	}
 
@@ -50,6 +52,11 @@ namespace SimpleGameEngine::Renderers
 		return m_skyboxRenderer;
 	}
 
+	std::shared_ptr<WaterRenderer> RenderEngine::getWaterRenderer() const
+	{
+		return m_waterRenderer;
+	}
+
 	std::shared_ptr<GuiRenderer> RenderEngine::getGuiRenderer() const
 	{
 		return m_guiRenderer;
@@ -64,6 +71,7 @@ namespace SimpleGameEngine::Renderers
 		m_entityRenderer->loadProjectionMatrix(projectionMatrix);
 		m_terrainRenderer->loadProjectionMatrix(projectionMatrix);
 		m_skyboxRenderer->loadProjectionMatrix(projectionMatrix);
+		m_waterRenderer->loadProjectionMatrix(projectionMatrix);
 	}
 
 	void RenderEngine::loadGuiRenderElements(const std::vector<std::shared_ptr<Models::GuiRenderElement>>& guiRenderElements)
@@ -121,6 +129,26 @@ namespace SimpleGameEngine::Renderers
 			m_skyboxRenderer->unloadSkybox();
 		}
 
+		// Render water
+		glDisable(GL_CULL_FACE);
+		for (const auto & waterBatch : *m_scene.getWaterBatches())
+		{
+			auto waters = waterBatch.second;
+
+			m_waterRenderer->loadWaterRenderModel(*waters.at(0)->getWaterRenderModel());
+
+			for (const auto water : waters)
+			{
+				m_waterRenderer->loadCamera(camera);
+				m_waterRenderer->loadLights(lights);
+				m_waterRenderer->loadWaterEntity(*water);
+				m_waterRenderer->render(*water);
+			}
+
+			m_waterRenderer->unloadWaterRenderModel();
+		}
+		glEnable(GL_CULL_FACE);
+
 		// Render GUI elements
 		glDisable(GL_DEPTH_TEST);
 		glEnable(GL_BLEND);
@@ -142,6 +170,7 @@ namespace SimpleGameEngine::Renderers
 		m_entityRenderer = other.m_entityRenderer;
 		m_terrainRenderer = other.m_terrainRenderer;
 		m_skyboxRenderer = other.m_skyboxRenderer;
+		m_waterRenderer = other.m_waterRenderer;
 		m_guiRenderer = other.m_guiRenderer;
 
 		return *this;

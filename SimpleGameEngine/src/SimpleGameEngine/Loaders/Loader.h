@@ -8,6 +8,7 @@
 #include "../Models/Material.h"
 #include "../Models/GeometryModel.h"
 #include "../Models/SkyboxModel.h"
+#include "../Models/WaterModel.h"
 #include "../Models/GuiGeometry.h"
 #include "../Models/HeightMap.h"
 #include "../Models/TexturePack.h"
@@ -21,6 +22,7 @@ namespace SimpleGameEngine::Loaders
 
 		static GLuint loadSkybox(const Models::SkyboxModel & skybox);
 		static GLuint loadGeometryModel(const Models::GeometryModel & model);
+		static GLuint loadWaterModel(const Models::WaterModel & waterModel);
 		static GLuint loadGuiElement(const Models::GuiGeometry & guiGeometry);
 		static GLuint loadTexture(const std::string & filepath);
 		static GLuint loadCubemapTexture(

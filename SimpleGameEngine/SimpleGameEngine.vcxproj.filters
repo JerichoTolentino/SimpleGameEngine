@@ -183,6 +183,21 @@
     <ClInclude Include="src\SimpleGameEngine\Models\GuiGeometry.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\Models\WaterModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\Models\WaterRenderModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\Renderers\WaterRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\Models\WaterEntity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\Shaders\WaterShaderConstants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\SimpleGameEngine\Application.cpp">
@@ -341,6 +356,21 @@
     <ClCompile Include="src\SimpleGameEngine\Models\GuiGeometry.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\Models\WaterModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\Models\WaterRenderModel.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\Renderers\WaterRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\Models\WaterEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\Shaders\WaterShaderConstants.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\SimpleGameEngine\Shaders\entityFragment.frag" />
@@ -351,5 +381,7 @@
     <None Include="src\SimpleGameEngine\Shaders\terrainVertex.vert" />
     <None Include="src\SimpleGameEngine\Shaders\guiFragment.frag" />
     <None Include="src\SimpleGameEngine\Shaders\guiVertex.vert" />
+    <None Include="src\SimpleGameEngine\Shaders\waterFragment.frag" />
+    <None Include="src\SimpleGameEngine\Shaders\waterVertex.vert" />
   </ItemGroup>
 </Project>

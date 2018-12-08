@@ -9,6 +9,7 @@ namespace SimpleGameEngine::Renderers
 	{
 		m_entityBatches = std::make_shared<EntityBatchMap>();
 		m_terrainBatches = std::make_shared<TerrainBatchMap>();
+		m_waterBatches = std::make_shared<WaterBatchMap>();
 		m_lights = std::make_shared<std::vector<std::shared_ptr<Models::LightSource>>>();
 	}
 
@@ -16,6 +17,7 @@ namespace SimpleGameEngine::Renderers
 	{
 		m_entityBatches = other.m_entityBatches;
 		m_terrainBatches = other.m_terrainBatches;
+		m_waterBatches = other.m_waterBatches;
 		m_lights = other.m_lights;
 		m_camera = other.m_camera;
 		m_skybox = other.m_skybox;
@@ -57,6 +59,11 @@ namespace SimpleGameEngine::Renderers
 	std::shared_ptr<TerrainBatchMap> RenderScene::getTerrainBatches() const
 	{
 		return m_terrainBatches;
+	}
+
+	std::shared_ptr<WaterBatchMap> RenderScene::getWaterBatches() const
+	{
+		return m_waterBatches;
 	}
 
 
@@ -105,12 +112,24 @@ namespace SimpleGameEngine::Renderers
 		m_lights->push_back(light);
 	}
 
+	void RenderScene::addWater(const std::shared_ptr<Models::WaterEntity> water)
+	{
+		auto model = water->getWaterRenderModel()->getWaterModel();
+		bool modelAlreadyLoaded = m_waterBatches->count(model);
+
+		if (!modelAlreadyLoaded)
+			m_waterBatches->insert(std::pair<std::shared_ptr<WaterModel>, std::vector<std::shared_ptr<WaterEntity>>>(model, std::vector<std::shared_ptr<WaterEntity>>()));
+
+		m_waterBatches->at(model).push_back(water);
+	}
+
 
 
 	RenderScene & RenderScene::operator=(const RenderScene & other)
 	{
 		m_entityBatches = other.m_entityBatches;
 		m_terrainBatches = other.m_terrainBatches;
+		m_waterBatches = other.m_waterBatches;
 		m_lights = other.m_lights;
 		m_camera = other.m_camera;
 		m_skybox = other.m_skybox;

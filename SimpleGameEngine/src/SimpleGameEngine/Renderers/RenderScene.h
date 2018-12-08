@@ -6,6 +6,7 @@
 #include "../Models/TerrainRenderModel.h"
 #include "../Models/SkyboxRenderModel.h"
 #include "../Models/LightSource.h"
+#include "../Models/WaterEntity.h"
 #include "../Cameras/Camera.h"
 
 typedef std::map<
@@ -14,6 +15,9 @@ typedef std::map<
 typedef std::map<
 			std::shared_ptr<SimpleGameEngine::Models::GeometryModel>, 
 			std::vector<std::shared_ptr<SimpleGameEngine::Models::TerrainRenderModel>>> TerrainBatchMap;
+typedef std::map<
+			std::shared_ptr<SimpleGameEngine::Models::WaterModel>,
+			std::vector<std::shared_ptr<SimpleGameEngine::Models::WaterEntity>>> WaterBatchMap;
 
 namespace SimpleGameEngine::Renderers
 {
@@ -22,6 +26,7 @@ namespace SimpleGameEngine::Renderers
 	private:
 		std::shared_ptr<EntityBatchMap> m_entityBatches;
 		std::shared_ptr<TerrainBatchMap> m_terrainBatches;
+		std::shared_ptr<WaterBatchMap> m_waterBatches;
 		std::shared_ptr<std::vector<std::shared_ptr<Models::LightSource>>> m_lights;
 
 		std::shared_ptr<Models::SkyboxRenderModel> m_skybox;
@@ -43,6 +48,7 @@ namespace SimpleGameEngine::Renderers
 		std::shared_ptr<std::vector<std::shared_ptr<Models::LightSource>>> getLights() const;
 		std::shared_ptr<EntityBatchMap> getEntityBatches() const;
 		std::shared_ptr<TerrainBatchMap> getTerrainBatches() const;
+		std::shared_ptr<WaterBatchMap> getWaterBatches() const;
 
 		void setProjectionMatrix(const std::shared_ptr<Math::Mat4> projectionMatrix);
 		void setSkybox(const std::shared_ptr<Models::SkyboxRenderModel> skybox);
@@ -51,6 +57,7 @@ namespace SimpleGameEngine::Renderers
 		void addEntity(const std::shared_ptr<Models::Entity> entity);
 		void addTerrain(const std::shared_ptr<Models::TerrainRenderModel> terrain);
 		void addLight(const std::shared_ptr<Models::LightSource> light);
+		void addWater(const std::shared_ptr<Models::WaterEntity> water);
 
 
 

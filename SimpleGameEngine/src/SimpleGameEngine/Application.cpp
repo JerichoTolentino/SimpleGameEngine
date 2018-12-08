@@ -56,6 +56,9 @@ namespace SimpleGameEngine
 			auto skyboxShader = std::make_shared<Shader>(ShaderLoader::loadShader(
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/src/SimpleGameEngine/Shaders/skyboxVertex.vert", 
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/src/SimpleGameEngine/Shaders/skyboxFragment.frag"));
+			auto waterShader = std::make_shared<Shader>(ShaderLoader::loadShader(
+				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/src/SimpleGameEngine/Shaders/waterVertex.vert",
+				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/src/SimpleGameEngine/Shaders/waterFragment.frag"));
 			auto guiShader = std::make_shared<Shader>(ShaderLoader::loadShader(
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/src/SimpleGameEngine/Shaders/guiVertex.vert",
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/src/SimpleGameEngine/Shaders/guiFragment.frag"
@@ -65,8 +68,9 @@ namespace SimpleGameEngine
 			auto entityRenderer = std::make_shared<EntityRenderer>(EntityRenderer(entityShader));
 			auto terrainRenderer = std::make_shared<TerrainRenderer>(TerrainRenderer(terrainShader));
 			auto skyboxRenderer = std::make_shared<SkyboxRenderer>(SkyboxRenderer(skyboxShader));
+			auto waterRenderer = std::make_shared<WaterRenderer>(WaterRenderer(waterShader));
 			auto guiRenderer = std::make_shared<GuiRenderer>(GuiRenderer(guiShader));
-			RenderEngine renderEngine(entityRenderer, terrainRenderer, skyboxRenderer, guiRenderer);
+			RenderEngine renderEngine(entityRenderer, terrainRenderer, skyboxRenderer, waterRenderer, guiRenderer);
 
 			
 			// Build scene
@@ -134,6 +138,13 @@ namespace SimpleGameEngine
 			auto waterBottleSpaceModel2 = std::make_shared<SpaceModel>(SpaceModel(Vec3(0, -3, -10), Vec3(0, 0, 0), Vec3(1, 1, 1)));
 			auto waterBottleEntity2 = std::make_shared<Entity>(Entity(waterBottleRenderModel2, waterBottleSpaceModel2));
 			scene.addEntity(waterBottleEntity2);
+
+			// Create water
+			auto waterModel = std::make_shared<WaterModel>(WaterModel::GenerateWaterModel());
+			auto waterRenderModel = std::make_shared<WaterRenderModel>(WaterRenderModel(waterModel,	Loader::loadWaterModel(*waterModel)));
+			auto waterSpaceModel = std::make_shared<SpaceModel>(SpaceModel(Vec3(0, -15, 0), Vec3(0, 0, 0), Vec3(100, 1, 100)));
+			auto waterEntity = std::make_shared<WaterEntity>(WaterEntity(waterRenderModel, waterSpaceModel));
+			scene.addWater(waterEntity);
 
 			// Create camera
 			std::shared_ptr<Camera> camera = std::make_shared<Camera>(Camera(Vec3(0, 0.2f, 0), Vec3(-0.2f, 0, 0)));

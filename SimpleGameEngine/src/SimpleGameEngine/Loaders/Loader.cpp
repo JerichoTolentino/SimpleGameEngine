@@ -152,6 +152,34 @@ namespace SimpleGameEngine::Loaders
 		return vao;
 	}
 
+	GLuint Loader::loadWaterModel(const Models::WaterModel & waterModel)
+	{
+		// Load into OpenGL
+		GLuint vao, vbo;
+		glGenVertexArrays(1, &vao);
+		glBindVertexArray(vao);
+
+		// Bind indices
+		GLuint * indicesArray = Generic::copyToArray(*waterModel.getIndices());
+		GLsizeiptr numIndices = sizeof(GLuint) * waterModel.getIndices()->size();
+		glGenBuffers(1, &vbo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices, indicesArray, GL_STATIC_DRAW);
+
+		// Bind vertices
+		auto vertices = *waterModel.getVertices();
+		GLfloat * verticesArray = Generic::copyToArray(vertices);
+		GLsizeiptr numVertices = sizeof(GLfloat) * vertices.size();
+		glGenBuffers(1, &vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, numVertices, verticesArray, GL_STATIC_DRAW);
+		glVertexAttribPointer(VERTICES_ATTR, 2, GL_FLOAT, GL_FALSE, 0, 0);
+
+		SGE_CORE_TRACE("Loaded WaterModel with {0} vertices and {1} indices.", numVertices, numIndices);
+
+		return vao;
+	}
+
 	GLuint Loader::loadGuiElement(const Models::GuiGeometry & guiGeometry)
 	{
 		// Load into OpenGL

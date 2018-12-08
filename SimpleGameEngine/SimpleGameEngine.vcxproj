@@ -67,6 +67,11 @@
     <ClInclude Include="src\SimpleGameEngine\Models\TerrainRenderModel.h" />
     <ClInclude Include="src\SimpleGameEngine\Models\TexturePack.h" />
     <ClInclude Include="src\SimpleGameEngine\Shaders\TerrainShaderConstants.h" />
+    <ClInclude Include="src\SimpleGameEngine\Models\WaterModel.h" />
+    <ClInclude Include="src\SimpleGameEngine\Models\WaterRenderModel.h" />
+    <ClInclude Include="src\SimpleGameEngine\Renderers\WaterRenderer.h" />
+    <ClInclude Include="src\SimpleGameEngine\Models\WaterEntity.h" />
+    <ClInclude Include="src\SimpleGameEngine\Shaders\WaterShaderConstants.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\SimpleGameEngine\Shaders\GuiShaderConstants.cpp" />
@@ -128,6 +133,11 @@
     <ClCompile Include="src\SimpleGameEngine\Models\TerrainRenderModel.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Models\TexturePack.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Shaders\TerrainShaderConstants.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Models\WaterModel.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Models\WaterRenderModel.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Renderers\WaterRenderer.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Models\WaterEntity.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Shaders\WaterShaderConstants.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\SimpleGameEngine\Shaders\entityFragment.frag" />
@@ -138,6 +148,8 @@
     <None Include="src\SimpleGameEngine\Shaders\skyboxVertex.vert" />
     <None Include="src\SimpleGameEngine\Shaders\terrainFragment.frag" />
     <None Include="src\SimpleGameEngine\Shaders\terrainVertex.vert" />
+    <None Include="src\SimpleGameEngine\Shaders\waterFragment.frag" />
+    <None Include="src\SimpleGameEngine\Shaders\waterVertex.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
