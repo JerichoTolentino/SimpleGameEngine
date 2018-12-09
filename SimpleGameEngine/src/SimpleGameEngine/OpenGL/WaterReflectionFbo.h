@@ -1,11 +1,11 @@
 #pragma once
+#include "FrameBufferObject.h"
 
 namespace SimpleGameEngine::OpenGL
 {
-	class WaterReflectionFbo
+	class WaterReflectionFbo : public FrameBufferObject
 	{
 	private:
-		GLuint m_fboId;
 		GLuint m_textureId;
 		GLuint m_depthBufferId;
 
@@ -14,12 +14,11 @@ namespace SimpleGameEngine::OpenGL
 	public:
 		WaterReflectionFbo();
 		WaterReflectionFbo(const WaterReflectionFbo & other);
-		WaterReflectionFbo(GLuint fboId, GLuint textureId, GLuint depthBufferId);
+		WaterReflectionFbo(GLuint fboId, GLuint textureId, GLuint depthBufferId, int width, int height);
 		virtual ~WaterReflectionFbo();
 
 
 
-		GLuint getFboId() const;
 		GLuint getTextureId() const;
 		GLuint getDepthBufferId() const;
 

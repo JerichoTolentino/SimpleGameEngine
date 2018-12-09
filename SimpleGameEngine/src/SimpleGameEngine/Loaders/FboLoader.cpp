@@ -5,10 +5,10 @@ using namespace SimpleGameEngine::OpenGL;
 
 namespace SimpleGameEngine::Loaders
 {
-	void FboLoader::BindFrameBuffer(GLuint fboId, int width, int height)
+	void FboLoader::BindFrameBuffer(const OpenGL::FrameBufferObject & fbo)
 	{
-		glBindFramebuffer(GL_FRAMEBUFFER, fboId);
-		glViewport(0, 0, width, height);
+		glBindFramebuffer(GL_FRAMEBUFFER, fbo.getFboId());
+		glViewport(0, 0, fbo.getWidth(), fbo.getHeight());
 	}
 
 	GLuint FboLoader::GenerateFrameBuffer()
@@ -46,12 +46,13 @@ namespace SimpleGameEngine::Loaders
 		glGenTextures(1, &id);
 
 		// Set texture parameters
-		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
+		glBindTexture(GL_TEXTURE_2D, id);
+		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
 		// Attach to current FBO
-		glFramebufferTexture(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, id, 0);
+		glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, id, 0);
 
 		return id;
 	}
@@ -78,7 +79,7 @@ namespace SimpleGameEngine::Loaders
 		GLuint textureId = FboLoader::GenerateFboColorTexture(width, height);
 		GLuint depthBufferId = FboLoader::GenerateFboDepthBuffer(width, height);
 
-		return WaterReflectionFbo(fboId, textureId, depthBufferId);
+		return WaterReflectionFbo(fboId, textureId, depthBufferId, width, height);
 	}
 
 	OpenGL::WaterRefractionFbo FboLoader::CreateWaterRefractionFbo(int width, int height)
@@ -87,6 +88,6 @@ namespace SimpleGameEngine::Loaders
 		GLuint textureId = FboLoader::GenerateFboColorTexture(width, height);
 		GLuint depthTextureId = FboLoader::GenerateFboDepthTexture(width, height);
 
-		return WaterRefractionFbo(fboId, textureId, depthTextureId);
+		return WaterRefractionFbo(fboId, textureId, depthTextureId, width, height);
 	}
 }

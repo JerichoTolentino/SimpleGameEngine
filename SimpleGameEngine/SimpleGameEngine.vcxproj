@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SimpleGameEngine\OpenGL\FrameBufferObject.h" />
     <ClInclude Include="src\SimpleGameEngine\Loaders\FboLoader.h" />
     <ClInclude Include="src\SimpleGameEngine\Shaders\GuiShaderConstants.h" />
     <ClInclude Include="src\SimpleGameEngine\Renderers\GuiRenderer.h" />
@@ -77,6 +78,7 @@
     <ClInclude Include="src\SimpleGameEngine\OpenGL\WaterRefractionFbo.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\SimpleGameEngine\OpenGL\FrameBufferObject.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Loaders\FboLoader.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Shaders\GuiShaderConstants.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Renderers\GuiRenderer.cpp" />

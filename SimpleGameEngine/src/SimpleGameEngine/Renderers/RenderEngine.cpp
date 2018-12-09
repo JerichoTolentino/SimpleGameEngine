@@ -1,12 +1,22 @@
 #include "sgepch.h"
 #include "RenderEngine.h"
 
+#include "../Loaders/FboLoader.h"
+
 using namespace SimpleGameEngine::Math;
 using namespace SimpleGameEngine::Models;
 using namespace SimpleGameEngine::Cameras;
+using namespace SimpleGameEngine::Loaders;
 
 namespace SimpleGameEngine::Renderers
 {
+	const int RenderEngine::MAIN_FBO_WIDTH = 1200;
+	const int RenderEngine::MAIN_FBO_HEIGHT = 800;
+	const int RenderEngine::REFLECTION_FBO_WIDTH = 320;
+	const int RenderEngine::REFLECTION_FBO_HEIGHT= 180;
+	const int RenderEngine::REFRACTION_FBO_WIDTH= 1280;
+	const int RenderEngine::REFRACTION_FBO_HEIGHT= 720;
+
 	RenderEngine::RenderEngine()
 	{
 	}
@@ -24,6 +34,12 @@ namespace SimpleGameEngine::Renderers
 		m_waterRenderer(waterRenderer),
 		m_guiRenderer(guiRenderer)
 	{
+		// Initialize default FBO
+		m_mainFbo = OpenGL::FrameBufferObject(0, MAIN_FBO_WIDTH, MAIN_FBO_HEIGHT);
+
+		// Initialize water FBOs
+		m_waterReflectionFbo = FboLoader::CreateWaterReflectionFbo(REFLECTION_FBO_WIDTH, REFLECTION_FBO_HEIGHT);
+		m_waterRefractionFbo = FboLoader::CreateWaterRefractionFbo(REFRACTION_FBO_WIDTH, REFRACTION_FBO_HEIGHT);
 	}
 
 	RenderEngine::RenderEngine(const RenderEngine & other)
@@ -88,7 +104,43 @@ namespace SimpleGameEngine::Renderers
 		auto lights = *m_scene.getLights();
 		auto skybox = m_scene.getSkybox();
 
-		// Render entities
+		// Render to water FBO
+		FboLoader::BindFrameBuffer(m_waterReflectionFbo);
+		renderEntities();
+		renderTerrains();
+		renderSkybox();
+		
+		// Render to main FBO
+		FboLoader::BindFrameBuffer(m_mainFbo);
+		renderEntities();
+		renderTerrains();
+		renderSkybox();
+		renderWater();
+
+		// Render GUI elements
+		renderGui();
+	}
+
+
+
+	RenderEngine & RenderEngine::operator=(const RenderEngine & other)
+	{
+		m_entityRenderer = other.m_entityRenderer;
+		m_terrainRenderer = other.m_terrainRenderer;
+		m_skyboxRenderer = other.m_skyboxRenderer;
+		m_waterRenderer = other.m_waterRenderer;
+		m_guiRenderer = other.m_guiRenderer;
+
+		return *this;
+	}
+
+
+
+	void RenderEngine::renderEntities() const
+	{
+		Camera camera = *m_scene.getCamera();
+		auto lights = *m_scene.getLights();
+
 		for (const auto & entityBatch : *m_scene.getEntityBatches())
 		{
 			auto entities = entityBatch.second;
@@ -105,8 +157,13 @@ namespace SimpleGameEngine::Renderers
 
 			m_entityRenderer->unloadRenderModel();
 		}
+	}
 
-		// Render terrain
+	void RenderEngine::renderTerrains() const
+	{
+		Camera camera = *m_scene.getCamera();
+		auto lights = *m_scene.getLights();
+
 		for (const auto & terrainBatch : *m_scene.getTerrainBatches())
 		{
 			auto terrains = terrainBatch.second;
@@ -119,8 +176,13 @@ namespace SimpleGameEngine::Renderers
 				m_terrainRenderer->unloadTerrain();
 			}
 		}
+	}
+	
+	void RenderEngine::renderSkybox() const
+	{
+		Camera camera = *m_scene.getCamera();
+		auto skybox = m_scene.getSkybox();
 
-		// Render skybox
 		if (skybox != nullptr)
 		{
 			m_skyboxRenderer->loadCamera(camera);
@@ -128,8 +190,13 @@ namespace SimpleGameEngine::Renderers
 			m_skyboxRenderer->render(*skybox);
 			m_skyboxRenderer->unloadSkybox();
 		}
+	}
+	
+	void RenderEngine::renderWater() const
+	{
+		Camera camera = *m_scene.getCamera();
+		auto lights = *m_scene.getLights();
 
-		// Render water
 		glDisable(GL_CULL_FACE);
 		for (const auto & waterBatch : *m_scene.getWaterBatches())
 		{
@@ -148,8 +215,10 @@ namespace SimpleGameEngine::Renderers
 			m_waterRenderer->unloadWaterRenderModel();
 		}
 		glEnable(GL_CULL_FACE);
-
-		// Render GUI elements
+	}
+	
+	void RenderEngine::renderGui() const
+	{
 		glDisable(GL_DEPTH_TEST);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -161,18 +230,5 @@ namespace SimpleGameEngine::Renderers
 		}
 		glDisable(GL_BLEND);
 		glEnable(GL_DEPTH_TEST);
-	}
-
-
-
-	RenderEngine & RenderEngine::operator=(const RenderEngine & other)
-	{
-		m_entityRenderer = other.m_entityRenderer;
-		m_terrainRenderer = other.m_terrainRenderer;
-		m_skyboxRenderer = other.m_skyboxRenderer;
-		m_waterRenderer = other.m_waterRenderer;
-		m_guiRenderer = other.m_guiRenderer;
-
-		return *this;
 	}
 }

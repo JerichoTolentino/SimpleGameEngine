@@ -8,12 +8,12 @@ namespace SimpleGameEngine::OpenGL
 	}
 
 	WaterRefractionFbo::WaterRefractionFbo(const WaterRefractionFbo & other)
-		: WaterRefractionFbo(other.m_fboId, other.m_textureId, other.m_depthTextureId)
+		: WaterRefractionFbo(other.getFboId(), other.m_textureId, other.m_depthTextureId, other.getWidth(), other.getHeight())
 	{
 	}
 
-	WaterRefractionFbo::WaterRefractionFbo(GLuint fboId, GLuint textureId, GLuint depthTextureId)
-		: m_fboId(fboId), m_textureId(textureId), m_depthTextureId(depthTextureId)
+	WaterRefractionFbo::WaterRefractionFbo(GLuint fboId, GLuint textureId, GLuint depthTextureId, int width, int height)
+		: FrameBufferObject(fboId, width, height), m_textureId(textureId), m_depthTextureId(depthTextureId)
 	{
 	}
 
@@ -22,11 +22,6 @@ namespace SimpleGameEngine::OpenGL
 	}
 
 
-
-	GLuint WaterRefractionFbo::getFboId() const
-	{
-		return m_fboId;
-	}
 
 	GLuint WaterRefractionFbo::getTextureId() const
 	{
@@ -39,10 +34,10 @@ namespace SimpleGameEngine::OpenGL
 	}
 
 
-
 	WaterRefractionFbo & WaterRefractionFbo::operator=(const WaterRefractionFbo & other)
 	{
-		m_fboId = other.m_fboId;
+		FrameBufferObject::operator=(other);
+
 		m_textureId = other.m_textureId;
 		m_depthTextureId = other.m_depthTextureId;
 

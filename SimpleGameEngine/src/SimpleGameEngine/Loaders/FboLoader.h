@@ -8,10 +8,9 @@ namespace SimpleGameEngine::Loaders
 	{
 	public:
 		/// <summary>
-		/// Binds an OpenGL FrameBufferObject.
-		/// Pass in 0 to <paramref name="fboId"/> to use the default FBO.
+		/// Binds a <see cref="FrameBufferObject"/>.
 		/// </summary>
-		static void BindFrameBuffer(GLuint fboId, int width, int height);
+		static void BindFrameBuffer(const OpenGL::FrameBufferObject & fbo);
 
 		static GLuint GenerateFrameBuffer();
 		static GLuint GenerateFboColorTexture(int width, int height);
