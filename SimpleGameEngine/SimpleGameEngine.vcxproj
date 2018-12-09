@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SimpleGameEngine\Loaders\FboLoader.h" />
     <ClInclude Include="src\SimpleGameEngine\Shaders\GuiShaderConstants.h" />
     <ClInclude Include="src\SimpleGameEngine\Renderers\GuiRenderer.h" />
     <ClInclude Include="src\SimpleGameEngine\Models\GuiRenderElement.h" />
@@ -72,8 +73,11 @@
     <ClInclude Include="src\SimpleGameEngine\Renderers\WaterRenderer.h" />
     <ClInclude Include="src\SimpleGameEngine\Models\WaterEntity.h" />
     <ClInclude Include="src\SimpleGameEngine\Shaders\WaterShaderConstants.h" />
+    <ClInclude Include="src\SimpleGameEngine\OpenGL\WaterReflectionFbo.h" />
+    <ClInclude Include="src\SimpleGameEngine\OpenGL\WaterRefractionFbo.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\SimpleGameEngine\Loaders\FboLoader.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Shaders\GuiShaderConstants.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Renderers\GuiRenderer.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Models\GuiRenderElement.cpp" />
@@ -138,6 +142,8 @@
     <ClCompile Include="src\SimpleGameEngine\Renderers\WaterRenderer.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Models\WaterEntity.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Shaders\WaterShaderConstants.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\OpenGL\WaterReflectionFbo.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\OpenGL\WaterRefractionFbo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\SimpleGameEngine\Shaders\entityFragment.frag" />

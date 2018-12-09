@@ -293,6 +293,4 @@ namespace SimpleGameEngine::Loaders
 
 		return TexturePack(redTextureId, greenTextureId, blueTextureId, backgroundTextureId, blendMapTextureId);
 	}
-
-
 }
