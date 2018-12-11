@@ -8,10 +8,12 @@
 #include "RenderScene.h"
 #include "../OpenGL/WaterReflectionFbo.h"
 #include "../OpenGL/WaterRefractionFbo.h"
+#include "../Events/WindowEvent.h"
+#include "../Display/Window.h"
 
 namespace SimpleGameEngine::Renderers
 {
-	class RenderEngine
+	class RenderEngine : public Display::IWindowEventListener
 	{
 	private:
 		static const int MAIN_FBO_WIDTH;
@@ -34,7 +36,7 @@ namespace SimpleGameEngine::Renderers
 		RenderScene m_scene;
 		std::vector<std::shared_ptr<Models::GuiRenderElement>> m_guiRenderElements;
 
-		OpenGL::FrameBufferObject m_mainFbo;
+		std::shared_ptr<OpenGL::FrameBufferObject> m_mainFbo;
 		OpenGL::WaterReflectionFbo m_waterReflectionFbo;
 		OpenGL::WaterRefractionFbo m_waterRefractionFbo;
 
@@ -58,6 +60,7 @@ namespace SimpleGameEngine::Renderers
 		std::shared_ptr<SkyboxRenderer> getSkyboxRenderer() const;
 		std::shared_ptr<WaterRenderer> getWaterRenderer() const;
 		std::shared_ptr<GuiRenderer> getGuiRenderer() const;
+		std::shared_ptr<OpenGL::FrameBufferObject> getMainFbo() const;
 		
 		void loadScene(const RenderScene & scene);
 		void loadGuiRenderElements(const std::vector<std::shared_ptr<Models::GuiRenderElement>> & guiRenderElements);
@@ -66,6 +69,10 @@ namespace SimpleGameEngine::Renderers
 
 
 		RenderEngine & operator=(const RenderEngine & other);
+
+
+
+		void onWindowResized(Events::WindowResizeEvent & e) override;
 
 
 

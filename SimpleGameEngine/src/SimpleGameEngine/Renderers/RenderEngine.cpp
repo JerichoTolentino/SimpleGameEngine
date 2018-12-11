@@ -35,7 +35,7 @@ namespace SimpleGameEngine::Renderers
 		m_guiRenderer(guiRenderer)
 	{
 		// Initialize default FBO
-		m_mainFbo = OpenGL::FrameBufferObject(0, MAIN_FBO_WIDTH, MAIN_FBO_HEIGHT);
+		m_mainFbo = std::make_shared<OpenGL::FrameBufferObject>(0, MAIN_FBO_WIDTH, MAIN_FBO_HEIGHT);
 
 		// Initialize water FBOs
 		m_waterReflectionFbo = FboLoader::CreateWaterReflectionFbo(REFLECTION_FBO_WIDTH, REFLECTION_FBO_HEIGHT);
@@ -78,6 +78,11 @@ namespace SimpleGameEngine::Renderers
 		return m_guiRenderer;
 	}
 
+	std::shared_ptr<OpenGL::FrameBufferObject> RenderEngine::getMainFbo() const
+	{
+		return m_mainFbo;
+	}
+
 	void RenderEngine::loadScene(const RenderScene & scene)
 	{
 		m_scene = scene;
@@ -111,7 +116,7 @@ namespace SimpleGameEngine::Renderers
 		renderSkybox();
 		
 		// Render to main FBO
-		FboLoader::BindFrameBuffer(m_mainFbo);
+		FboLoader::BindFrameBuffer(*m_mainFbo);
 		renderEntities();
 		renderTerrains();
 		renderSkybox();
@@ -132,6 +137,14 @@ namespace SimpleGameEngine::Renderers
 		m_guiRenderer = other.m_guiRenderer;
 
 		return *this;
+	}
+
+
+
+	void RenderEngine::onWindowResized(Events::WindowResizeEvent & e)
+	{
+		m_mainFbo->setWidth(e.getWidth());
+		m_mainFbo->setHeight(e.getHeight());
 	}
 
 

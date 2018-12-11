@@ -19,9 +19,12 @@ namespace SimpleGameEngine::OpenGL
 
 
 
-		GLuint getFboId() const;
-		int getWidth() const;
-		int getHeight() const;
+		virtual GLuint getFboId() const;
+		virtual int getWidth() const;
+		virtual int getHeight() const;
+
+		virtual void setWidth(int width);
+		virtual void setHeight(int height);
 
 
 

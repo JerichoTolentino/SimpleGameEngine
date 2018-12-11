@@ -44,7 +44,7 @@ namespace SimpleGameEngine
 		try
 		{
 			// Initialize window - also initializes GLEW and GLFW
-			Window window;
+			Window window(1200, 800);
 
 			// Make shaders
 			auto entityShader = std::make_shared<Shader>(ShaderLoader::loadShader(
@@ -182,6 +182,8 @@ namespace SimpleGameEngine
 
 			renderEngine.loadGuiRenderElements(guiRenderElements);
 			renderEngine.loadScene(scene);
+
+			window.addWindowEventListener(&renderEngine);
 
 			bool goLeft = false;
 			bool goBack = true;

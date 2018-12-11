@@ -37,6 +37,16 @@ namespace SimpleGameEngine::OpenGL
 	{
 		return m_height;
 	}
+
+	void FrameBufferObject::setWidth(int width)
+	{
+		m_width = width;
+	}
+
+	void FrameBufferObject::setHeight(int height)
+	{
+		m_height = height;
+	}
 	
 	
 	

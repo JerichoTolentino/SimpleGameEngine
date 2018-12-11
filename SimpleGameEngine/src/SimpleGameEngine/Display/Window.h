@@ -6,8 +6,16 @@
 #include <string>
 #include <sstream>
 
+#include "../Events/WindowEvent.h"
+
 namespace SimpleGameEngine::Display
 {
+	class IWindowEventListener
+	{
+	public:
+		virtual void onWindowResized(Events::WindowResizeEvent & e) {};
+	};
+
 	class Window
 	{
 	private:
@@ -20,6 +28,8 @@ namespace SimpleGameEngine::Display
 		double m_deltaMouseX, m_deltaMouseY;
 		bool * m_mouseButtons;
 		bool * m_keys;
+
+		std::vector<IWindowEventListener*> m_eventListeners;
 
 
 
@@ -64,6 +74,8 @@ namespace SimpleGameEngine::Display
 		/// Forces this window to close.
 		/// </summary>
 		void forceClose() const;
+
+		void addWindowEventListener(IWindowEventListener * listener);
 
 
 

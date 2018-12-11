@@ -6,9 +6,11 @@
 #define MAXKEYS 349
 #define MAXBUTTONS 20
 
+using namespace SimpleGameEngine::Events;
+
 namespace SimpleGameEngine::Display
 {
-	Window::Window() : Window(1200, 800)
+	Window::Window()
 	{
 	}
 
@@ -60,6 +62,13 @@ namespace SimpleGameEngine::Display
 		glViewport(0, 0, w, h);
 
 		SGE_CORE_TRACE("Resized window to {0}x{1}", w, h);
+
+		// Dispatch resize event
+		WindowResizeEvent e(w, h);
+		for (auto & listener : m_eventListeners)
+		{
+			listener->onWindowResized(e);
+		}
 	}
 
 	void Window::forceClose() const
@@ -67,6 +76,11 @@ namespace SimpleGameEngine::Display
 		SGE_CORE_TRACE("Forcing window to close...");
 		glfwSetWindowShouldClose(m_window, GLFW_TRUE);
 		//glfwTerminate();
+	}
+
+	void Window::addWindowEventListener(IWindowEventListener * listener)
+	{
+		m_eventListeners.push_back(listener);
 	}
 
 
