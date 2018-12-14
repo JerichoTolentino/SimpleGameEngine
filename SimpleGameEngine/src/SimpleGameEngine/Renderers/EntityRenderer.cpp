@@ -32,6 +32,13 @@ namespace SimpleGameEngine::Renderers
 
 
 
+	void EntityRenderer::loadClippingPlane(const Math::Vec4 & clippingPlane) const
+	{
+		ShaderLoader::startShader(*m_shader);
+		ShaderLoader::loadUniformVec4f(*m_shader, EntityShaderConstants::VERT_CLIPPING_PLANE, clippingPlane);
+		ShaderLoader::stopShader(*m_shader);
+	}
+
 	void EntityRenderer::loadCamera(const Cameras::Camera & camera) const
 	{
 		ShaderLoader::startShader(*m_shader);

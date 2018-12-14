@@ -10,8 +10,8 @@ using namespace SimpleGameEngine::Loaders;
 
 namespace SimpleGameEngine::Renderers
 {
-	const int RenderEngine::MAIN_FBO_WIDTH = 1200;
-	const int RenderEngine::MAIN_FBO_HEIGHT = 800;
+	const int RenderEngine::MAIN_FBO_WIDTH = 1280;
+	const int RenderEngine::MAIN_FBO_HEIGHT = 720;
 	const int RenderEngine::REFLECTION_FBO_WIDTH = 320;
 	const int RenderEngine::REFLECTION_FBO_HEIGHT= 180;
 	const int RenderEngine::REFRACTION_FBO_WIDTH= 1280;
@@ -38,8 +38,10 @@ namespace SimpleGameEngine::Renderers
 		m_mainFbo = std::make_shared<OpenGL::FrameBufferObject>(0, MAIN_FBO_WIDTH, MAIN_FBO_HEIGHT);
 
 		// Initialize water FBOs
-		m_waterReflectionFbo = FboLoader::CreateWaterReflectionFbo(REFLECTION_FBO_WIDTH, REFLECTION_FBO_HEIGHT);
-		m_waterRefractionFbo = FboLoader::CreateWaterRefractionFbo(REFRACTION_FBO_WIDTH, REFRACTION_FBO_HEIGHT);
+		m_waterReflectionFbo = std::make_shared<OpenGL::WaterReflectionFbo>(FboLoader::CreateWaterReflectionFbo(REFLECTION_FBO_WIDTH, REFLECTION_FBO_HEIGHT));
+		m_waterRefractionFbo = std::make_shared<OpenGL::WaterRefractionFbo>(FboLoader::CreateWaterRefractionFbo(REFRACTION_FBO_WIDTH, REFRACTION_FBO_HEIGHT));
+
+		m_waterHeight = 0;
 	}
 
 	RenderEngine::RenderEngine(const RenderEngine & other)
@@ -83,6 +85,21 @@ namespace SimpleGameEngine::Renderers
 		return m_mainFbo;
 	}
 
+	std::shared_ptr<OpenGL::WaterReflectionFbo> RenderEngine::getWaterReflectionFbo() const
+	{
+		return m_waterReflectionFbo;
+	}
+
+	std::shared_ptr<OpenGL::WaterRefractionFbo> RenderEngine::getWaterRefractionFbo() const
+	{
+		return m_waterRefractionFbo;
+	}
+
+	void RenderEngine::setWaterHeight(int height)
+	{
+		m_waterHeight = height;
+	}
+
 	void RenderEngine::loadScene(const RenderScene & scene)
 	{
 		m_scene = scene;
@@ -109,20 +126,41 @@ namespace SimpleGameEngine::Renderers
 		auto lights = *m_scene.getLights();
 		auto skybox = m_scene.getSkybox();
 
-		// Render to water FBO
-		FboLoader::BindFrameBuffer(m_waterReflectionFbo);
-		renderEntities();
-		renderTerrains();
-		renderSkybox();
-		
+		glEnable(GL_CLIP_DISTANCE0);
+
+		// Render to water reflection FBO
+		FboLoader::BindFrameBuffer(*m_waterReflectionFbo);
+		m_entityRenderer->loadClippingPlane(Vec4(0, 1, 0, -m_waterHeight));
+		m_terrainRenderer->loadClippingPlane(Vec4(0, 1, 0, -m_waterHeight));
+		renderEntities(camera, lights);
+		renderTerrains(camera, lights);
+		if (skybox != nullptr)
+		{
+			renderSkybox(camera, *skybox);
+		}
+
+		// Render to water refraction FBO
+		FboLoader::BindFrameBuffer(*m_waterRefractionFbo);
+		m_entityRenderer->loadClippingPlane(Vec4(0, -1, 0, m_waterHeight));
+		m_terrainRenderer->loadClippingPlane(Vec4(0, -1, 0, m_waterHeight));
+		renderEntities(camera, lights);
+		renderTerrains(camera, lights);
+		if (skybox != nullptr)
+		{
+			renderSkybox(camera, *skybox);
+		}
+
+		glDisable(GL_CLIP_DISTANCE0);		
+
 		// Render to main FBO
 		FboLoader::BindFrameBuffer(*m_mainFbo);
-		renderEntities();
-		renderTerrains();
-		renderSkybox();
-		renderWater();
-
-		// Render GUI elements
+		renderEntities(camera, lights);
+		renderTerrains(camera, lights);
+		if (skybox != nullptr)
+		{
+			renderSkybox(camera, *skybox);
+		}
+		renderWater(camera, lights);
 		renderGui();
 	}
 
@@ -149,11 +187,8 @@ namespace SimpleGameEngine::Renderers
 
 
 
-	void RenderEngine::renderEntities() const
+	void RenderEngine::renderEntities(const Cameras::Camera & camera, const std::vector<std::shared_ptr<Models::LightSource>> & lights) const
 	{
-		Camera camera = *m_scene.getCamera();
-		auto lights = *m_scene.getLights();
-
 		for (const auto & entityBatch : *m_scene.getEntityBatches())
 		{
 			auto entities = entityBatch.second;
@@ -172,11 +207,8 @@ namespace SimpleGameEngine::Renderers
 		}
 	}
 
-	void RenderEngine::renderTerrains() const
+	void RenderEngine::renderTerrains(const Cameras::Camera & camera, const std::vector<std::shared_ptr<Models::LightSource>> & lights) const
 	{
-		Camera camera = *m_scene.getCamera();
-		auto lights = *m_scene.getLights();
-
 		for (const auto & terrainBatch : *m_scene.getTerrainBatches())
 		{
 			auto terrains = terrainBatch.second;
@@ -191,25 +223,16 @@ namespace SimpleGameEngine::Renderers
 		}
 	}
 	
-	void RenderEngine::renderSkybox() const
+	void RenderEngine::renderSkybox(const Cameras::Camera & camera, const Models::SkyboxRenderModel & skybox) const
 	{
-		Camera camera = *m_scene.getCamera();
-		auto skybox = m_scene.getSkybox();
-
-		if (skybox != nullptr)
-		{
-			m_skyboxRenderer->loadCamera(camera);
-			m_skyboxRenderer->loadSkybox(*skybox);
-			m_skyboxRenderer->render(*skybox);
-			m_skyboxRenderer->unloadSkybox();
-		}
+		m_skyboxRenderer->loadCamera(camera);
+		m_skyboxRenderer->loadSkybox(skybox);
+		m_skyboxRenderer->render(skybox);
+		m_skyboxRenderer->unloadSkybox();
 	}
 	
-	void RenderEngine::renderWater() const
+	void RenderEngine::renderWater(const Cameras::Camera & camera, const std::vector<std::shared_ptr<Models::LightSource>> & lights) const
 	{
-		Camera camera = *m_scene.getCamera();
-		auto lights = *m_scene.getLights();
-
 		glDisable(GL_CULL_FACE);
 		for (const auto & waterBatch : *m_scene.getWaterBatches())
 		{

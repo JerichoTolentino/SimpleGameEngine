@@ -20,6 +20,8 @@ uniform vec3 uLightPositions[5];
 uniform vec3 uEyePosition;
 uniform float uRefractiveIndex;
 
+uniform vec4 uClippingPlane;
+
 void main()
 {
 	// Transform position and normal to world coordinates
@@ -56,4 +58,5 @@ void main()
 	vTextureCoordinates = iTextureUv;
 
 	gl_Position = world_position * uViewMatrix * uProjectionMatrix;
+	gl_ClipDistance[0] = dot(world_position, uClippingPlane);
 }

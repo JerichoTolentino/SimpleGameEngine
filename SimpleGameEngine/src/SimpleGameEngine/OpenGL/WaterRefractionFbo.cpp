@@ -34,6 +34,7 @@ namespace SimpleGameEngine::OpenGL
 	}
 
 
+
 	WaterRefractionFbo & WaterRefractionFbo::operator=(const WaterRefractionFbo & other)
 	{
 		FrameBufferObject::operator=(other);

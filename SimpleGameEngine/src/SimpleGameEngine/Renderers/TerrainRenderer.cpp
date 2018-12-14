@@ -32,6 +32,13 @@ namespace SimpleGameEngine::Renderers
 
 
 
+	void TerrainRenderer::loadClippingPlane(const Math::Vec4 & clippingPlane) const
+	{
+		ShaderLoader::startShader(*m_shader);
+		ShaderLoader::loadUniformVec4f(*m_shader, TerrainShaderConstants::VERT_CLIPPING_PLANE, clippingPlane);
+		ShaderLoader::stopShader(*m_shader);
+	}
+
 	void TerrainRenderer::loadTerrain(const Models::TerrainRenderModel & terrain) const
 	{
 		// Bind terrain VAO

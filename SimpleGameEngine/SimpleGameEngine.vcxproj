@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SimpleGameEngine\Loaders\FboLoadException.h" />
     <ClInclude Include="src\SimpleGameEngine\Events\Event.h" />
     <ClInclude Include="src\SimpleGameEngine\Events\WindowEvent.h" />
     <ClInclude Include="src\SimpleGameEngine\OpenGL\FrameBufferObject.h" />
@@ -80,6 +81,7 @@
     <ClInclude Include="src\SimpleGameEngine\OpenGL\WaterRefractionFbo.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\SimpleGameEngine\Loaders\FboLoadException.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Events\Event.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Events\WindowEvent.cpp" />
     <ClCompile Include="src\SimpleGameEngine\OpenGL\FrameBufferObject.cpp" />
@@ -245,6 +247,9 @@
       <OptimizeReferences>true</OptimizeReferences>
       <AdditionalDependencies>SOIL.lib;glfw3.lib;glew32s.lib;opengl32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST ..\bin\Release-x64\SimpleGameEngine\SimpleGameEngine.dll\ (xcopy /Q /E /Y /I ..\bin\Release-x64\SimpleGameEngine\SimpleGameEngine.dll ..\bin\Release-x64\Sandbox &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-x64\SimpleGameEngine\SimpleGameEngine.dll ..\bin\Release-x64\Sandbox &gt; nul)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -24,6 +24,8 @@ namespace SimpleGameEngine::Renderers
 		~TerrainRenderer();
 
 
+
+		void loadClippingPlane(const Math::Vec4 & clippingPlane) const;
 		void loadTerrain(const Models::TerrainRenderModel & terrain) const;
 		void render(const Models::TerrainRenderModel & terrain) const;
 		void unloadTerrain() const;

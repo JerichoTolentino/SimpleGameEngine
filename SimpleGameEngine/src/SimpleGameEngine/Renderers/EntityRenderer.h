@@ -21,6 +21,7 @@ namespace SimpleGameEngine::Renderers
 		EntityRenderer(const EntityRenderer & other);
 		~EntityRenderer();
 
+		void loadClippingPlane(const Math::Vec4 & clippingPlane) const;
 		void loadCamera(const Cameras::Camera & camera) const;
 		void loadLights(const std::vector<std::shared_ptr<Models::LightSource>> & lights) const;
 		void loadProjectionMatrix(const Math::Mat4 & proj) const;

@@ -10,6 +10,8 @@ namespace SimpleGameEngine::Shaders
 	const std::string EntityShaderConstants::VERT_LIGHT_POSITIONS = "uLightPositions";
 	const std::string EntityShaderConstants::VERT_EYE_POSITION = "uEyePosition";
 
+	const std::string EntityShaderConstants::VERT_CLIPPING_PLANE = "uClippingPlane";
+
 	const std::string EntityShaderConstants::FRAG_AMBIENT = "uAmbient";
 	const std::string EntityShaderConstants::FRAG_EMISSIVE = "uEmissive";
 	const std::string EntityShaderConstants::FRAG_DIFFUSE = "uDiffuse";

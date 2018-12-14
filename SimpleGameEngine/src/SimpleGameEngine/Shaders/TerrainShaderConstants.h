@@ -12,6 +12,8 @@ namespace SimpleGameEngine::Shaders
 		static const std::string VERT_VIEW_MATRIX;
 		static const std::string VERT_LIGHT_POSITIONS;
 
+		static const std::string VERT_CLIPPING_PLANE;
+
 		static const std::string FRAG_AMBIENT;
 		static const std::string FRAG_DIFFUSE;
 		static const std::string FRAG_OPACITY;

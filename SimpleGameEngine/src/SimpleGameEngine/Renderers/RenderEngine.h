@@ -37,10 +37,10 @@ namespace SimpleGameEngine::Renderers
 		std::vector<std::shared_ptr<Models::GuiRenderElement>> m_guiRenderElements;
 
 		std::shared_ptr<OpenGL::FrameBufferObject> m_mainFbo;
-		OpenGL::WaterReflectionFbo m_waterReflectionFbo;
-		OpenGL::WaterRefractionFbo m_waterRefractionFbo;
+		std::shared_ptr<OpenGL::WaterReflectionFbo> m_waterReflectionFbo;
+		std::shared_ptr<OpenGL::WaterRefractionFbo> m_waterRefractionFbo;
 
-
+		int m_waterHeight;
 
 	public:
 		RenderEngine();
@@ -61,7 +61,10 @@ namespace SimpleGameEngine::Renderers
 		std::shared_ptr<WaterRenderer> getWaterRenderer() const;
 		std::shared_ptr<GuiRenderer> getGuiRenderer() const;
 		std::shared_ptr<OpenGL::FrameBufferObject> getMainFbo() const;
+		std::shared_ptr<OpenGL::WaterReflectionFbo> getWaterReflectionFbo() const;
+		std::shared_ptr<OpenGL::WaterRefractionFbo> getWaterRefractionFbo() const;
 		
+		void setWaterHeight(int height);
 		void loadScene(const RenderScene & scene);
 		void loadGuiRenderElements(const std::vector<std::shared_ptr<Models::GuiRenderElement>> & guiRenderElements);
 		void render() const;
@@ -77,10 +80,10 @@ namespace SimpleGameEngine::Renderers
 
 
 	private:
-		void renderEntities() const;
-		void renderTerrains() const;
-		void renderSkybox() const;
-		void renderWater() const;
+		void renderEntities(const Cameras::Camera & camera, const std::vector<std::shared_ptr<Models::LightSource>> & lights) const;
+		void renderTerrains(const Cameras::Camera & camera, const std::vector<std::shared_ptr<Models::LightSource>> & lights) const;
+		void renderSkybox(const Cameras::Camera & camera, const Models::SkyboxRenderModel & skybox) const;
+		void renderWater(const Cameras::Camera & camera, const std::vector<std::shared_ptr<Models::LightSource>> & lights) const;
 		void renderGui() const;
 	};
 }

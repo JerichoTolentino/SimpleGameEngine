@@ -18,8 +18,16 @@ namespace SimpleGameEngine::Loaders
 		static GLuint GenerateFboDepthBuffer(int width, int height);
 
 
-		
+		/// <summary>
+		/// Creates a <see cref="WaterReflectionFbo"/>.
+		/// </summary>
+		/// <exception cref="FboLoadException"></exception>
 		static OpenGL::WaterReflectionFbo CreateWaterReflectionFbo(int width, int height);
+
+		/// <summary>
+		/// Creates a <see cref="WaterRefractionFbo"/>.
+		/// </summary>
+		/// <exception cref="FboLoadException"></exception>
 		static OpenGL::WaterRefractionFbo CreateWaterRefractionFbo(int width, int height);
 	};
 }

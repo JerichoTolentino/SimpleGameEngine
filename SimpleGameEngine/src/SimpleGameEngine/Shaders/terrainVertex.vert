@@ -13,6 +13,8 @@ uniform mat4 uProjectionMatrix;
 uniform mat4 uViewMatrix;
 uniform vec3 uLightPositions[5];
 
+uniform vec4 uClippingPlane;
+
 void main()
 {
 	// Calculate position and normal in world space
@@ -29,4 +31,5 @@ void main()
 	}
 
 	gl_Position = world_position * uViewMatrix * uProjectionMatrix;
+	gl_ClipDistance[0] = dot(world_position, uClippingPlane);
 }

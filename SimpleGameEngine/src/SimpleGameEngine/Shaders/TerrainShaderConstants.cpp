@@ -8,6 +8,8 @@ namespace SimpleGameEngine::Shaders
 	const std::string TerrainShaderConstants::VERT_VIEW_MATRIX = "uViewMatrix";
 	const std::string TerrainShaderConstants::VERT_LIGHT_POSITIONS = "uLightPositions";
 
+	const std::string TerrainShaderConstants::VERT_CLIPPING_PLANE = "uClippingPlane";
+
 	const std::string TerrainShaderConstants::FRAG_AMBIENT = "uAmbient";
 	const std::string TerrainShaderConstants::FRAG_DIFFUSE = "uDiffuse";
 	const std::string TerrainShaderConstants::FRAG_OPACITY = "uOpacity";

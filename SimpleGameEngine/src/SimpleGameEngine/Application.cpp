@@ -44,7 +44,7 @@ namespace SimpleGameEngine
 		try
 		{
 			// Initialize window - also initializes GLEW and GLFW
-			Window window(1200, 800);
+			Window window(1280, 720);
 
 			// Make shaders
 			auto entityShader = std::make_shared<Shader>(ShaderLoader::loadShader(
@@ -145,6 +145,7 @@ namespace SimpleGameEngine
 			auto waterSpaceModel = std::make_shared<SpaceModel>(SpaceModel(Vec3(0, -15, 0), Vec3(0, 0, 0), Vec3(100, 1, 100)));
 			auto waterEntity = std::make_shared<WaterEntity>(WaterEntity(waterRenderModel, waterSpaceModel));
 			scene.addWater(waterEntity);
+			renderEngine.setWaterHeight(waterEntity->getSpaceModel()->getPosition().y);
 
 			// Create camera
 			std::shared_ptr<Camera> camera = std::make_shared<Camera>(Camera(Vec3(0, 0.2f, 0), Vec3(-0.2f, 0, 0)));
@@ -167,15 +168,27 @@ namespace SimpleGameEngine
 
 			// Add GUI elements
 			auto guiQuad = std::make_shared<GuiGeometry>(GuiGeometry::GenerateQuad());
+			unsigned int guiQuadVaoId = Loader::loadGuiElement(*guiQuad);
 			std::vector<std::shared_ptr<GuiRenderElement>> guiRenderElements;
 			guiRenderElements.push_back(std::make_shared<GuiRenderElement>(GuiRenderElement(
 																			guiQuad,
-																			Loader::loadGuiElement(*guiQuad),
+																			guiQuadVaoId,
 																			Loader::loadTexture("D:/Blender Files/transparent.png"),
 																			Vec2(0.75, -0.75), 
 																			0, 
 																			Vec2(0.25f, 0.25f))));
 			
+			// Create water FBO texture GUI elements
+			auto waterReflectionFbo = renderEngine.getWaterReflectionFbo();
+			auto waterReflectionGui = std::make_shared<GuiRenderElement>(
+				GuiRenderElement(guiQuad, guiQuadVaoId, waterReflectionFbo->getTextureId(), Vec2(0.75, 0.75), 0, Vec2(0.25f, 0.25f)));
+			guiRenderElements.push_back(waterReflectionGui);
+
+			auto waterRefractionFbo = renderEngine.getWaterRefractionFbo();
+			auto waterRefractionGui = std::make_shared<GuiRenderElement>(
+				GuiRenderElement(guiQuad, guiQuadVaoId, waterRefractionFbo->getTextureId(), Vec2(-0.75, 0.75), 0, Vec2(0.25f, 0.25f)));
+			guiRenderElements.push_back(waterRefractionGui);
+
 			glEnable(GL_DEPTH_TEST);
 			glEnable(GL_CULL_FACE);
 			glCullFace(GL_BACK);
