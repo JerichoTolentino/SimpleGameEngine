@@ -31,6 +31,30 @@ namespace SimpleGameEngine::Renderers
 
 
 
+	void WaterRenderer::loadWaterReflectionFbo(const std::shared_ptr<OpenGL::WaterReflectionFbo> waterReflectionFbo)
+	{
+		ShaderLoader::startShader(*m_shader);
+
+		m_waterReflectionFbo = waterReflectionFbo;
+
+		// Connect texture unit
+		ShaderLoader::loadUniform1i(*m_shader, WaterShaderConstants::FRAG_WATER_REFLECTION_SAMPLER, 0);
+
+		ShaderLoader::stopShader(*m_shader);
+	}
+
+	void WaterRenderer::loadWaterRefractionFbo(const std::shared_ptr<OpenGL::WaterRefractionFbo> waterRefractionFbo)
+	{
+		ShaderLoader::startShader(*m_shader);
+
+		m_waterRefractionFbo = waterRefractionFbo;
+
+		// Connect texture unit
+		ShaderLoader::loadUniform1i(*m_shader, WaterShaderConstants::FRAG_WATER_REFRACTION_SAMPLER, 1);
+
+		ShaderLoader::stopShader(*m_shader);
+	}
+
 	void WaterRenderer::loadCamera(const Cameras::Camera & camera) const
 	{
 		ShaderLoader::startShader(*m_shader);
@@ -55,6 +79,18 @@ namespace SimpleGameEngine::Renderers
 		// Bind the VAO
 		glBindVertexArray(waterRenderModel.getVaoId());
 		glEnableVertexAttribArray(0);
+
+		// Bind water FBOs
+		if (m_waterReflectionFbo != nullptr)
+		{
+			glActiveTexture(GL_TEXTURE0);
+			glBindTexture(GL_TEXTURE_2D, m_waterReflectionFbo->getTextureId());
+		}
+		if (m_waterRefractionFbo != nullptr)
+		{
+			glActiveTexture(GL_TEXTURE1);
+			glBindTexture(GL_TEXTURE_2D, m_waterRefractionFbo->getTextureId());
+		}
 	}
 	
 	void WaterRenderer::loadWaterEntity(const Models::WaterEntity & entity) const

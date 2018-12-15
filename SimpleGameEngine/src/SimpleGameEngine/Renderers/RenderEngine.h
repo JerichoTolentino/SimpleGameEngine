@@ -40,7 +40,7 @@ namespace SimpleGameEngine::Renderers
 		std::shared_ptr<OpenGL::WaterReflectionFbo> m_waterReflectionFbo;
 		std::shared_ptr<OpenGL::WaterRefractionFbo> m_waterRefractionFbo;
 
-		int m_waterHeight;
+		float m_waterHeight;
 
 	public:
 		RenderEngine();
@@ -64,7 +64,7 @@ namespace SimpleGameEngine::Renderers
 		std::shared_ptr<OpenGL::WaterReflectionFbo> getWaterReflectionFbo() const;
 		std::shared_ptr<OpenGL::WaterRefractionFbo> getWaterRefractionFbo() const;
 		
-		void setWaterHeight(int height);
+		void setWaterHeight(float height);
 		void loadScene(const RenderScene & scene);
 		void loadGuiRenderElements(const std::vector<std::shared_ptr<Models::GuiRenderElement>> & guiRenderElements);
 		void render() const;

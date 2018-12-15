@@ -142,7 +142,7 @@ namespace SimpleGameEngine
 			// Create water
 			auto waterModel = std::make_shared<WaterModel>(WaterModel::GenerateWaterModel());
 			auto waterRenderModel = std::make_shared<WaterRenderModel>(WaterRenderModel(waterModel,	Loader::loadWaterModel(*waterModel)));
-			auto waterSpaceModel = std::make_shared<SpaceModel>(SpaceModel(Vec3(0, -15, 0), Vec3(0, 0, 0), Vec3(100, 1, 100)));
+			auto waterSpaceModel = std::make_shared<SpaceModel>(SpaceModel(Vec3(0, -14, 0), Vec3(0, 0, 0), Vec3(100, 1, 100)));
 			auto waterEntity = std::make_shared<WaterEntity>(WaterEntity(waterRenderModel, waterSpaceModel));
 			scene.addWater(waterEntity);
 			renderEngine.setWaterHeight(waterEntity->getSpaceModel()->getPosition().y);
@@ -157,9 +157,9 @@ namespace SimpleGameEngine
 			auto testLight2 = std::make_shared<LightSource>(LightSource(Vec3(0, 0.2f, 0), Vec3(0, 0, 1), Vec3(1, 0.01f, 0.002f)));
 			lightSources.push_back(testLight);
 			lightSources.push_back(testLight2);
-			//lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(-1000, 1000, -1000), Vec3(1, 1, 1))));
-			//lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(5, 2, -10), Vec3(0, 0, 1), Vec3(1, 0.01f, 0.002f))));
-			//lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(-50, 2, -100), Vec3(0, 1, 0), Vec3(1, 0.01f, 0.002f))));
+			lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(-1000, 1000, -1000), Vec3(1, 1, 1))));
+			lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(5, 2, -10), Vec3(0, 0, 1), Vec3(1, 0.01f, 0.002f))));
+			lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(-50, 2, -100), Vec3(0, 1, 0), Vec3(1, 0.01f, 0.002f))));
 			for (auto light : lightSources)
 			{
 				scene.addLight(light);
@@ -200,6 +200,7 @@ namespace SimpleGameEngine
 
 			bool goLeft = false;
 			bool goBack = true;
+			bool goTerrainLeft = true;
 
 			// Main loop
 			while (!window.isClosed())
@@ -229,6 +230,11 @@ namespace SimpleGameEngine
 					ModelTransformer::translate(*stallSpaceModel, Vec3(0, 0, -0.2f));
 				else
 					ModelTransformer::translate(*stallSpaceModel, Vec3(0, 0, 0.2f));
+
+				if (terrainSpace->getRotation().y > 45)
+					goTerrainLeft = false;
+				else if (terrainSpace->getRotation().y < -45)
+					goTerrainLeft = true;
 
 				window.update();
 			}

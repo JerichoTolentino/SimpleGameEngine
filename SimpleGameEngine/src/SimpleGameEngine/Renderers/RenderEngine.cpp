@@ -2,18 +2,20 @@
 #include "RenderEngine.h"
 
 #include "../Loaders/FboLoader.h"
+#include "../Logic/ModelTransformer.h"
 
 using namespace SimpleGameEngine::Math;
 using namespace SimpleGameEngine::Models;
 using namespace SimpleGameEngine::Cameras;
 using namespace SimpleGameEngine::Loaders;
+using namespace SimpleGameEngine::Logic;
 
 namespace SimpleGameEngine::Renderers
 {
 	const int RenderEngine::MAIN_FBO_WIDTH = 1280;
 	const int RenderEngine::MAIN_FBO_HEIGHT = 720;
-	const int RenderEngine::REFLECTION_FBO_WIDTH = 320;
-	const int RenderEngine::REFLECTION_FBO_HEIGHT= 180;
+	const int RenderEngine::REFLECTION_FBO_WIDTH = 1280;
+	const int RenderEngine::REFLECTION_FBO_HEIGHT= 720;
 	const int RenderEngine::REFRACTION_FBO_WIDTH= 1280;
 	const int RenderEngine::REFRACTION_FBO_HEIGHT= 720;
 
@@ -40,6 +42,10 @@ namespace SimpleGameEngine::Renderers
 		// Initialize water FBOs
 		m_waterReflectionFbo = std::make_shared<OpenGL::WaterReflectionFbo>(FboLoader::CreateWaterReflectionFbo(REFLECTION_FBO_WIDTH, REFLECTION_FBO_HEIGHT));
 		m_waterRefractionFbo = std::make_shared<OpenGL::WaterRefractionFbo>(FboLoader::CreateWaterRefractionFbo(REFRACTION_FBO_WIDTH, REFRACTION_FBO_HEIGHT));
+
+		// Load in water FBO textures
+		m_waterRenderer->loadWaterReflectionFbo(m_waterReflectionFbo);
+		m_waterRenderer->loadWaterRefractionFbo(m_waterRefractionFbo);
 
 		m_waterHeight = 0;
 	}
@@ -95,7 +101,7 @@ namespace SimpleGameEngine::Renderers
 		return m_waterRefractionFbo;
 	}
 
-	void RenderEngine::setWaterHeight(int height)
+	void RenderEngine::setWaterHeight(float height)
 	{
 		m_waterHeight = height;
 	}
@@ -128,6 +134,11 @@ namespace SimpleGameEngine::Renderers
 
 		glEnable(GL_CLIP_DISTANCE0);
 
+		// Transform camera for reflection texture
+		float distance = std::sqrtf(std::powf(camera.getPosition().y - m_waterHeight, 2)) * 2;
+		camera.setPosition(Vec3(camera.getPosition().x, camera.getPosition().y - distance, camera.getPosition().z));
+		camera.setRotation(Vec3(-camera.getRotation().x, camera.getRotation().y, camera.getRotation().z));
+
 		// Render to water reflection FBO
 		FboLoader::BindFrameBuffer(*m_waterReflectionFbo);
 		m_entityRenderer->loadClippingPlane(Vec4(0, 1, 0, -m_waterHeight));
@@ -138,6 +149,10 @@ namespace SimpleGameEngine::Renderers
 		{
 			renderSkybox(camera, *skybox);
 		}
+
+		// Transform camera back to original position
+		camera.setPosition(Vec3(camera.getPosition().x, camera.getPosition().y + distance, camera.getPosition().z));
+		camera.setRotation(Vec3(-camera.getRotation().x, camera.getRotation().y, camera.getRotation().z));
 
 		// Render to water refraction FBO
 		FboLoader::BindFrameBuffer(*m_waterRefractionFbo);

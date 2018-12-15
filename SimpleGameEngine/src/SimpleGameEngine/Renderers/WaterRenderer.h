@@ -3,6 +3,8 @@
 #include "../Cameras/Camera.h"
 #include "../Models/LightSource.h"
 #include "../Models/WaterEntity.h"
+#include "../OpenGL/WaterReflectionFbo.h"
+#include "../OpenGL/WaterRefractionFbo.h"
 
 namespace SimpleGameEngine::Renderers
 {
@@ -10,6 +12,8 @@ namespace SimpleGameEngine::Renderers
 	{
 	private:
 		std::shared_ptr<Shaders::Shader> m_shader;
+		std::shared_ptr<OpenGL::WaterReflectionFbo> m_waterReflectionFbo;
+		std::shared_ptr<OpenGL::WaterRefractionFbo> m_waterRefractionFbo;
 
 
 
@@ -19,6 +23,8 @@ namespace SimpleGameEngine::Renderers
 		WaterRenderer(const WaterRenderer & other);
 		~WaterRenderer();
 
+		void loadWaterReflectionFbo(const std::shared_ptr<OpenGL::WaterReflectionFbo> waterReflectionFbo);
+		void loadWaterRefractionFbo(const std::shared_ptr<OpenGL::WaterRefractionFbo> waterRefractionFbo);
 		void loadCamera(const Cameras::Camera & camera) const;
 		void loadLights(const std::vector<std::shared_ptr<Models::LightSource>> & lights) const;
 		void loadProjectionMatrix(const Math::Mat4 & proj) const;
