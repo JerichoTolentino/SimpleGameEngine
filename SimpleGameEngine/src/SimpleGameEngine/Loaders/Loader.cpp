@@ -48,28 +48,31 @@ namespace SimpleGameEngine::Loaders
 		// Bind indices
 		auto indices = skybox.getIndices();
 		GLuint * indicesArray = Generic::copyToArray(*indices);
-		GLsizeiptr numIndices = sizeof(GLuint) * indices->size();
+		GLsizeiptr indicesBytesSize = sizeof(GLuint) * indices->size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices, indicesArray, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesBytesSize, indicesArray, GL_STATIC_DRAW);
 
 		// Bind vertices
 		GLfloat * verticesArray = Generic::copyToArray(flattenedVertices);
-		GLsizeiptr numVertices = sizeof(GLfloat) * flattenedVertices.size();
+		GLsizeiptr verticesByteSize = sizeof(GLfloat) * flattenedVertices.size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, numVertices, verticesArray, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, verticesByteSize, verticesArray, GL_STATIC_DRAW);
 		glVertexAttribPointer(VERTICES_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 		// Bind texture UVs
 		GLfloat * textureUvsArray = Generic::copyToArray(flattenedUvs);
-		GLsizeiptr numTextureUvs = sizeof(GLfloat) * flattenedUvs.size();
+		GLsizeiptr textureUvsByteSize = sizeof(GLfloat) * flattenedUvs.size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, numTextureUvs, textureUvsArray, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, textureUvsByteSize, textureUvsArray, GL_STATIC_DRAW);
 		glVertexAttribPointer(TEXTURES_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
-		SGE_CORE_TRACE("Loaded SkyboxModel with {0} vertices, {1} textureUvs, and {2} indices", numVertices, numTextureUvs, numIndices);
+		SGE_CORE_TRACE("Loaded SkyboxModel with {0} vertices, {1} textureUvs, and {2} indices",
+					   verticesByteSize / sizeof(GLfloat),
+					   textureUvsByteSize / sizeof(GLfloat),
+					   indicesBytesSize / sizeof(GLuint));
 
 		return vao;
 	}
@@ -118,36 +121,40 @@ namespace SimpleGameEngine::Loaders
 		// Bind indices
 		auto indices = model.getIndices();
 		GLuint * indicesArray = Generic::copyToArray(*indices);
-		GLsizeiptr numIndices = sizeof(GLuint) * indices->size();
+		GLsizeiptr indicesByteSize = sizeof(GLuint) * indices->size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices, indicesArray, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesByteSize, indicesArray, GL_STATIC_DRAW);
 		
 		// Bind vertices
 		GLfloat * verticesArray = Generic::copyToArray(flattenedVertices);
-		GLsizeiptr numVertices = sizeof(GLfloat) * flattenedVertices.size();
+		GLsizeiptr verticesByteSize = sizeof(GLfloat) * flattenedVertices.size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, numVertices, verticesArray, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, verticesByteSize, verticesArray, GL_STATIC_DRAW);
 		glVertexAttribPointer(VERTICES_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 		// Bind normals
 		GLfloat * normalsArray = Generic::copyToArray(flattenedNormals);
-		GLsizeiptr numNormals = sizeof(GLfloat) * flattenedNormals.size();
+		GLsizeiptr normalsByteSize = sizeof(GLfloat) * flattenedNormals.size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, numNormals, normalsArray, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, normalsByteSize, normalsArray, GL_STATIC_DRAW);
 		glVertexAttribPointer(NORMALS_ATTR, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 		// Bind texture UVs
 		GLfloat * textureUvsArray = Generic::copyToArray(flattenedUvs);
-		GLsizeiptr numTextureUvs = sizeof(GLfloat) * flattenedUvs.size();
+		GLsizeiptr textureUvsByteSize = sizeof(GLfloat) * flattenedUvs.size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, numTextureUvs, textureUvsArray, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, textureUvsByteSize, textureUvsArray, GL_STATIC_DRAW);
 		glVertexAttribPointer(TEXTURES_ATTR, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-		SGE_CORE_TRACE("Loaded GeometryModel with {0} vertices, {1} normals, {2} textureUvs, and {3} indices", numVertices, numNormals, numTextureUvs, numIndices);
+		SGE_CORE_TRACE("Loaded GeometryModel with {0} vertices, {1} normals, {2} textureUvs, and {3} indices",
+					   verticesByteSize / sizeof(GLfloat),
+					   normalsByteSize / sizeof(GLfloat),
+					   textureUvsByteSize / sizeof(GLfloat),
+					   indicesByteSize / sizeof(GLuint));
 	
 		return vao;
 	}
@@ -161,21 +168,23 @@ namespace SimpleGameEngine::Loaders
 
 		// Bind indices
 		GLuint * indicesArray = Generic::copyToArray(*waterModel.getIndices());
-		GLsizeiptr numIndices = sizeof(GLuint) * waterModel.getIndices()->size();
+		GLsizeiptr indicesByteSize = sizeof(GLuint) * waterModel.getIndices()->size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices, indicesArray, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesByteSize, indicesArray, GL_STATIC_DRAW);
 
 		// Bind vertices
 		auto vertices = *waterModel.getVertices();
 		GLfloat * verticesArray = Generic::copyToArray(vertices);
-		GLsizeiptr numVertices = sizeof(GLfloat) * vertices.size();
+		GLsizeiptr verticesByteSize = sizeof(GLfloat) * vertices.size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, numVertices, verticesArray, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, verticesByteSize, verticesArray, GL_STATIC_DRAW);
 		glVertexAttribPointer(VERTICES_ATTR, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-		SGE_CORE_TRACE("Loaded WaterModel with {0} vertices and {1} indices.", numVertices, numIndices);
+		SGE_CORE_TRACE("Loaded WaterModel with {0} vertices and {1} indices.",
+					   verticesByteSize / sizeof(GLfloat),
+					   indicesByteSize / sizeof(GLuint));
 
 		return vao;
 	}
@@ -189,30 +198,33 @@ namespace SimpleGameEngine::Loaders
 
 		// Bind indices
 		GLuint * indicesArray = Generic::copyToArray(*guiGeometry.getIndices());
-		GLsizeiptr numIndices = sizeof(GLuint) * guiGeometry.getIndices()->size();
+		GLsizeiptr indicesByteSize = sizeof(GLuint) * guiGeometry.getIndices()->size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, numIndices, indicesArray, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, indicesByteSize, indicesArray, GL_STATIC_DRAW);
 
 		// Bind vertices
 		auto vertices = *guiGeometry.getVertices();
 		GLfloat * verticesArray = Generic::copyToArray(vertices);
-		GLsizeiptr numVertices = sizeof(GLfloat) * vertices.size();
+		GLsizeiptr verticesByteSize = sizeof(GLfloat) * vertices.size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, numVertices, verticesArray, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, verticesByteSize, verticesArray, GL_STATIC_DRAW);
 		glVertexAttribPointer(VERTICES_ATTR, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
 		// Bind texture UVs
 		auto textureUvs = *guiGeometry.getTextureUvs();
 		GLfloat * textureUvsArray = Generic::copyToArray(textureUvs);
-		GLsizeiptr numTextureUvs = sizeof(GLfloat) * textureUvs.size();
+		GLsizeiptr textureUvsByteSize = sizeof(GLfloat) * textureUvs.size();
 		glGenBuffers(1, &vbo);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		glBufferData(GL_ARRAY_BUFFER, numTextureUvs, textureUvsArray, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, textureUvsByteSize, textureUvsArray, GL_STATIC_DRAW);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, 0);
 
-		SGE_CORE_TRACE("Loaded GuiElement with {0} vertices, {1} textureUvs, and {2} indices.", numVertices, numTextureUvs, numIndices);
+		SGE_CORE_TRACE("Loaded GuiElement with {0} vertices, {1} textureUvs, and {2} indices.",
+					   verticesByteSize / sizeof(GLfloat),
+					   textureUvsByteSize / sizeof(GLfloat),
+					   indicesByteSize / sizeof(GLuint));
 
 		return vao;
 	}
