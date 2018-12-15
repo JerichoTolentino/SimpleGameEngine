@@ -125,9 +125,9 @@ namespace SimpleGameEngine::Models
 		{
 			for (int col = 0; col < cols; col++)
 			{
-				unsigned int topLeft = row * cols + col;
+				unsigned int topLeft = row * cols + col + row;
 				unsigned int topRight = topLeft + 1;
-				unsigned int bottomLeft = (row + 1) * cols + col;
+				unsigned int bottomLeft = (row + 1) * cols + col + row + 1;
 				unsigned int bottomRight = bottomLeft + 1;
 
 				// Add indices to form 2 CCW triangles making a square
@@ -143,110 +143,4 @@ namespace SimpleGameEngine::Models
 		return TerrainModel(std::make_shared<GeometryModel>(vertices, textureUvs, normals, indices), heightMap, tileSize, tileFactor,  rows, cols);
 	}
 
-	/*
-	// TODO: Test that this actually works (kinda blindly refactored)
-	TerrainModel TerrainModel::GenerateTerrainModel(int tileSize, const std::shared_ptr<HeightMap> heightMap)
-	{
-		int rowCount = heightMap->getWidth() - 1;
-		int columnCount = heightMap->getHeight() - 1;
-		float fRows = rowCount;
-		float fCols = columnCount;
-		float rowEdge = (float) (rowCount * tileSize);	// Used when calculating z-coordinate for winding (since -z is forwards)
-
-		auto vertices = std::make_shared<std::vector<Vec3>>(rowCount * columnCount * 4);
-		auto normals = std::make_shared<std::vector<Vec3>>(rowCount * columnCount * 4); // TODO: These normals are all set to point Y-up for now
-		auto textureUvs = std::make_shared<std::vector<Vec2>>(rowCount * columnCount * 4);
-		auto indices = std::make_shared<std::vector<unsigned int>>(rowCount * columnCount * 6);
-
-		for (int row = 0; row < rowCount; row++)
-		{
-			for (int col = 0; col < columnCount; col++)
-			{
-				int tileOffset = col * 4 + row * 4 * columnCount;
-
-				// Calculates 4 vertices
-				Vec3 vertex;
-
-				// Bottom left
-				vertex.x = (float) (col * tileSize);
-				vertex.z = (float) (rowEdge - row * tileSize);
-				vertex.y = (float)(heightMap->findHeightAt(vertex.x, vertex.z));
-				vertices->push_back(vertex);
-
-				// Bottom right
-				vertex.x = (float) ((col + 1) * tileSize);
-				vertex.z = (float) (rowEdge - row * tileSize);
-				vertex.y = (float)(heightMap->findHeightAt(vertex.x, vertex.z));
-				vertices->push_back(vertex);
-
-				// Top left
-				vertex.x = (float) (col * tileSize);
-				vertex.z = (float) (rowEdge - (row + 1) * tileSize);
-				vertex.y = (float)(heightMap->findHeightAt(vertex.x, vertex.z));
-				vertices->push_back(vertex);
-
-				// Top right
-				vertex.x = (float)((col + 1) * tileSize);
-				vertex.z = (float) (rowEdge - (row + 1) * tileSize);
-				vertex.y = (float)(heightMap->findHeightAt(vertex.x, vertex.z));
-				vertices->push_back(vertex);
-
-				//calculate 4 normals
-				vertex.x = 0;
-				vertex.y = 1; // TODO: Use neighbouring vertices to set this
-				vertex.z = 0;
-
-				// Bottom left
-				vertices->push_back(vertex);
-
-				//bot right
-				vertices->push_back(vertex);
-
-				//top left
-				vertices->push_back(vertex);
-
-				//top right
-				vertices->push_back(vertex);
-
-				//calculate 4 texture coords
-				Vec2 textureCoordinate;
-
-				//bot left
-				textureCoordinate.x = col / fCols;
-				textureCoordinate.y = row / fRows;
-				textureUvs->push_back(textureCoordinate);
-
-				//bot right
-				textureCoordinate.x = (col + 1) / fCols;
-				textureCoordinate.y = row / fRows;
-				textureUvs->push_back(textureCoordinate);
-
-				//top left
-				textureCoordinate.x = col / fCols;
-				textureCoordinate.y = (row + 1) / fRows;
-				textureUvs->push_back(textureCoordinate);
-
-				//top right
-				textureCoordinate.x = (col + 1) / fCols;
-				textureCoordinate.y = (row + 1) / fRows;
-				textureUvs->push_back(textureCoordinate);
-
-				//calculate indices
-				int indexOffset = col * 6 + row * 6 * columnCount;
-
-				//bot left triangle
-				indices->push_back(tileOffset + 2);
-				indices->push_back(tileOffset);
-				indices->push_back(tileOffset + 1);
-
-				//top right triangle
-				indices->push_back(tileOffset + 1);
-				indices->push_back(tileOffset + 3);
-				indices->push_back(tileOffset + 2);
-			}
-		}
-
-		return TerrainModel(std::make_shared<GeometryModel>(GeometryModel(vertices, textureUvs, normals, indices)), heightMap, tileSize, rowCount, columnCount);
-	}
-	*/
 }
