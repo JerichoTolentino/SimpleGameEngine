@@ -11,5 +11,7 @@ namespace SimpleGameEngine::Shaders
 
 		static const std::string FRAG_WATER_REFLECTION_SAMPLER;
 		static const std::string FRAG_WATER_REFRACTION_SAMPLER;
+		static const std::string FRAG_WATER_DUDV_MAP_SAMPLER;
+		static const std::string FRAG_WATER_FLOW_FACTOR;
 	};
 }

@@ -18,6 +18,9 @@ namespace SimpleGameEngine::Renderers
 	WaterRenderer::WaterRenderer(const std::shared_ptr<Shaders::Shader> shader)
 		: m_shader(shader)
 	{
+		m_dudvMapTextureId = -1;
+		m_waterFlowFactor = 0;
+		m_waterFlowSpeed = 0.0003f;
 	}
 
 	WaterRenderer::WaterRenderer(const WaterRenderer & other)
@@ -30,6 +33,28 @@ namespace SimpleGameEngine::Renderers
 	}
 
 
+	
+	void WaterRenderer::loadWaterFlowSpeed(float speed)
+	{
+		m_waterFlowSpeed = speed;
+	}
+
+	void WaterRenderer::loadWaterFlowFactor(float factor)
+	{
+		m_waterFlowFactor = factor;
+	}
+
+	void WaterRenderer::loadWaterDuDvMap(unsigned int dudvMapTextureId)
+	{
+		ShaderLoader::startShader(*m_shader);
+
+		m_dudvMapTextureId = dudvMapTextureId;
+
+		// Connect texture unit
+		ShaderLoader::loadUniform1i(*m_shader, WaterShaderConstants::FRAG_WATER_DUDV_MAP_SAMPLER, 2);
+
+		ShaderLoader::stopShader(*m_shader);
+	}
 
 	void WaterRenderer::loadWaterReflectionFbo(const std::shared_ptr<OpenGL::WaterReflectionFbo> waterReflectionFbo)
 	{
@@ -91,6 +116,11 @@ namespace SimpleGameEngine::Renderers
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, m_waterRefractionFbo->getTextureId());
 		}
+		if (m_dudvMapTextureId != -1)
+		{
+			glActiveTexture(GL_TEXTURE2);
+			glBindTexture(GL_TEXTURE_2D, m_dudvMapTextureId);
+		}
 	}
 	
 	void WaterRenderer::loadWaterEntity(const Models::WaterEntity & entity) const
@@ -118,6 +148,14 @@ namespace SimpleGameEngine::Renderers
 		glBindVertexArray(0);
 	}
 	
+	void WaterRenderer::updateWaterFlow()
+	{
+		m_waterFlowFactor += m_waterFlowSpeed;
+		m_waterFlowFactor = std::fmodf(m_waterFlowFactor, 1);
+		ShaderLoader::startShader(*m_shader);
+		ShaderLoader::loadUniform1f(*m_shader, WaterShaderConstants::FRAG_WATER_FLOW_FACTOR, m_waterFlowFactor);
+		ShaderLoader::stopShader(*m_shader);
+	}
 	
 	
 	WaterRenderer & WaterRenderer::operator=(const WaterRenderer & other)

@@ -14,6 +14,9 @@ namespace SimpleGameEngine::Renderers
 		std::shared_ptr<Shaders::Shader> m_shader;
 		std::shared_ptr<OpenGL::WaterReflectionFbo> m_waterReflectionFbo;
 		std::shared_ptr<OpenGL::WaterRefractionFbo> m_waterRefractionFbo;
+		unsigned int m_dudvMapTextureId;
+		float m_waterFlowFactor;
+		float m_waterFlowSpeed;
 
 
 
@@ -23,6 +26,11 @@ namespace SimpleGameEngine::Renderers
 		WaterRenderer(const WaterRenderer & other);
 		~WaterRenderer();
 
+
+
+		void loadWaterFlowSpeed(float speed);
+		void loadWaterFlowFactor(float factor);
+		void loadWaterDuDvMap(unsigned int dudvMapTextureId);
 		void loadWaterReflectionFbo(const std::shared_ptr<OpenGL::WaterReflectionFbo> waterReflectionFbo);
 		void loadWaterRefractionFbo(const std::shared_ptr<OpenGL::WaterRefractionFbo> waterRefractionFbo);
 		void loadCamera(const Cameras::Camera & camera) const;
@@ -32,6 +40,9 @@ namespace SimpleGameEngine::Renderers
 		void loadWaterEntity(const Models::WaterEntity & entity) const;
 		void render(const Models::WaterEntity & entity) const;
 		void unloadWaterRenderModel() const;
+
+		// TODO: REFACTOR THIS
+		void updateWaterFlow();
 
 
 

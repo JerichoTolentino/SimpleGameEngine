@@ -1,6 +1,7 @@
 #include "sgepch.h"
 #include "RenderEngine.h"
 
+#include "../Loaders/Loader.h"
 #include "../Loaders/FboLoader.h"
 #include "../Logic/ModelTransformer.h"
 
@@ -18,6 +19,9 @@ namespace SimpleGameEngine::Renderers
 	const int RenderEngine::REFLECTION_FBO_HEIGHT= 720;
 	const int RenderEngine::REFRACTION_FBO_WIDTH= 1280;
 	const int RenderEngine::REFRACTION_FBO_HEIGHT= 720;
+	const std::string RenderEngine::WATER_DUDV_MAP_TEXTURE = "C:\\GitHubRepositories\\SimpleGameEngine\\SimpleGameEngine\\res\\textures\\waterDuDvMap.png";
+
+
 
 	RenderEngine::RenderEngine()
 	{
@@ -46,6 +50,10 @@ namespace SimpleGameEngine::Renderers
 		// Load in water FBO textures
 		m_waterRenderer->loadWaterReflectionFbo(m_waterReflectionFbo);
 		m_waterRenderer->loadWaterRefractionFbo(m_waterRefractionFbo);
+
+		// Load in water dudv map
+		unsigned int dudvMapTextureId = Loader::loadTexture(WATER_DUDV_MAP_TEXTURE);
+		m_waterRenderer->loadWaterDuDvMap(dudvMapTextureId);
 
 		m_waterHeight = 0;
 	}
@@ -260,6 +268,7 @@ namespace SimpleGameEngine::Renderers
 				m_waterRenderer->loadCamera(camera);
 				m_waterRenderer->loadLights(lights);
 				m_waterRenderer->loadWaterEntity(*water);
+				m_waterRenderer->updateWaterFlow();
 				m_waterRenderer->render(*water);
 			}
 
