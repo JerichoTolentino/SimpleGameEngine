@@ -10,7 +10,7 @@ in vec3 vFromSun;
 uniform float uNearClippingPlane;
 uniform float uFarClippingPlane;
 uniform float uWaterFlowFactor;
-uniform float uFresnelHighlight;
+uniform float uFresnelConstant;
 uniform float uWaveStrength;
 uniform float uShineDamper;
 uniform float uReflectivity;
@@ -22,6 +22,11 @@ uniform sampler2D uWaterDuDvMapSampler;
 uniform sampler2D uWaterNormalMapSampler;
 uniform sampler2D uWaterDepthMapSampler;
 
+float calculateDistance(float depth)
+{
+	return 2.0 * uNearClippingPlane* uFarClippingPlane / (uFarClippingPlane + uNearClippingPlane - (2.0 * depth - 1.0) * (uFarClippingPlane - uNearClippingPlane));
+}
+
 void main()
 {
 	// Calculate normalize device coordinates by perspective division
@@ -30,12 +35,10 @@ void main()
 
 	// Sample depth map
 	float depth = texture(uWaterDepthMapSampler, norm_device_coords).x;
-	float eye_to_terrain_distance = 2.0 * uNearClippingPlane* uFarClippingPlane / 
-						(uFarClippingPlane + uNearClippingPlane - (2.0 * depth - 1.0) * (uFarClippingPlane - uNearClippingPlane));
+	float eye_to_terrain_distance = calculateDistance(depth);
 	
 	depth = gl_FragCoord.z;
-	float eye_to_water_distance = 2.0 * uNearClippingPlane* uFarClippingPlane / 
-						(uFarClippingPlane + uNearClippingPlane - (2.0 * depth - 1.0) * (uFarClippingPlane - uNearClippingPlane));
+	float eye_to_water_distance = calculateDistance(depth);
 	float water_depth = eye_to_terrain_distance - eye_to_water_distance;
 
 	// Calculate coordinates to sample water textures
@@ -68,7 +71,7 @@ void main()
 	// Calculation for fresnel effect
 	vec3 n_to_eye = normalize(vToEye);
 	float refr_factor = dot(n_to_eye, n_normal);
-	refr_factor = pow(refr_factor, uFresnelHighlight);
+	refr_factor = pow(refr_factor, uFresnelConstant);
 	refr_factor = clamp(refr_factor, 0.0, 1.0);
 
 	// Calculate specular highlight

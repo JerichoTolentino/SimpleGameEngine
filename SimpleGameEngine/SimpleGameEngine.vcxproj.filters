@@ -219,6 +219,9 @@
     <ClInclude Include="src\SimpleGameEngine\Loaders\FboLoadException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\Models\WaterProperties.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\SimpleGameEngine\Application.cpp">
@@ -411,6 +414,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\SimpleGameEngine\Loaders\FboLoadException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\Models\WaterProperties.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

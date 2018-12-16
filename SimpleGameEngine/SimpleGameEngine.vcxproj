@@ -79,6 +79,7 @@
     <ClInclude Include="src\SimpleGameEngine\Shaders\WaterShaderConstants.h" />
     <ClInclude Include="src\SimpleGameEngine\OpenGL\WaterReflectionFbo.h" />
     <ClInclude Include="src\SimpleGameEngine\OpenGL\WaterRefractionFbo.h" />
+    <ClInclude Include="src\SimpleGameEngine\Models\WaterProperties.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\SimpleGameEngine\Loaders\FboLoadException.cpp" />
@@ -152,6 +153,7 @@
     <ClCompile Include="src\SimpleGameEngine\Shaders\WaterShaderConstants.cpp" />
     <ClCompile Include="src\SimpleGameEngine\OpenGL\WaterReflectionFbo.cpp" />
     <ClCompile Include="src\SimpleGameEngine\OpenGL\WaterRefractionFbo.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\Models\WaterProperties.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\SimpleGameEngine\Shaders\entityFragment.frag" />

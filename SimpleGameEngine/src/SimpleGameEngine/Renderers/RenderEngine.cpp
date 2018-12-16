@@ -56,20 +56,12 @@ namespace SimpleGameEngine::Renderers
 		unsigned int dudvMapTextureId = Loader::loadTexture(WATER_DUDV_MAP_TEXTURE);
 		m_waterRenderer->loadWaterDuDvMap(dudvMapTextureId);
 
-		// Load in fresnel constant
-		m_waterRenderer->loadFresnelHighlight(0.5f);
-
 		// Load in water normal map
 		unsigned int normalMapId = Loader::loadTexture(WATER_NORMAL_MAP_TEXTURE);
 		m_waterRenderer->loadWaterNormalMap(normalMapId);
 
 		// Load in depth map
 		m_waterRenderer->loadWaterDepthMap(m_waterRefractionFbo->getDepthTextureId());
-
-		// Load in settings
-		m_waterRenderer->loadReflectivity(0.5);
-		m_waterRenderer->loadShineDamper(20);
-		m_waterRenderer->loadWaveStrength(0.2);
 
 		m_waterHeight = 0;
 	}
@@ -283,11 +275,13 @@ namespace SimpleGameEngine::Renderers
 
 			for (const auto water : waters)
 			{
+				// Update water flow
+				water->updateFlowFactor(1);
+
 				m_waterRenderer->loadSun(*lights.at(0));
 				m_waterRenderer->loadCamera(camera);
 				m_waterRenderer->loadLights(lights);
 				m_waterRenderer->loadWaterEntity(*water);
-				m_waterRenderer->updateWaterFlow();
 				m_waterRenderer->render(*water);
 			}
 

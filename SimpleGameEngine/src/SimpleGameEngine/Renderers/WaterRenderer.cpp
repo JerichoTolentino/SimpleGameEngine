@@ -21,8 +21,6 @@ namespace SimpleGameEngine::Renderers
 		m_depthMapTextureId = -1;
 		m_normalMapTextureId = -1;
 		m_dudvMapTextureId = -1;
-		m_waterFlowFactor = 0;
-		m_waterFlowSpeed = 0.0003f;
 	}
 
 	WaterRenderer::WaterRenderer(const WaterRenderer & other)
@@ -35,27 +33,6 @@ namespace SimpleGameEngine::Renderers
 	}
 
 
-
-	void WaterRenderer::loadReflectivity(float reflectivity) const
-	{
-		ShaderLoader::startShader(*m_shader);
-		ShaderLoader::loadUniform1f(*m_shader, WaterShaderConstants::FRAG_REFLECTIVITY, reflectivity);
-		ShaderLoader::stopShader(*m_shader);
-	}
-
-	void WaterRenderer::loadShineDamper(float shineDamper) const
-	{
-		ShaderLoader::startShader(*m_shader);
-		ShaderLoader::loadUniform1f(*m_shader, WaterShaderConstants::FRAG_SHINE_DAMPER, shineDamper);
-		ShaderLoader::stopShader(*m_shader);
-	}
-
-	void WaterRenderer::loadWaveStrength(float waveStrength) const
-	{
-		ShaderLoader::startShader(*m_shader);
-		ShaderLoader::loadUniform1f(*m_shader, WaterShaderConstants::FRAG_WAVE_STRENGTH, waveStrength);
-		ShaderLoader::stopShader(*m_shader);
-	}
 
 	void WaterRenderer::loadClippingPlanes(float nearPlane, float farPlane) const
 	{
@@ -85,23 +62,6 @@ namespace SimpleGameEngine::Renderers
 		ShaderLoader::loadUniformVec3f(*m_shader, WaterShaderConstants::FRAG_SUN_COLOR, light.getColor());
 
 		ShaderLoader::stopShader(*m_shader);
-	}
-
-	void WaterRenderer::loadFresnelHighlight(float highlight) const
-	{
-		ShaderLoader::startShader(*m_shader);
-		ShaderLoader::loadUniform1f(*m_shader, WaterShaderConstants::FRAG_FRESNEL_HIGHLIGHT, highlight);
-		ShaderLoader::stopShader(*m_shader);
-	}
-
-	void WaterRenderer::loadWaterFlowSpeed(float speed)
-	{
-		m_waterFlowSpeed = speed;
-	}
-
-	void WaterRenderer::loadWaterFlowFactor(float factor)
-	{
-		m_waterFlowFactor = factor;
 	}
 
 	void WaterRenderer::loadWaterDuDvMap(unsigned int dudvMapTextureId)
@@ -215,6 +175,15 @@ namespace SimpleGameEngine::Renderers
 		entityTransform.setIdentity();
 		entityTransform.transform(spaceModel->getPosition(), spaceModel->getRotation(), spaceModel->getScale());
 		ShaderLoader::loadUniformMat4f(*m_shader, WaterShaderConstants::VERT_MODEL_MATRIX, entityTransform);
+
+		// Load in properties
+		auto properties = *entity.getWaterProperties();
+		ShaderLoader::loadUniform1f(*m_shader, WaterShaderConstants::FRAG_WATER_FLOW_FACTOR, entity.getFlowFactor());
+		ShaderLoader::loadUniform1f(*m_shader, WaterShaderConstants::FRAG_FRESNEL_CONSTANT, properties.getFresnelConstant());
+		ShaderLoader::loadUniform1f(*m_shader, WaterShaderConstants::FRAG_REFLECTIVITY, properties.getReflectivity());
+		ShaderLoader::loadUniform1f(*m_shader, WaterShaderConstants::FRAG_SHINE_DAMPER, properties.getShineDamper());
+		ShaderLoader::loadUniform1f(*m_shader, WaterShaderConstants::VERT_TILE_FACTOR, properties.getTileFactor());
+		ShaderLoader::loadUniform1f(*m_shader, WaterShaderConstants::FRAG_WAVE_STRENGTH, properties.getWaveStrength());
 		
 		ShaderLoader::stopShader(*m_shader);
 	}
@@ -229,15 +198,6 @@ namespace SimpleGameEngine::Renderers
 	void WaterRenderer::unloadWaterRenderModel() const
 	{
 		glBindVertexArray(0);
-	}
-	
-	void WaterRenderer::updateWaterFlow()
-	{
-		m_waterFlowFactor += m_waterFlowSpeed;
-		m_waterFlowFactor = std::fmodf(m_waterFlowFactor, 1);
-		ShaderLoader::startShader(*m_shader);
-		ShaderLoader::loadUniform1f(*m_shader, WaterShaderConstants::FRAG_WATER_FLOW_FACTOR, m_waterFlowFactor);
-		ShaderLoader::stopShader(*m_shader);
 	}
 	
 	

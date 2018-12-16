@@ -17,8 +17,6 @@ namespace SimpleGameEngine::Renderers
 		unsigned int m_depthMapTextureId;
 		unsigned int m_normalMapTextureId;
 		unsigned int m_dudvMapTextureId;
-		float m_waterFlowFactor;
-		float m_waterFlowSpeed;
 
 
 
@@ -30,15 +28,9 @@ namespace SimpleGameEngine::Renderers
 
 
 
-		void loadReflectivity(float reflectivity) const;
-		void loadShineDamper(float shineDamper) const;
-		void loadWaveStrength(float waveStrength) const;
 		void loadClippingPlanes(float nearPlane, float farPlane) const;
 		void loadWaterDepthMap(unsigned int depthMapTextureId);
 		void loadSun(const Models::LightSource & light) const;
-		void loadFresnelHighlight(float highlight) const;
-		void loadWaterFlowSpeed(float speed);
-		void loadWaterFlowFactor(float factor);
 		void loadWaterDuDvMap(unsigned int dudvMapTextureId);
 		void loadWaterNormalMap(unsigned int normalMapTextureId);
 		void loadWaterReflectionFbo(const std::shared_ptr<OpenGL::WaterReflectionFbo> waterReflectionFbo);
@@ -50,9 +42,6 @@ namespace SimpleGameEngine::Renderers
 		void loadWaterEntity(const Models::WaterEntity & entity) const;
 		void render(const Models::WaterEntity & entity) const;
 		void unloadWaterRenderModel() const;
-
-		// TODO: REFACTOR THIS
-		void updateWaterFlow();
 
 
 

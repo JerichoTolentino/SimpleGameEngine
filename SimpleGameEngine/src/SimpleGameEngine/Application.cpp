@@ -148,7 +148,8 @@ namespace SimpleGameEngine
 			auto waterModel = std::make_shared<WaterModel>(WaterModel::GenerateWaterModel());
 			auto waterRenderModel = std::make_shared<WaterRenderModel>(WaterRenderModel(waterModel,	Loader::loadWaterModel(*waterModel)));
 			auto waterSpaceModel = std::make_shared<SpaceModel>(SpaceModel(Vec3(0, -14, 0), Vec3(0, 0, 0), Vec3(200, 1, 200)));
-			auto waterEntity = std::make_shared<WaterEntity>(WaterEntity(waterRenderModel, waterSpaceModel));
+			auto waterProperties = std::make_shared<WaterProperties>(WaterProperties(0.5, 20, 0.5, 0.0003f, 0.2, 4.0));
+			auto waterEntity = std::make_shared<WaterEntity>(WaterEntity(waterRenderModel, waterSpaceModel, waterProperties));
 			scene.addWater(waterEntity);
 			renderEngine.setWaterHeight(waterEntity->getSpaceModel()->getPosition().y);
 

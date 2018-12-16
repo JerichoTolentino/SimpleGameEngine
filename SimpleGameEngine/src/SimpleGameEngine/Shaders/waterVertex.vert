@@ -12,8 +12,7 @@ uniform mat4 uViewMatrix;
 uniform mat4 uProjectionMatrix;
 uniform vec3 uEyePosition;
 uniform vec3 uSunPosition;
-
-const float TILE_FACTOR = 4.0;
+uniform float uTileFactor;
 
 void main()
 {
@@ -22,7 +21,7 @@ void main()
 	vToEye = uEyePosition - world_position.xyz;
 	vFromSun = world_position.xyz - uSunPosition;
 
-	vTextureCoordinates = vec2(iPosition.x / 2.0 + 0.5, iPosition.y / 2.0 + 0.5) * TILE_FACTOR;
+	vTextureCoordinates = vec2(iPosition.x / 2.0 + 0.5, iPosition.y / 2.0 + 0.5) * uTileFactor;
 	vClipSpaceCoordinates = world_position * uViewMatrix * uProjectionMatrix;
 	gl_Position = vClipSpaceCoordinates;
 }
