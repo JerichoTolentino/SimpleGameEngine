@@ -34,6 +34,13 @@ namespace SimpleGameEngine::Renderers
 
 
 	
+	void WaterRenderer::loadFresnelHighlight(float highlight)
+	{
+		ShaderLoader::startShader(*m_shader);
+		ShaderLoader::loadUniform1f(*m_shader, WaterShaderConstants::FRAG_FRESNEL_HIGHLIGHT, highlight);
+		ShaderLoader::stopShader(*m_shader);
+	}
+
 	void WaterRenderer::loadWaterFlowSpeed(float speed)
 	{
 		m_waterFlowSpeed = speed;
@@ -83,6 +90,7 @@ namespace SimpleGameEngine::Renderers
 	void WaterRenderer::loadCamera(const Cameras::Camera & camera) const
 	{
 		ShaderLoader::startShader(*m_shader);
+		ShaderLoader::loadUniformVec3f(*m_shader, WaterShaderConstants::VERT_EYE_POSITION, camera.getPosition());
 		ShaderLoader::loadUniformMat4f(*m_shader, WaterShaderConstants::VERT_VIEW_MATRIX, camera.generateViewMatrix());
 		ShaderLoader::stopShader(*m_shader);
 	}

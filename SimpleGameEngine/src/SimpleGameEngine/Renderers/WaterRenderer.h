@@ -28,6 +28,7 @@ namespace SimpleGameEngine::Renderers
 
 
 
+		void loadFresnelHighlight(float highlight);
 		void loadWaterFlowSpeed(float speed);
 		void loadWaterFlowFactor(float factor);
 		void loadWaterDuDvMap(unsigned int dudvMapTextureId);

@@ -4,8 +4,10 @@ layout (location = 0) out vec4 OutputColor;
 
 in vec4 vClipSpaceCoordinates;
 in vec2 vTextureCoordinates;
+in vec3 vToEye;
 
 uniform float uWaterFlowFactor;
+uniform float uFresnelHighlight;
 
 uniform sampler2D uWaterReflectionSampler;
 uniform sampler2D uWaterRefractionSampler;
@@ -37,8 +39,14 @@ void main()
 	water_refl_coords.y = clamp(water_refl_coords.y, -0.999, -0.001);
 	water_refr_coords = clamp(water_refr_coords, 0.001, 0.999);
 
+	// Sample water textures
 	vec4 water_refl_color = texture(uWaterReflectionSampler, water_refl_coords);
 	vec4 water_refr_color = texture(uWaterRefractionSampler, norm_device_coords);
 
-	OutputColor = mix(water_refl_color, water_refr_color, 0.5);
+	// Calculation for fresnel effect
+	vec3 n_to_eye = normalize(vToEye);
+	float refr_factor = dot(n_to_eye, vec3(0, 1, 0));
+	refr_factor = pow(refr_factor, uFresnelHighlight);
+	
+	OutputColor = mix(water_refl_color, water_refr_color, refr_factor);
 }

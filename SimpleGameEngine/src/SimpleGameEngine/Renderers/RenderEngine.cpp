@@ -55,6 +55,9 @@ namespace SimpleGameEngine::Renderers
 		unsigned int dudvMapTextureId = Loader::loadTexture(WATER_DUDV_MAP_TEXTURE);
 		m_waterRenderer->loadWaterDuDvMap(dudvMapTextureId);
 
+		// Load in fresnel constant
+		m_waterRenderer->loadFresnelHighlight(0.5f);
+
 		m_waterHeight = 0;
 	}
 
