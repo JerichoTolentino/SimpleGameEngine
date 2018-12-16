@@ -18,6 +18,7 @@ namespace SimpleGameEngine::Renderers
 	WaterRenderer::WaterRenderer(const std::shared_ptr<Shaders::Shader> shader)
 		: m_shader(shader)
 	{
+		m_normalMapTextureId = -1;
 		m_dudvMapTextureId = -1;
 		m_waterFlowFactor = 0;
 		m_waterFlowSpeed = 0.0003f;
@@ -34,6 +35,16 @@ namespace SimpleGameEngine::Renderers
 
 
 	
+	void WaterRenderer::loadSun(const Models::LightSource & light)
+	{
+		ShaderLoader::startShader(*m_shader);
+
+		ShaderLoader::loadUniformVec3f(*m_shader, WaterShaderConstants::VERT_SUN_POSITION, light.getPosition());
+		ShaderLoader::loadUniformVec3f(*m_shader, WaterShaderConstants::FRAG_SUN_COLOR, light.getColor());
+
+		ShaderLoader::stopShader(*m_shader);
+	}
+
 	void WaterRenderer::loadFresnelHighlight(float highlight)
 	{
 		ShaderLoader::startShader(*m_shader);
@@ -61,6 +72,18 @@ namespace SimpleGameEngine::Renderers
 		ShaderLoader::loadUniform1i(*m_shader, WaterShaderConstants::FRAG_WATER_DUDV_MAP_SAMPLER, 2);
 
 		ShaderLoader::stopShader(*m_shader);
+	}
+
+	void WaterRenderer::loadWaterNormalMap(unsigned int normalMapTextureId)
+	{
+		ShaderLoader::startShader(*m_shader);
+
+		m_normalMapTextureId = normalMapTextureId;
+
+		// Connect texture unit
+		ShaderLoader::loadUniform1i(*m_shader, WaterShaderConstants::FRAG_WATER_NORMAL_MAP_SAMPLER, 3);
+
+		ShaderLoader::startShader(*m_shader);
 	}
 
 	void WaterRenderer::loadWaterReflectionFbo(const std::shared_ptr<OpenGL::WaterReflectionFbo> waterReflectionFbo)
@@ -128,6 +151,11 @@ namespace SimpleGameEngine::Renderers
 		{
 			glActiveTexture(GL_TEXTURE2);
 			glBindTexture(GL_TEXTURE_2D, m_dudvMapTextureId);
+		}
+		if (m_normalMapTextureId != -1)
+		{
+			glActiveTexture(GL_TEXTURE3);
+			glBindTexture(GL_TEXTURE_2D, m_normalMapTextureId);
 		}
 	}
 	

@@ -155,9 +155,13 @@ namespace SimpleGameEngine
 			auto lightSources = std::vector<std::shared_ptr<Models::LightSource>>();
 			auto testLight = std::make_shared<LightSource>(LightSource(Vec3(0, 15, -25), Vec3(1, 0, 0), Vec3(1, 0.01f, 0.002f)));
 			auto testLight2 = std::make_shared<LightSource>(LightSource(Vec3(0, 0.2f, 0), Vec3(0, 0, 1), Vec3(1, 0.01f, 0.002f)));
+			
+			// THIS IS THE SUN (currently assumed at position 0 in water renderer)
+			lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(-1000, 1000, -1000), Vec3(1, 1, 1))));
+
+
 			lightSources.push_back(testLight);
 			lightSources.push_back(testLight2);
-			lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(-1000, 1000, -1000), Vec3(1, 1, 1))));
 			lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(5, 2, -10), Vec3(0, 0, 1), Vec3(1, 0.01f, 0.002f))));
 			lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(-50, 2, -100), Vec3(0, 1, 0), Vec3(1, 0.01f, 0.002f))));
 			for (auto light : lightSources)

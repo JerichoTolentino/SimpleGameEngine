@@ -5,15 +5,20 @@ layout (location = 0) out vec4 OutputColor;
 in vec4 vClipSpaceCoordinates;
 in vec2 vTextureCoordinates;
 in vec3 vToEye;
+in vec3 vFromSun;
 
 uniform float uWaterFlowFactor;
 uniform float uFresnelHighlight;
+uniform vec3 uSunColor;
 
 uniform sampler2D uWaterReflectionSampler;
 uniform sampler2D uWaterRefractionSampler;
 uniform sampler2D uWaterDuDvMapSampler;
+uniform sampler2D uWaterNormalMapSampler;
 
 const float WAVE_STRENGTH = 0.2;
+const float SHINE_DAMPER = 20;
+const float REFLECTIVITY = 0.5;
 
 void main()
 {
@@ -26,9 +31,9 @@ void main()
 	vec2 water_refr_coords = norm_device_coords;
 
 	// Calculate distortion of water by sampling the dudv map
-	vec2 water_distortion = (texture(uWaterDuDvMapSampler, vec2(vTextureCoordinates.x + uWaterFlowFactor, vTextureCoordinates.y)).xy * 2.0 - 1.0) * WAVE_STRENGTH;
-	vec2 water_distortion2 = (texture(uWaterDuDvMapSampler, vec2(-vTextureCoordinates.x + uWaterFlowFactor, vTextureCoordinates.y + uWaterFlowFactor)).xy * 2.0 - 1.0) * WAVE_STRENGTH;
-	vec2 total_water_distortion = water_distortion + water_distortion2;
+	vec2 water_distortion = texture(uWaterDuDvMapSampler, vec2(vTextureCoordinates.x + uWaterFlowFactor, vTextureCoordinates.y)).xy * 0.1;
+	water_distortion = vTextureCoordinates + vec2(water_distortion.x, water_distortion.y + uWaterFlowFactor);
+	vec2 total_water_distortion = (texture(uWaterDuDvMapSampler, water_distortion).xy * 2.0 - 1.0) * WAVE_STRENGTH;
 
 	// Apply distortion by offsetting texture coordinates
 	water_refl_coords += total_water_distortion;
@@ -48,5 +53,16 @@ void main()
 	float refr_factor = dot(n_to_eye, vec3(0, 1, 0));
 	refr_factor = pow(refr_factor, uFresnelHighlight);
 	
-	OutputColor = mix(water_refl_color, water_refr_color, refr_factor);
+	// Sample normal map and calculate surface normal
+	vec4 normal_map_color = texture(uWaterNormalMapSampler, water_distortion);
+	vec3 normal = vec3(normal_map_color.r * 2.0 - 1.0, normal_map_color.b, normal_map_color.g * 2.0 - 1.0);
+	vec3 n_normal = normalize(normal);
+
+	// Calculate specular highlight
+	vec3 n_reflect_sun = reflect(normalize(vFromSun), n_normal);
+	float specular = max(dot(n_reflect_sun, n_to_eye), 0.0);
+	specular = pow(specular, SHINE_DAMPER);
+	vec3 specular_highlight = uSunColor * specular * REFLECTIVITY;
+
+	OutputColor = mix(water_refl_color, water_refr_color, refr_factor) + vec4(specular_highlight, 0.0);
 }

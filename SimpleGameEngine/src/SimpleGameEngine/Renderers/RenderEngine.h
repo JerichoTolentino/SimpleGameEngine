@@ -23,6 +23,7 @@ namespace SimpleGameEngine::Renderers
 		static const int REFRACTION_FBO_WIDTH;
 		static const int REFRACTION_FBO_HEIGHT;
 		static const std::string WATER_DUDV_MAP_TEXTURE;
+		static const std::string WATER_NORMAL_MAP_TEXTURE;
 
 
 

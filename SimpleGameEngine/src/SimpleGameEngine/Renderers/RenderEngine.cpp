@@ -20,6 +20,7 @@ namespace SimpleGameEngine::Renderers
 	const int RenderEngine::REFRACTION_FBO_WIDTH= 1280;
 	const int RenderEngine::REFRACTION_FBO_HEIGHT= 720;
 	const std::string RenderEngine::WATER_DUDV_MAP_TEXTURE = "C:\\GitHubRepositories\\SimpleGameEngine\\SimpleGameEngine\\res\\textures\\waterDuDvMap.png";
+	const std::string RenderEngine::WATER_NORMAL_MAP_TEXTURE = "C:\\GitHubRepositories\\SimpleGameEngine\\SimpleGameEngine\\res\\textures\\waterNormalMap.png";
 
 
 
@@ -57,6 +58,10 @@ namespace SimpleGameEngine::Renderers
 
 		// Load in fresnel constant
 		m_waterRenderer->loadFresnelHighlight(0.5f);
+
+		// Load in water normal map
+		unsigned int normalMapId = Loader::loadTexture(WATER_NORMAL_MAP_TEXTURE);
+		m_waterRenderer->loadWaterNormalMap(normalMapId);
 
 		m_waterHeight = 0;
 	}
@@ -268,6 +273,7 @@ namespace SimpleGameEngine::Renderers
 
 			for (const auto water : waters)
 			{
+				m_waterRenderer->loadSun(*lights.at(0));
 				m_waterRenderer->loadCamera(camera);
 				m_waterRenderer->loadLights(lights);
 				m_waterRenderer->loadWaterEntity(*water);
