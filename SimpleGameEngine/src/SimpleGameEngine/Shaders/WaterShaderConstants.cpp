@@ -19,4 +19,7 @@ namespace SimpleGameEngine::Shaders
 	const std::string WaterShaderConstants::FRAG_DEPTH_MAP_SAMPLER = "uWaterDepthMapSampler";
 	const std::string WaterShaderConstants::FRAG_NEAR_CLIPPING_PLANE = "uNearClippingPlane";
 	const std::string WaterShaderConstants::FRAG_FAR_CLIPPING_PLANE = "uFarClippingPlane";
+	const std::string WaterShaderConstants::FRAG_WAVE_STRENGTH = "uWaveStrength";
+	const std::string WaterShaderConstants::FRAG_SHINE_DAMPER = "uShineDamper";
+	const std::string WaterShaderConstants::FRAG_REFLECTIVITY = "uReflectivity";
 }

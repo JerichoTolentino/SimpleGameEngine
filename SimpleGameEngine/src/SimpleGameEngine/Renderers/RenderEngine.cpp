@@ -66,6 +66,11 @@ namespace SimpleGameEngine::Renderers
 		// Load in depth map
 		m_waterRenderer->loadWaterDepthMap(m_waterRefractionFbo->getDepthTextureId());
 
+		// Load in settings
+		m_waterRenderer->loadReflectivity(0.5);
+		m_waterRenderer->loadShineDamper(20);
+		m_waterRenderer->loadWaveStrength(0.2);
+
 		m_waterHeight = 0;
 	}
 

@@ -11,6 +11,9 @@ uniform float uNearClippingPlane;
 uniform float uFarClippingPlane;
 uniform float uWaterFlowFactor;
 uniform float uFresnelHighlight;
+uniform float uWaveStrength;
+uniform float uShineDamper;
+uniform float uReflectivity;
 uniform vec3 uSunColor;
 
 uniform sampler2D uWaterReflectionSampler;
@@ -18,10 +21,6 @@ uniform sampler2D uWaterRefractionSampler;
 uniform sampler2D uWaterDuDvMapSampler;
 uniform sampler2D uWaterNormalMapSampler;
 uniform sampler2D uWaterDepthMapSampler;
-
-const float WAVE_STRENGTH = 0.2;
-const float SHINE_DAMPER = 20;
-const float REFLECTIVITY = 0.5;
 
 void main()
 {
@@ -46,7 +45,7 @@ void main()
 	// Calculate distortion of water by sampling the dudv map
 	vec2 water_distortion = texture(uWaterDuDvMapSampler, vec2(vTextureCoordinates.x + uWaterFlowFactor, vTextureCoordinates.y)).xy * 0.1;
 	water_distortion = vTextureCoordinates + vec2(water_distortion.x, water_distortion.y + uWaterFlowFactor);
-	vec2 total_water_distortion = (texture(uWaterDuDvMapSampler, water_distortion).xy * 2.0 - 1.0) * WAVE_STRENGTH * clamp(water_depth / 20.0, 0.0, 1.0);
+	vec2 total_water_distortion = (texture(uWaterDuDvMapSampler, water_distortion).xy * 2.0 - 1.0) * uWaveStrength * clamp(water_depth / 20.0, 0.0, 1.0);
 
 	// Apply distortion by offsetting texture coordinates
 	water_refl_coords += total_water_distortion;
@@ -75,8 +74,8 @@ void main()
 	// Calculate specular highlight
 	vec3 n_reflect_sun = reflect(normalize(vFromSun), n_normal);
 	float specular = max(dot(n_reflect_sun, n_to_eye), 0.0);
-	specular = pow(specular, SHINE_DAMPER);
-	vec3 specular_highlight = uSunColor * specular * REFLECTIVITY * clamp(water_depth / 5.0, 0.0, 1.0);
+	specular = pow(specular, uShineDamper);
+	vec3 specular_highlight = uSunColor * specular * uReflectivity * clamp(water_depth / 5.0, 0.0, 1.0);
 
 	OutputColor = mix(water_refl_color, water_refr_color, refr_factor) + vec4(specular_highlight, 0.0);
 	OutputColor.w = clamp(water_depth / 5.0, 0.0, 1.0);

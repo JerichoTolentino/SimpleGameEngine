@@ -21,5 +21,8 @@ namespace SimpleGameEngine::Shaders
 		static const std::string FRAG_DEPTH_MAP_SAMPLER;
 		static const std::string FRAG_NEAR_CLIPPING_PLANE;
 		static const std::string FRAG_FAR_CLIPPING_PLANE;
+		static const std::string FRAG_WAVE_STRENGTH;
+		static const std::string FRAG_SHINE_DAMPER;
+		static const std::string FRAG_REFLECTIVITY;
 	};
 }

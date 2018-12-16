@@ -36,6 +36,27 @@ namespace SimpleGameEngine::Renderers
 
 
 
+	void WaterRenderer::loadReflectivity(float reflectivity) const
+	{
+		ShaderLoader::startShader(*m_shader);
+		ShaderLoader::loadUniform1f(*m_shader, WaterShaderConstants::FRAG_REFLECTIVITY, reflectivity);
+		ShaderLoader::stopShader(*m_shader);
+	}
+
+	void WaterRenderer::loadShineDamper(float shineDamper) const
+	{
+		ShaderLoader::startShader(*m_shader);
+		ShaderLoader::loadUniform1f(*m_shader, WaterShaderConstants::FRAG_SHINE_DAMPER, shineDamper);
+		ShaderLoader::stopShader(*m_shader);
+	}
+
+	void WaterRenderer::loadWaveStrength(float waveStrength) const
+	{
+		ShaderLoader::startShader(*m_shader);
+		ShaderLoader::loadUniform1f(*m_shader, WaterShaderConstants::FRAG_WAVE_STRENGTH, waveStrength);
+		ShaderLoader::stopShader(*m_shader);
+	}
+
 	void WaterRenderer::loadClippingPlanes(float nearPlane, float farPlane) const
 	{
 		ShaderLoader::startShader(*m_shader);

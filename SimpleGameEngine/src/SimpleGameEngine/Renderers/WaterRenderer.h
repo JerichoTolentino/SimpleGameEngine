@@ -30,6 +30,9 @@ namespace SimpleGameEngine::Renderers
 
 
 
+		void loadReflectivity(float reflectivity) const;
+		void loadShineDamper(float shineDamper) const;
+		void loadWaveStrength(float waveStrength) const;
 		void loadClippingPlanes(float nearPlane, float farPlane) const;
 		void loadWaterDepthMap(unsigned int depthMapTextureId);
 		void loadSun(const Models::LightSource & light) const;
