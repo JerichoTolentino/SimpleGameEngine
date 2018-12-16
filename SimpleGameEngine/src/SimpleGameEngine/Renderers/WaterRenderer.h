@@ -12,25 +12,26 @@ namespace SimpleGameEngine::Renderers
 	{
 	private:
 		std::shared_ptr<Shaders::Shader> m_shader;
-		std::shared_ptr<OpenGL::WaterReflectionFbo> m_waterReflectionFbo;
-		std::shared_ptr<OpenGL::WaterRefractionFbo> m_waterRefractionFbo;
-		unsigned int m_depthMapTextureId;
+		unsigned int m_reflectionTextureId;
+		unsigned int m_refractionTextureId;
+		unsigned int m_depthTextureId;
 
 
 
 	public:
 		WaterRenderer();
-		WaterRenderer(const std::shared_ptr<Shaders::Shader> shader);
+		WaterRenderer(
+			const std::shared_ptr<Shaders::Shader> shader,
+			unsigned int reflectionTextureId,
+			unsigned int refractionTextureId,
+			unsigned int depthTextureId);
 		WaterRenderer(const WaterRenderer & other);
 		~WaterRenderer();
 
 
 
 		void loadClippingPlanes(float nearPlane, float farPlane) const;
-		void loadWaterDepthMap(unsigned int depthMapTextureId);
 		void loadSun(const Models::LightSource & light) const;
-		void loadWaterReflectionFbo(const std::shared_ptr<OpenGL::WaterReflectionFbo> waterReflectionFbo);
-		void loadWaterRefractionFbo(const std::shared_ptr<OpenGL::WaterRefractionFbo> waterRefractionFbo);
 		void loadCamera(const Cameras::Camera & camera) const;
 		void loadLights(const std::vector<std::shared_ptr<Models::LightSource>> & lights) const;
 		void loadProjectionMatrix(const Math::Mat4 & proj) const;

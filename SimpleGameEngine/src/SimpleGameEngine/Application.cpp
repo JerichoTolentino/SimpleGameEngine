@@ -6,9 +6,12 @@
 #include "Parsers/MaterialLibraryParser.h"
 #include "Parsers/ParseException.h"
 #include "Loaders/Loader.h"
+#include "Loaders/FboLoader.h"
 #include "Loaders/ShaderLoader.h"
 #include "Models/RenderModel.h"
 #include "Renderers/RenderEngine.h"
+#include "OpenGL/WaterReflectionFbo.h"
+#include "OpenGL/WaterRefractionFbo.h"
 #include "Shaders/Shader.h"
 #include "Models/TerrainRenderModel.h"
 #include "Models/SkyboxRenderModel.h"
@@ -27,6 +30,7 @@ using namespace SimpleGameEngine::Models;
 using namespace SimpleGameEngine::Shaders;
 using namespace SimpleGameEngine::Math;
 using namespace SimpleGameEngine::Logic;
+using namespace SimpleGameEngine::OpenGL;
 
 namespace SimpleGameEngine
 {
@@ -76,13 +80,18 @@ namespace SimpleGameEngine
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/src/SimpleGameEngine/Shaders/guiFragment.frag"
 			));
 
+			// Make FBOs
+			auto mainFbo = std::make_shared<FrameBufferObject>(0, windowWidth, windowHeight);
+			auto waterReflectionFbo = std::make_shared<WaterReflectionFbo>(FboLoader::CreateWaterReflectionFbo(windowWidth, windowHeight));
+			auto waterRefractionFbo = std::make_shared<WaterRefractionFbo>(FboLoader::CreateWaterRefractionFbo(windowWidth, windowHeight));
+
 			// Make renderers
 			auto entityRenderer = std::make_shared<EntityRenderer>(EntityRenderer(entityShader));
 			auto terrainRenderer = std::make_shared<TerrainRenderer>(TerrainRenderer(terrainShader));
 			auto skyboxRenderer = std::make_shared<SkyboxRenderer>(SkyboxRenderer(skyboxShader));
-			auto waterRenderer = std::make_shared<WaterRenderer>(WaterRenderer(waterShader));
+			auto waterRenderer = std::make_shared<WaterRenderer>(WaterRenderer(waterShader, waterReflectionFbo->getTextureId(), waterRefractionFbo->getTextureId(), waterRefractionFbo->getDepthTextureId()));
 			auto guiRenderer = std::make_shared<GuiRenderer>(GuiRenderer(guiShader));
-			RenderEngine renderEngine(entityRenderer, terrainRenderer, skyboxRenderer, waterRenderer, guiRenderer);
+			RenderEngine renderEngine(mainFbo, waterReflectionFbo, waterRefractionFbo, entityRenderer, terrainRenderer, skyboxRenderer, waterRenderer, guiRenderer);
 
 			waterRenderer->loadClippingPlanes(nearPlane, farPlane);
 

@@ -19,8 +19,6 @@ namespace SimpleGameEngine::Renderers
 	const int RenderEngine::REFLECTION_FBO_HEIGHT= 720;
 	const int RenderEngine::REFRACTION_FBO_WIDTH= 1280;
 	const int RenderEngine::REFRACTION_FBO_HEIGHT= 720;
-	const std::string RenderEngine::WATER_DUDV_MAP_TEXTURE = "C:\\GitHubRepositories\\SimpleGameEngine\\SimpleGameEngine\\res\\textures\\waterDuDvMap.png";
-	const std::string RenderEngine::WATER_NORMAL_MAP_TEXTURE = "C:\\GitHubRepositories\\SimpleGameEngine\\SimpleGameEngine\\res\\textures\\waterNormalMap.png";
 
 
 
@@ -29,37 +27,36 @@ namespace SimpleGameEngine::Renderers
 	}
 
 	RenderEngine::RenderEngine(
+		const std::shared_ptr<OpenGL::FrameBufferObject> mainFbo,
+		const std::shared_ptr<OpenGL::WaterReflectionFbo> waterReflectionFbo,
+		const std::shared_ptr<OpenGL::WaterRefractionFbo> waterRefractionFbo,
 		const std::shared_ptr<EntityRenderer> entityRenderer,
 		const std::shared_ptr<TerrainRenderer> terrainRenderer,
 		const std::shared_ptr<SkyboxRenderer> skyboxRenderer,
 		const std::shared_ptr<WaterRenderer> waterRenderer,
 		const std::shared_ptr<GuiRenderer> guiRenderer)
 		:
+		m_mainFbo(mainFbo),
+		m_waterReflectionFbo(waterReflectionFbo),
+		m_waterRefractionFbo(waterRefractionFbo),
 		m_entityRenderer(entityRenderer),
 		m_terrainRenderer(terrainRenderer),
 		m_skyboxRenderer(skyboxRenderer),
 		m_waterRenderer(waterRenderer),
 		m_guiRenderer(guiRenderer)
 	{
-		// Initialize default FBO
-		m_mainFbo = std::make_shared<OpenGL::FrameBufferObject>(0, MAIN_FBO_WIDTH, MAIN_FBO_HEIGHT);
-
-		// Initialize water FBOs
-		m_waterReflectionFbo = std::make_shared<OpenGL::WaterReflectionFbo>(FboLoader::CreateWaterReflectionFbo(REFLECTION_FBO_WIDTH, REFLECTION_FBO_HEIGHT));
-		m_waterRefractionFbo = std::make_shared<OpenGL::WaterRefractionFbo>(FboLoader::CreateWaterRefractionFbo(REFRACTION_FBO_WIDTH, REFRACTION_FBO_HEIGHT));
-
-		// Load in water FBO textures
-		m_waterRenderer->loadWaterReflectionFbo(m_waterReflectionFbo);
-		m_waterRenderer->loadWaterRefractionFbo(m_waterRefractionFbo);
-
-		// Load in depth map
-		m_waterRenderer->loadWaterDepthMap(m_waterRefractionFbo->getDepthTextureId());
-
 		m_waterHeight = 0;
 	}
 
 	RenderEngine::RenderEngine(const RenderEngine & other)
-		: RenderEngine(other.m_entityRenderer, other.m_terrainRenderer, other.m_skyboxRenderer, other.m_waterRenderer, other.m_guiRenderer)
+		: RenderEngine(other.m_mainFbo, 
+					   other.m_waterReflectionFbo, 
+					   other.m_waterRefractionFbo, 
+					   other.m_entityRenderer, 
+					   other.m_terrainRenderer, 
+					   other.m_skyboxRenderer, 
+					   other.m_waterRenderer, 
+					   other.m_guiRenderer)
 	{
 	}
 
@@ -191,6 +188,9 @@ namespace SimpleGameEngine::Renderers
 
 	RenderEngine & RenderEngine::operator=(const RenderEngine & other)
 	{
+		m_mainFbo = other.m_mainFbo;
+		m_waterReflectionFbo = other.m_waterReflectionFbo;
+		m_waterRefractionFbo = other.m_waterRefractionFbo;
 		m_entityRenderer = other.m_entityRenderer;
 		m_terrainRenderer = other.m_terrainRenderer;
 		m_skyboxRenderer = other.m_skyboxRenderer;

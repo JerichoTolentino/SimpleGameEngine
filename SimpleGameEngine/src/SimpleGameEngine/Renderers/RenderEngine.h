@@ -22,8 +22,6 @@ namespace SimpleGameEngine::Renderers
 		static const int REFLECTION_FBO_HEIGHT;
 		static const int REFRACTION_FBO_WIDTH;
 		static const int REFRACTION_FBO_HEIGHT;
-		static const std::string WATER_DUDV_MAP_TEXTURE;
-		static const std::string WATER_NORMAL_MAP_TEXTURE;
 
 
 
@@ -47,6 +45,9 @@ namespace SimpleGameEngine::Renderers
 	public:
 		RenderEngine();
 		RenderEngine(
+			const std::shared_ptr<OpenGL::FrameBufferObject> mainFbo,
+			const std::shared_ptr<OpenGL::WaterReflectionFbo> waterReflectionFbo,
+			const std::shared_ptr<OpenGL::WaterRefractionFbo> waterRefractionFbo,
 			const std::shared_ptr<EntityRenderer> entityRenderer, 
 			const std::shared_ptr<TerrainRenderer> terrainRenderer, 
 			const std::shared_ptr<SkyboxRenderer> skyboxRenderer,
