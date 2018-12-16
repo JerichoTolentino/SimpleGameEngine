@@ -16,4 +16,7 @@ namespace SimpleGameEngine::Shaders
 	const std::string WaterShaderConstants::FRAG_FRESNEL_HIGHLIGHT = "uFresnelHighlight";
 	const std::string WaterShaderConstants::FRAG_WATER_NORMAL_MAP_SAMPLER = "uWaterNormalMapSampler";
 	const std::string WaterShaderConstants::FRAG_SUN_COLOR = "uSunColor";
+	const std::string WaterShaderConstants::FRAG_DEPTH_MAP_SAMPLER = "uWaterDepthMapSampler";
+	const std::string WaterShaderConstants::FRAG_NEAR_CLIPPING_PLANE = "uNearClippingPlane";
+	const std::string WaterShaderConstants::FRAG_FAR_CLIPPING_PLANE = "uFarClippingPlane";
 }

@@ -63,6 +63,9 @@ namespace SimpleGameEngine::Renderers
 		unsigned int normalMapId = Loader::loadTexture(WATER_NORMAL_MAP_TEXTURE);
 		m_waterRenderer->loadWaterNormalMap(normalMapId);
 
+		// Load in depth map
+		m_waterRenderer->loadWaterDepthMap(m_waterRefractionFbo->getDepthTextureId());
+
 		m_waterHeight = 0;
 	}
 
@@ -157,8 +160,8 @@ namespace SimpleGameEngine::Renderers
 
 		// Render to water reflection FBO
 		FboLoader::BindFrameBuffer(*m_waterReflectionFbo);
-		m_entityRenderer->loadClippingPlane(Vec4(0, 1, 0, -m_waterHeight));
-		m_terrainRenderer->loadClippingPlane(Vec4(0, 1, 0, -m_waterHeight));
+		m_entityRenderer->loadClippingPlane(Vec4(0, 1, 0, -m_waterHeight + 1));		// Add slight offset to remove artifacts at water edge
+		m_terrainRenderer->loadClippingPlane(Vec4(0, 1, 0, -m_waterHeight + 1));	// Add slight offset to remove artifacts at water edge
 		renderEntities(camera, lights);
 		renderTerrains(camera, lights);
 		if (skybox != nullptr)
@@ -264,6 +267,8 @@ namespace SimpleGameEngine::Renderers
 	
 	void RenderEngine::renderWater(const Cameras::Camera & camera, const std::vector<std::shared_ptr<Models::LightSource>> & lights) const
 	{
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glDisable(GL_CULL_FACE);
 		for (const auto & waterBatch : *m_scene.getWaterBatches())
 		{
@@ -284,6 +289,7 @@ namespace SimpleGameEngine::Renderers
 			m_waterRenderer->unloadWaterRenderModel();
 		}
 		glEnable(GL_CULL_FACE);
+		glDisable(GL_BLEND);
 	}
 	
 	void RenderEngine::renderGui() const

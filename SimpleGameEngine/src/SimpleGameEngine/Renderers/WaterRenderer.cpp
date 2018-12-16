@@ -18,6 +18,7 @@ namespace SimpleGameEngine::Renderers
 	WaterRenderer::WaterRenderer(const std::shared_ptr<Shaders::Shader> shader)
 		: m_shader(shader)
 	{
+		m_depthMapTextureId = -1;
 		m_normalMapTextureId = -1;
 		m_dudvMapTextureId = -1;
 		m_waterFlowFactor = 0;
@@ -34,8 +35,28 @@ namespace SimpleGameEngine::Renderers
 	}
 
 
+
+	void WaterRenderer::loadClippingPlanes(float nearPlane, float farPlane) const
+	{
+		ShaderLoader::startShader(*m_shader);
+		ShaderLoader::loadUniform1f(*m_shader, WaterShaderConstants::FRAG_NEAR_CLIPPING_PLANE, nearPlane);
+		ShaderLoader::loadUniform1f(*m_shader, WaterShaderConstants::FRAG_FAR_CLIPPING_PLANE, farPlane);
+		ShaderLoader::stopShader(*m_shader);
+	}
 	
-	void WaterRenderer::loadSun(const Models::LightSource & light)
+	void WaterRenderer::loadWaterDepthMap(unsigned int depthMapTextureId)
+	{
+		ShaderLoader::startShader(*m_shader);
+
+		m_depthMapTextureId = depthMapTextureId;
+
+		// Connect texture unit
+		ShaderLoader::loadUniform1i(*m_shader, WaterShaderConstants::FRAG_DEPTH_MAP_SAMPLER, 4);
+
+		ShaderLoader::stopShader(*m_shader);
+	}
+
+	void WaterRenderer::loadSun(const Models::LightSource & light) const
 	{
 		ShaderLoader::startShader(*m_shader);
 
@@ -45,7 +66,7 @@ namespace SimpleGameEngine::Renderers
 		ShaderLoader::stopShader(*m_shader);
 	}
 
-	void WaterRenderer::loadFresnelHighlight(float highlight)
+	void WaterRenderer::loadFresnelHighlight(float highlight) const
 	{
 		ShaderLoader::startShader(*m_shader);
 		ShaderLoader::loadUniform1f(*m_shader, WaterShaderConstants::FRAG_FRESNEL_HIGHLIGHT, highlight);
@@ -156,6 +177,11 @@ namespace SimpleGameEngine::Renderers
 		{
 			glActiveTexture(GL_TEXTURE3);
 			glBindTexture(GL_TEXTURE_2D, m_normalMapTextureId);
+		}
+		if (m_depthMapTextureId != -1)
+		{
+			glActiveTexture(GL_TEXTURE4);
+			glBindTexture(GL_TEXTURE_2D, m_depthMapTextureId);
 		}
 	}
 	

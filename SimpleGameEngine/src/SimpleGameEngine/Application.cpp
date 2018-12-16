@@ -46,6 +46,18 @@ namespace SimpleGameEngine
 			// Initialize window - also initializes GLEW and GLFW
 			Window window(1280, 720);
 
+			// Build scene
+			RenderScene scene;
+
+			// Load projection matrix
+			int windowWidth, windowHeight;
+			window.getWindowSize(windowWidth, windowHeight);
+			float aspectRatio = windowHeight == 0 ? 1 : (float) windowWidth / windowHeight;
+			float nearPlane = 0.1f;
+			float farPlane = 1000.0f;
+			auto projectionMatrix = std::make_shared<Mat4>(Mat4::generateProjectionMatrix(aspectRatio, 90, nearPlane, farPlane));
+			scene.setProjectionMatrix(projectionMatrix);
+
 			// Make shaders
 			auto entityShader = std::make_shared<Shader>(ShaderLoader::loadShader(
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/src/SimpleGameEngine/Shaders/entityVertex.vert", 
@@ -72,16 +84,9 @@ namespace SimpleGameEngine
 			auto guiRenderer = std::make_shared<GuiRenderer>(GuiRenderer(guiShader));
 			RenderEngine renderEngine(entityRenderer, terrainRenderer, skyboxRenderer, waterRenderer, guiRenderer);
 
-			
-			// Build scene
-			RenderScene scene;
+			waterRenderer->loadClippingPlanes(nearPlane, farPlane);
 
-			// Load projection matrix
-			int windowWidth, windowHeight;
-			window.getWindowSize(windowWidth, windowHeight);
-			float aspectRatio = windowHeight == 0 ? 1 : (float) windowWidth / windowHeight;
-			auto projectionMatrix = std::make_shared<Mat4>(Mat4::generateProjectionMatrix(aspectRatio, 90, 0.1f, 1000.0f));
-			scene.setProjectionMatrix(projectionMatrix);
+#pragma region SceneGeneration
 
 			// Create terrain
 			auto texturePack = std::make_shared<TexturePack>(Loader::loadTexturePack(
@@ -142,7 +147,7 @@ namespace SimpleGameEngine
 			// Create water
 			auto waterModel = std::make_shared<WaterModel>(WaterModel::GenerateWaterModel());
 			auto waterRenderModel = std::make_shared<WaterRenderModel>(WaterRenderModel(waterModel,	Loader::loadWaterModel(*waterModel)));
-			auto waterSpaceModel = std::make_shared<SpaceModel>(SpaceModel(Vec3(0, -14, 0), Vec3(0, 0, 0), Vec3(100, 1, 100)));
+			auto waterSpaceModel = std::make_shared<SpaceModel>(SpaceModel(Vec3(0, -14, 0), Vec3(0, 0, 0), Vec3(200, 1, 200)));
 			auto waterEntity = std::make_shared<WaterEntity>(WaterEntity(waterRenderModel, waterSpaceModel));
 			scene.addWater(waterEntity);
 			renderEngine.setWaterHeight(waterEntity->getSpaceModel()->getPosition().y);
@@ -181,17 +186,8 @@ namespace SimpleGameEngine
 																			Vec2(0.75, -0.75), 
 																			0, 
 																			Vec2(0.25f, 0.25f))));
-			
-			// Create water FBO texture GUI elements
-			auto waterReflectionFbo = renderEngine.getWaterReflectionFbo();
-			auto waterReflectionGui = std::make_shared<GuiRenderElement>(
-				GuiRenderElement(guiQuad, guiQuadVaoId, waterReflectionFbo->getTextureId(), Vec2(0.75, 0.75), 0, Vec2(0.25f, 0.25f)));
-			guiRenderElements.push_back(waterReflectionGui);
 
-			auto waterRefractionFbo = renderEngine.getWaterRefractionFbo();
-			auto waterRefractionGui = std::make_shared<GuiRenderElement>(
-				GuiRenderElement(guiQuad, guiQuadVaoId, waterRefractionFbo->getTextureId(), Vec2(-0.75, 0.75), 0, Vec2(0.25f, 0.25f)));
-			guiRenderElements.push_back(waterRefractionGui);
+#pragma endregion
 
 			glEnable(GL_DEPTH_TEST);
 			glEnable(GL_CULL_FACE);

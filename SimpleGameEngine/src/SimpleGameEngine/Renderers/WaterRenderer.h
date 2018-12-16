@@ -14,6 +14,7 @@ namespace SimpleGameEngine::Renderers
 		std::shared_ptr<Shaders::Shader> m_shader;
 		std::shared_ptr<OpenGL::WaterReflectionFbo> m_waterReflectionFbo;
 		std::shared_ptr<OpenGL::WaterRefractionFbo> m_waterRefractionFbo;
+		unsigned int m_depthMapTextureId;
 		unsigned int m_normalMapTextureId;
 		unsigned int m_dudvMapTextureId;
 		float m_waterFlowFactor;
@@ -29,8 +30,10 @@ namespace SimpleGameEngine::Renderers
 
 
 
-		void loadSun(const Models::LightSource & light);
-		void loadFresnelHighlight(float highlight);
+		void loadClippingPlanes(float nearPlane, float farPlane) const;
+		void loadWaterDepthMap(unsigned int depthMapTextureId);
+		void loadSun(const Models::LightSource & light) const;
+		void loadFresnelHighlight(float highlight) const;
 		void loadWaterFlowSpeed(float speed);
 		void loadWaterFlowFactor(float factor);
 		void loadWaterDuDvMap(unsigned int dudvMapTextureId);
