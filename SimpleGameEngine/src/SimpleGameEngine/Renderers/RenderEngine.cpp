@@ -52,14 +52,6 @@ namespace SimpleGameEngine::Renderers
 		m_waterRenderer->loadWaterReflectionFbo(m_waterReflectionFbo);
 		m_waterRenderer->loadWaterRefractionFbo(m_waterRefractionFbo);
 
-		// Load in water dudv map
-		unsigned int dudvMapTextureId = Loader::loadTexture(WATER_DUDV_MAP_TEXTURE);
-		m_waterRenderer->loadWaterDuDvMap(dudvMapTextureId);
-
-		// Load in water normal map
-		unsigned int normalMapId = Loader::loadTexture(WATER_NORMAL_MAP_TEXTURE);
-		m_waterRenderer->loadWaterNormalMap(normalMapId);
-
 		// Load in depth map
 		m_waterRenderer->loadWaterDepthMap(m_waterRefractionFbo->getDepthTextureId());
 

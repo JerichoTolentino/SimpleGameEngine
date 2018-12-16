@@ -15,8 +15,6 @@ namespace SimpleGameEngine::Renderers
 		std::shared_ptr<OpenGL::WaterReflectionFbo> m_waterReflectionFbo;
 		std::shared_ptr<OpenGL::WaterRefractionFbo> m_waterRefractionFbo;
 		unsigned int m_depthMapTextureId;
-		unsigned int m_normalMapTextureId;
-		unsigned int m_dudvMapTextureId;
 
 
 
@@ -31,8 +29,6 @@ namespace SimpleGameEngine::Renderers
 		void loadClippingPlanes(float nearPlane, float farPlane) const;
 		void loadWaterDepthMap(unsigned int depthMapTextureId);
 		void loadSun(const Models::LightSource & light) const;
-		void loadWaterDuDvMap(unsigned int dudvMapTextureId);
-		void loadWaterNormalMap(unsigned int normalMapTextureId);
 		void loadWaterReflectionFbo(const std::shared_ptr<OpenGL::WaterReflectionFbo> waterReflectionFbo);
 		void loadWaterRefractionFbo(const std::shared_ptr<OpenGL::WaterRefractionFbo> waterRefractionFbo);
 		void loadCamera(const Cameras::Camera & camera) const;

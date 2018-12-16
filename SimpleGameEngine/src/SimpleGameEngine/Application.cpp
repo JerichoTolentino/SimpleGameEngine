@@ -146,7 +146,9 @@ namespace SimpleGameEngine
 
 			// Create water
 			auto waterModel = std::make_shared<WaterModel>(WaterModel::GenerateWaterModel());
-			auto waterRenderModel = std::make_shared<WaterRenderModel>(WaterRenderModel(waterModel,	Loader::loadWaterModel(*waterModel)));
+			auto dudvMapTextureId = Loader::loadTexture("C:\\GitHubRepositories\\SimpleGameEngine\\SimpleGameEngine\\res\\textures\\waterDuDvMap.png");
+			auto normalMapTextureId = Loader::loadTexture("C:\\GitHubRepositories\\SimpleGameEngine\\SimpleGameEngine\\res\\textures\\waterNormalMap.png");
+			auto waterRenderModel = std::make_shared<WaterRenderModel>(WaterRenderModel(waterModel,	Loader::loadWaterModel(*waterModel), dudvMapTextureId, normalMapTextureId));
 			auto waterSpaceModel = std::make_shared<SpaceModel>(SpaceModel(Vec3(0, -14, 0), Vec3(0, 0, 0), Vec3(200, 1, 200)));
 			auto waterProperties = std::make_shared<WaterProperties>(WaterProperties(0.5, 20, 0.5, 0.0003f, 0.2, 4.0));
 			auto waterEntity = std::make_shared<WaterEntity>(WaterEntity(waterRenderModel, waterSpaceModel, waterProperties));

@@ -19,8 +19,14 @@ namespace SimpleGameEngine::Renderers
 		: m_shader(shader)
 	{
 		m_depthMapTextureId = -1;
-		m_normalMapTextureId = -1;
-		m_dudvMapTextureId = -1;
+
+		// TODO: REFACTOR THIS
+		//
+		// Connect texture units
+		ShaderLoader::startShader(*m_shader);
+		ShaderLoader::loadUniform1i(*m_shader, WaterShaderConstants::FRAG_WATER_DUDV_MAP_SAMPLER, 2);
+		ShaderLoader::loadUniform1i(*m_shader, WaterShaderConstants::FRAG_WATER_NORMAL_MAP_SAMPLER, 3);
+		ShaderLoader::stopShader(*m_shader);
 	}
 
 	WaterRenderer::WaterRenderer(const WaterRenderer & other)
@@ -62,30 +68,6 @@ namespace SimpleGameEngine::Renderers
 		ShaderLoader::loadUniformVec3f(*m_shader, WaterShaderConstants::FRAG_SUN_COLOR, light.getColor());
 
 		ShaderLoader::stopShader(*m_shader);
-	}
-
-	void WaterRenderer::loadWaterDuDvMap(unsigned int dudvMapTextureId)
-	{
-		ShaderLoader::startShader(*m_shader);
-
-		m_dudvMapTextureId = dudvMapTextureId;
-
-		// Connect texture unit
-		ShaderLoader::loadUniform1i(*m_shader, WaterShaderConstants::FRAG_WATER_DUDV_MAP_SAMPLER, 2);
-
-		ShaderLoader::stopShader(*m_shader);
-	}
-
-	void WaterRenderer::loadWaterNormalMap(unsigned int normalMapTextureId)
-	{
-		ShaderLoader::startShader(*m_shader);
-
-		m_normalMapTextureId = normalMapTextureId;
-
-		// Connect texture unit
-		ShaderLoader::loadUniform1i(*m_shader, WaterShaderConstants::FRAG_WATER_NORMAL_MAP_SAMPLER, 3);
-
-		ShaderLoader::startShader(*m_shader);
 	}
 
 	void WaterRenderer::loadWaterReflectionFbo(const std::shared_ptr<OpenGL::WaterReflectionFbo> waterReflectionFbo)
@@ -149,16 +131,15 @@ namespace SimpleGameEngine::Renderers
 			glActiveTexture(GL_TEXTURE1);
 			glBindTexture(GL_TEXTURE_2D, m_waterRefractionFbo->getTextureId());
 		}
-		if (m_dudvMapTextureId != -1)
-		{
-			glActiveTexture(GL_TEXTURE2);
-			glBindTexture(GL_TEXTURE_2D, m_dudvMapTextureId);
-		}
-		if (m_normalMapTextureId != -1)
-		{
-			glActiveTexture(GL_TEXTURE3);
-			glBindTexture(GL_TEXTURE_2D, m_normalMapTextureId);
-		}
+		
+		// Bind DuDv texture map
+		glActiveTexture(GL_TEXTURE2);
+		glBindTexture(GL_TEXTURE_2D, waterRenderModel.getDuDvMapTextureId());
+
+		// Bind normal texture map
+		glActiveTexture(GL_TEXTURE3);
+		glBindTexture(GL_TEXTURE_2D, waterRenderModel.getNormalMapTextureId());
+
 		if (m_depthMapTextureId != -1)
 		{
 			glActiveTexture(GL_TEXTURE4);
