@@ -59,7 +59,7 @@ namespace SimpleGameEngine
 			float aspectRatio = windowHeight == 0 ? 1 : (float) windowWidth / windowHeight;
 			float nearPlane = 0.1f;
 			float farPlane = 1000.0f;
-			auto projectionMatrix = std::make_shared<Mat4>(Mat4::generateProjectionMatrix(aspectRatio, 90, nearPlane, farPlane));
+			auto projectionMatrix = std::make_shared<Mat4>(Mat4::generateProjectionMatrix(aspectRatio, 70, nearPlane, farPlane));
 			scene.setProjectionMatrix(projectionMatrix);
 
 			// Make shaders
@@ -166,6 +166,7 @@ namespace SimpleGameEngine
 
 			// Create camera
 			std::shared_ptr<Camera> camera = std::make_shared<Camera>(Camera(Vec3(0, 0.2f, 0), Vec3(-0.2f, 0, 0)));
+			camera->setDistanceFromEntity(100.0f);
 			scene.setCamera(camera);
 
 			// Create lights
@@ -210,6 +211,7 @@ namespace SimpleGameEngine
 
 			window.addWindowEventListener(&renderEngine);
 
+
 			bool goLeft = false;
 			bool goBack = true;
 			bool goTerrainLeft = true;
@@ -221,17 +223,25 @@ namespace SimpleGameEngine
 
 				renderEngine.render();
 
+				camera->follow(*stallSpaceModel);
+				camera->rotateAround(0.5f, 1);
+
 				ModelTransformer::rotate(*waterBottleSpaceModel, Vec3(0, 0.5f, 0));
-				
+				ModelTransformer::rotate(*stallSpaceModel, Vec3(0, 0.5f, 0));
+
 				if (testLight->getPosition().x < -50)
 					goLeft = false;
 				else if (testLight->getPosition().x > 50)
 					goLeft = true;
 				
 				if (goLeft)
+				{
 					testLight->translate(Vec3(-1, 0, 0));
+				}
 				else
+				{
 					testLight->translate(Vec3(1, 0, 0));
+				}
 				
 				if (stallSpaceModel->getPosition().z < -50)
 					goBack = false;
