@@ -24,7 +24,7 @@ namespace SimpleGameEngine::Projection
 		float m_farWidth;
 		float m_farHeight;
 
-		Math::Mat4 m_viewMatrix;
+		Math::Mat4 m_lightViewMatrix;
 
 
 
@@ -35,7 +35,7 @@ namespace SimpleGameEngine::Projection
 						   float maxX, float maxY, float maxZ, 
 						   float nearWidth, float nearHeight,
 						   float farWidth, float farHeight,
-						   const Math::Mat4 & viewMatrix);
+						   const Math::Mat4 & lightViewMatrix);
 		virtual ~OrthoProjectionBox();
 
 

@@ -19,7 +19,7 @@ namespace SimpleGameEngine::Projection
 							 other.m_maxX, other.m_maxY, other.m_maxZ,
 							 other.m_nearWidth, other.m_nearHeight,
 							 other.m_farWidth, other.m_farHeight,
-							 other.m_viewMatrix)
+							 other.m_lightViewMatrix)
 	{
 	}
 
@@ -27,13 +27,13 @@ namespace SimpleGameEngine::Projection
 										   float maxX, float maxY, float maxZ, 
 										   float nearWidth, float nearHeight, 
 										   float farWidth, float farHeight, 
-										   const Math::Mat4 & viewMatrix)
+										   const Math::Mat4 & lightViewMatrix)
 		:
 		m_minX(minX), m_minY(minY), m_minZ(minZ),
 		m_maxX(maxX), m_maxY(maxY), m_maxZ(maxZ),
 		m_nearWidth(nearWidth), m_nearHeight(nearHeight),
 		m_farWidth(farWidth), m_farHeight(farHeight),
-		m_viewMatrix(viewMatrix)
+		m_lightViewMatrix(lightViewMatrix)
 	{
 	}
 
@@ -99,7 +99,7 @@ namespace SimpleGameEngine::Projection
 		float z = (m_minZ + m_maxZ) / 2.0f;
 		Vec4 center(x, y, z, 1);
 
-		Mat4 lightViewMatrix(m_viewMatrix);
+		Mat4 lightViewMatrix(m_lightViewMatrix);
 		lightViewMatrix.inverse();
 
 		return (lightViewMatrix * center).xyz();
@@ -135,21 +135,21 @@ namespace SimpleGameEngine::Projection
 		m_minZ = other.m_minZ;
 		m_nearHeight = other.m_nearHeight;
 		m_nearWidth = other.m_nearWidth;
-		m_viewMatrix = other.m_viewMatrix;
+		m_lightViewMatrix = other.m_lightViewMatrix;
 
 		return *this;
 	}
 
 
 
-	OrthoProjectionBox OrthoProjectionBox::GenerateOrthoProjectionBox(const Math::Mat4 & viewMatrix, float fov, float nearPlane, float aspectRatio)
+	OrthoProjectionBox OrthoProjectionBox::GenerateOrthoProjectionBox(const Math::Mat4 & lightViewMatrix, float fov, float nearPlane, float aspectRatio)
 	{
 		float farWidth = SHADOW_DISTANCE * std::tan(MathUtils::toRadians(fov));
 		float nearWidth = nearPlane * std::tan(MathUtils::toRadians(fov));
 		float farHeight = farWidth / aspectRatio;
 		float nearHeight = nearWidth / aspectRatio;
 
-		return OrthoProjectionBox(0, 0, 0, 0, 0, 0, nearWidth, nearHeight, farWidth, farHeight, viewMatrix);
+		return OrthoProjectionBox(0, 0, 0, 0, 0, 0, nearWidth, nearHeight, farWidth, farHeight, lightViewMatrix);
 	}
 
 
@@ -188,7 +188,7 @@ namespace SimpleGameEngine::Projection
 	Math::Vec4 OrthoProjectionBox::calculateLightSpaceFrustumCorner(const Math::Vec3 & startPoint, const Math::Vec3 & direction, float width) const
 	{
 		Vec3 point = startPoint + (direction * width);
-		return m_viewMatrix * Vec4(point.x, point.y, point.z, 1);
+		return m_lightViewMatrix * Vec4(point.x, point.y, point.z, 1);
 	}
 
 	Math::Mat4 OrthoProjectionBox::calculateCameraRotationMatrix(float yaw, float pitch) const
