@@ -11,6 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\SimpleGameEngine\Projection\OrthoProjectionBox.h" />
+    <ClInclude Include="src\SimpleGameEngine\OpenGL\ShadowMapFbo.h" />
     <ClInclude Include="src\SimpleGameEngine\Loaders\FboLoadException.h" />
     <ClInclude Include="src\SimpleGameEngine\Events\Event.h" />
     <ClInclude Include="src\SimpleGameEngine\Events\WindowEvent.h" />
@@ -82,6 +84,8 @@
     <ClInclude Include="src\SimpleGameEngine\Models\WaterProperties.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\SimpleGameEngine\Projection\OrthoProjectionBox.cpp" />
+    <ClCompile Include="src\SimpleGameEngine\OpenGL\ShadowMapFbo.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Loaders\FboLoadException.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Events\Event.cpp" />
     <ClCompile Include="src\SimpleGameEngine\Events\WindowEvent.cpp" />

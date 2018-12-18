@@ -4,10 +4,10 @@
 #include "MathException.h"
 
 // Column Major Matrix
-//	0	4	8	11
-//	1	5	9	12
-//	2	6	10	13
-//	3	7	11	14
+//	0	4	8	12
+//	1	5	9	13
+//	2	6	10	14
+//	3	7	11	15
 
 namespace SimpleGameEngine::Math
 {
@@ -423,6 +423,37 @@ namespace SimpleGameEngine::Math
 		product = left;
 		product *= right;
 		return product;
+	}
+
+	Vec4 operator*(Mat4 left, const Vec4 & right)
+	{
+		Vec4 result;
+		
+		result.x = 
+			left.elements[0]  * right.x +
+			left.elements[4]  * right.y +
+			left.elements[8]  * right.z +
+			left.elements[12] * right.w;
+
+		result.y =
+			left.elements[1]  * right.x +
+			left.elements[5]  * right.y +
+			left.elements[9]  * right.z +
+			left.elements[13] * right.w;
+
+		result.z =
+			left.elements[2]  * right.x +
+			left.elements[6]  * right.y +
+			left.elements[10] * right.z +
+			left.elements[14] * right.w;
+
+		result.w =
+			left.elements[3]  * right.x +
+			left.elements[7]  * right.y +
+			left.elements[11] * right.z +
+			left.elements[15] * right.w;
+
+		return result;
 	}
 
 

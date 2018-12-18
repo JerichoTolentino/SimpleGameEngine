@@ -146,6 +146,11 @@ namespace SimpleGameEngine::Math
 		return "(" + std::to_string(x) + "," + std::to_string(y) + "," + std::to_string(z) + "," + std::to_string(w) + ")";
 	}
 
+	Vec3 Vec4::xyz() const
+	{
+		return Vec3(x, y, z);
+	}
+
 
 
 	Vec4& Vec4::operator=(const Vec4 &other)

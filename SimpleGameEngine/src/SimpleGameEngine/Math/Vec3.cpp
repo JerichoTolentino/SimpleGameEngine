@@ -199,4 +199,31 @@ namespace SimpleGameEngine::Math
 		left /= right;
 		return left;
 	}
+
+	Vec3 operator*(Vec3 left, float right)
+	{
+		left.multiply(right);
+		return left;
+	}
+
+
+
+	float Vec3::dot(const Vec3 & left, const Vec3 & right)
+	{
+		return 
+			left.x * right.x +
+			left.y * right.y +
+			left.z * right.z;
+	}
+
+	Vec3 Vec3::cross(const Vec3 & left, const Vec3 & right)
+	{
+		Vec3 cross;
+		
+		cross.x = (left.y * right.z) - (left.z * right.y);
+		cross.y = (left.x * right.z) - (left.z * right.x);
+		cross.z = (left.x * right.y) - (left.y * right.x);
+
+		return cross;
+	}
 }

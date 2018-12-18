@@ -5,6 +5,7 @@
 #include <GL/glew.h>
 
 #include "Vec3.h"
+#include "Vec4.h"
 #include "MathUtils.h"
 
 namespace SimpleGameEngine::Math
@@ -115,6 +116,11 @@ namespace SimpleGameEngine::Math
 		/// Calculates the cross product of two matrices.
 		/// </summary>
 		friend Mat4 operator*(Mat4 left, const Mat4 &right);
+
+		/// <summary>
+		/// Calculates the dot product of a <see cref="Mat4"/> with a <see cref="Vec4"/>.
+		/// </summary>
+		friend Vec4 operator*(Mat4 left, const Vec4 & right);
 
 
 

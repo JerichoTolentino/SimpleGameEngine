@@ -36,8 +36,8 @@ namespace SimpleGameEngine::Loaders
 		// Set texture parameters
 		glBindTexture(GL_TEXTURE_2D, id);
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, 0);
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST); // Switch back to GL_LINEAR if probs
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST); // Switch back to GL_LINEAR if probs
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
 		// Might be a bug with NVIDIA OpenGL drivers not liking FBO textures w/o mipmaps...
 		// Reference: https://www.khronos.org/opengl/wiki/Common_Mistakes#Render_To_Texture
@@ -60,6 +60,8 @@ namespace SimpleGameEngine::Loaders
 		glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT32, width, height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, 0);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
 		// Attach to current FBO
 		glFramebufferTexture(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, id, 0);
@@ -113,5 +115,23 @@ namespace SimpleGameEngine::Loaders
 		}
 
 		return WaterRefractionFbo(fboId, textureId, depthTextureId, width, height);
+	}
+
+	OpenGL::ShadowMapFbo FboLoader::CreateShadowMapFbo(int width, int height)
+	{
+		GLuint fboId = FboLoader::GenerateFrameBuffer();
+
+		// Set specific FBO options for shadow map
+		glDrawBuffer(GL_NONE);
+		glReadBuffer(GL_NONE);
+
+		GLuint depthTextureId = FboLoader::GenerateFboDepthTexture(width, height);
+
+		if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
+		{
+			throw FboLoadException("Failed to create water refraction FBO.");
+		}
+
+		return ShadowMapFbo(fboId, width, height, depthTextureId);
 	}
 }

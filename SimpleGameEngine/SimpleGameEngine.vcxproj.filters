@@ -222,6 +222,12 @@
     <ClInclude Include="src\SimpleGameEngine\Models\WaterProperties.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\OpenGL\ShadowMapFbo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\Projection\OrthoProjectionBox.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\SimpleGameEngine\Application.cpp">
@@ -417,6 +423,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\SimpleGameEngine\Models\WaterProperties.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\OpenGL\ShadowMapFbo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\Projection\OrthoProjectionBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

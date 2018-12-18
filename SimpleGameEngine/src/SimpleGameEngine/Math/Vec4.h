@@ -122,6 +122,11 @@ namespace SimpleGameEngine::Math
 
 		std::string toString() const;
 
+		/// <summary>
+		/// Swizzles this <see cref="Vec4"/> to a <see cref="Vec3"/>.
+		/// </summary>
+		/// <returns></returns>
+		Vec3 xyz() const;
 
 
 		/// <summary>

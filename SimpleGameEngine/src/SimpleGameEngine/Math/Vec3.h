@@ -180,5 +180,22 @@ namespace SimpleGameEngine::Math
 		/// Calculates the quotient of two vectors.
 		/// </summary>
 		friend Vec3 operator/(Vec3 left, const Vec3 &right);
+
+		/// <summary>
+		/// Calculates the scalar product of a vector with a float.
+		/// </summary>
+		friend Vec3 operator*(Vec3 left, float right);
+
+
+
+		/// <summary>
+		/// Calculates the dot product of two <see cref="Vec3"/> instances.
+		/// </summary>
+		static float dot(const Vec3 & left, const Vec3 & right);
+
+		/// <summary>
+		/// Calculates the cross product of two <see cref="Vec3"/> instances.
+		/// </summary>
+		static Vec3 cross(const Vec3 & left, const Vec3 & right);
 	};
 }
