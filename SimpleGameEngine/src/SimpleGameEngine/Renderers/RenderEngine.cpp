@@ -30,33 +30,78 @@ namespace SimpleGameEngine::Renderers
 		const std::shared_ptr<OpenGL::FrameBufferObject> mainFbo,
 		const std::shared_ptr<OpenGL::WaterReflectionFbo> waterReflectionFbo,
 		const std::shared_ptr<OpenGL::WaterRefractionFbo> waterRefractionFbo,
+		const std::shared_ptr<OpenGL::ShadowMapFbo> shadowMapFbo,
+		const std::shared_ptr<Projection::OrthoProjectionBox> shadowBox,
 		const std::shared_ptr<EntityRenderer> entityRenderer,
 		const std::shared_ptr<TerrainRenderer> terrainRenderer,
 		const std::shared_ptr<SkyboxRenderer> skyboxRenderer,
 		const std::shared_ptr<WaterRenderer> waterRenderer,
-		const std::shared_ptr<GuiRenderer> guiRenderer)
+		const std::shared_ptr<GuiRenderer> guiRenderer,
+		const std::shared_ptr<EntityShadowRenderer> entityShadowRenderer)
 		:
 		m_mainFbo(mainFbo),
 		m_waterReflectionFbo(waterReflectionFbo),
 		m_waterRefractionFbo(waterRefractionFbo),
+		m_shadowMapFbo(shadowMapFbo),
+		m_shadowBox(shadowBox),
 		m_entityRenderer(entityRenderer),
 		m_terrainRenderer(terrainRenderer),
 		m_skyboxRenderer(skyboxRenderer),
 		m_waterRenderer(waterRenderer),
-		m_guiRenderer(guiRenderer)
+		m_guiRenderer(guiRenderer),
+		m_entityShadowRenderer(entityShadowRenderer)
 	{
 		m_waterHeight = 0;
+
+		// TODO: REMOVE
+		auto guiQuad = std::make_shared<GuiGeometry>(GuiGeometry::GenerateQuad());
+		auto guiQuadVao = Loader::loadGuiElement(*guiQuad);
+		auto guiRenderElement = std::make_shared<GuiRenderElement>
+			(
+				guiQuad,
+				guiQuadVao,
+				m_shadowMapFbo->getDepthTextureId(),
+				Vec2(0.75, 0.75),
+				0,
+				Vec2(0.25, 0.25)
+			);
+		m_guiRenderElements.push_back(guiRenderElement);
+
+		auto guiRenderElement2 = std::make_shared<GuiRenderElement>
+			(
+				guiQuad,
+				guiQuadVao,
+				m_waterReflectionFbo->getTextureId(),
+				Vec2(-0.75, 0.75),
+				0,
+				Vec2(0.25, 0.25)
+			);
+		m_guiRenderElements.push_back(guiRenderElement2);
+
+		auto guiRenderElement3 = std::make_shared<GuiRenderElement>
+			(
+				guiQuad,
+				guiQuadVao,
+				m_waterRefractionFbo->getTextureId(),
+				Vec2(0, 0.75),
+				0,
+				Vec2(0.25, 0.25)
+			);
+		m_guiRenderElements.push_back(guiRenderElement3);
 	}
 
 	RenderEngine::RenderEngine(const RenderEngine & other)
 		: RenderEngine(other.m_mainFbo, 
 					   other.m_waterReflectionFbo, 
 					   other.m_waterRefractionFbo, 
+					   other.m_shadowMapFbo,
+					   other.m_shadowBox,
 					   other.m_entityRenderer, 
 					   other.m_terrainRenderer, 
 					   other.m_skyboxRenderer, 
 					   other.m_waterRenderer, 
-					   other.m_guiRenderer)
+					   other.m_guiRenderer,
+					   other.m_entityShadowRenderer)
 	{
 	}
 
@@ -89,6 +134,11 @@ namespace SimpleGameEngine::Renderers
 	std::shared_ptr<GuiRenderer> RenderEngine::getGuiRenderer() const
 	{
 		return m_guiRenderer;
+	}
+
+	std::shared_ptr<EntityShadowRenderer> RenderEngine::getEntityShadowRenderer() const
+	{
+		return m_entityShadowRenderer;
 	}
 
 	std::shared_ptr<OpenGL::FrameBufferObject> RenderEngine::getMainFbo() const
@@ -145,7 +195,7 @@ namespace SimpleGameEngine::Renderers
 		camera.setRotation(Vec3(-camera.getRotation().x, camera.getRotation().y, camera.getRotation().z));
 
 		// Render to water reflection FBO
-		FboLoader::BindFrameBuffer(*m_waterReflectionFbo);
+		m_waterReflectionFbo->bind();
 		m_entityRenderer->loadClippingPlane(Vec4(0, 1, 0, -m_waterHeight + 1));		// Add slight offset to remove artifacts at water edge
 		m_terrainRenderer->loadClippingPlane(Vec4(0, 1, 0, -m_waterHeight + 1));	// Add slight offset to remove artifacts at water edge
 		renderEntities(camera, lights);
@@ -160,7 +210,7 @@ namespace SimpleGameEngine::Renderers
 		camera.setRotation(Vec3(-camera.getRotation().x, camera.getRotation().y, camera.getRotation().z));
 
 		// Render to water refraction FBO
-		FboLoader::BindFrameBuffer(*m_waterRefractionFbo);
+		m_waterRefractionFbo->bind();
 		m_entityRenderer->loadClippingPlane(Vec4(0, -1, 0, m_waterHeight));
 		m_terrainRenderer->loadClippingPlane(Vec4(0, -1, 0, m_waterHeight));
 		renderEntities(camera, lights);
@@ -172,8 +222,12 @@ namespace SimpleGameEngine::Renderers
 
 		glDisable(GL_CLIP_DISTANCE0);		
 
+		// Render to shadow buffer
+		m_shadowMapFbo->bind();
+		renderEntityShadows(camera, *lights.at(0), *m_shadowBox);
+
 		// Render to main FBO
-		FboLoader::BindFrameBuffer(*m_mainFbo);
+		m_mainFbo->bind();
 		renderEntities(camera, lights);
 		renderTerrains(camera, lights);
 		if (skybox != nullptr)
@@ -191,11 +245,14 @@ namespace SimpleGameEngine::Renderers
 		m_mainFbo = other.m_mainFbo;
 		m_waterReflectionFbo = other.m_waterReflectionFbo;
 		m_waterRefractionFbo = other.m_waterRefractionFbo;
+		m_shadowMapFbo = other.m_shadowMapFbo;
+		m_shadowBox = other.m_shadowBox;
 		m_entityRenderer = other.m_entityRenderer;
 		m_terrainRenderer = other.m_terrainRenderer;
 		m_skyboxRenderer = other.m_skyboxRenderer;
 		m_waterRenderer = other.m_waterRenderer;
 		m_guiRenderer = other.m_guiRenderer;
+		m_entityShadowRenderer = other.m_entityShadowRenderer;
 
 		return *this;
 	}
@@ -296,5 +353,49 @@ namespace SimpleGameEngine::Renderers
 		}
 		glDisable(GL_BLEND);
 		glEnable(GL_DEPTH_TEST);
+	}
+
+	void RenderEngine::renderEntityShadows(const Cameras::Camera & camera, const Models::LightSource & sun, Projection::OrthoProjectionBox & shadowBox) const
+	{
+		// Calculate projection matrix
+		//Mat4 projectionMatrix = *m_scene.getProjectionMatrix();
+		Mat4 projectionMatrix = Mat4::GenerateOrthographicProjectionMatrix(10, 10, 20);
+
+		// Calculate view matrix
+		//Mat4 lightViewMatrix = camera.generateViewMatrix();
+		Mat4 lightViewMatrix = Mat4::GenerateViewMatrix(Vec3(0, 0, 0), Vec3(0, 0, 0));
+
+		// Calculate light view-projection matrix
+		Mat4 lightViewProjectionMatrix = lightViewMatrix * projectionMatrix;
+
+		// Update shadow box
+		//shadowBox.update(lightViewMatrix, camera.getPosition(), camera.getRotation());
+
+		m_entityShadowRenderer->loadTextureUnits();
+		for (const auto & entityBatch : *m_scene.getEntityBatches())
+		{
+			auto entities = entityBatch.second;
+
+			m_entityShadowRenderer->loadRenderModel(*entities.at(0)->getRenderModel());
+
+			for (const auto entity : entities)
+			{
+				// Calculate model-view-projection matrix
+				SpaceModel spaceModel = *entity->getSpaceModel();
+				Mat4 entityTransform;
+				entityTransform.setIdentity();
+				entityTransform.transform(spaceModel.getPosition(), spaceModel.getRotation(), spaceModel.getScale());
+
+				Mat4 mvpMatrix = entityTransform * lightViewProjectionMatrix;
+
+				m_entityShadowRenderer->loadModelViewProjectionMatrix(mvpMatrix);
+				m_entityShadowRenderer->loadModelMatrix(entityTransform);
+				m_entityShadowRenderer->loadViewMatrix(lightViewMatrix);
+				m_entityShadowRenderer->loadProjectionMatrix(projectionMatrix);
+				m_entityShadowRenderer->render(*entity);
+			}
+
+			m_entityShadowRenderer->unloadRenderModel();
+		}
 	}
 }

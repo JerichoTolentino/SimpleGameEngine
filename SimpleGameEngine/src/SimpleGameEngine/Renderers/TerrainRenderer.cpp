@@ -98,13 +98,9 @@ namespace SimpleGameEngine::Renderers
 
 	void TerrainRenderer::render(const Models::TerrainRenderModel & terrain) const
 	{
-		glDisable(GL_CULL_FACE);
-
 		ShaderLoader::startShader(*m_shader);
 		glDrawElements(GL_TRIANGLES, terrain.getTerrainModel()->getGeometryModel()->getIndices()->size(), GL_UNSIGNED_INT, 0);
 		ShaderLoader::stopShader(*m_shader);
-
-		glEnable(GL_CULL_FACE);
 	}
 
 	void TerrainRenderer::unloadTerrain() const

@@ -79,12 +79,12 @@ namespace SimpleGameEngine::Cameras
 
 	Mat4 Camera::generateViewMatrix() const
 	{
-		return Mat4::generateViewMatrix(position, rotation);
+		return Mat4::GenerateViewMatrix(position, rotation);
 	}
 
 	Mat4 Camera::generateSkyboxViewMatrix() const
 	{
-		Mat4 view = Mat4::generateViewMatrix(position, rotation);
+		Mat4 view = Mat4::GenerateViewMatrix(position, rotation);
 
 		// Remove the translation part of the matrix (only want to rotate the skybox)
 		view.elements[12] = 0;
@@ -147,26 +147,26 @@ namespace SimpleGameEngine::Cameras
 		}
 		if (window.isKeyDown(GLFW_KEY_D))
 		{
-			float zFactor = cos(MathUtils::toRadians(rotation.y));
-			float xFactor = sin(MathUtils::toRadians(rotation.y));
+			float zFactor = cos(MathUtils::ToRadians(rotation.y));
+			float xFactor = sin(MathUtils::ToRadians(rotation.y));
 			position += Vec3(zFactor * MOVESPEED * timeFactor, 0, xFactor * MOVESPEED * timeFactor);
 		}
 		if (window.isKeyDown(GLFW_KEY_A))
 		{
-			float zFactor = cos(MathUtils::toRadians(rotation.y));
-			float xFactor = sin(MathUtils::toRadians(rotation.y));
+			float zFactor = cos(MathUtils::ToRadians(rotation.y));
+			float xFactor = sin(MathUtils::ToRadians(rotation.y));
 			position -= Vec3(zFactor * MOVESPEED * timeFactor, 0, xFactor * MOVESPEED * timeFactor);
 		}
 		if (window.isKeyDown(GLFW_KEY_W))
 		{
-			float zFactor = cos(MathUtils::toRadians(rotation.y));
-			float xFactor = -sin(MathUtils::toRadians(rotation.y));
+			float zFactor = cos(MathUtils::ToRadians(rotation.y));
+			float xFactor = -sin(MathUtils::ToRadians(rotation.y));
 			position -= Vec3(MOVESPEED * xFactor * timeFactor, 0, MOVESPEED * zFactor * timeFactor);
 		}
 		if (window.isKeyDown(GLFW_KEY_S))
 		{
-			float zFactor = cos(MathUtils::toRadians(rotation.y));
-			float xFactor = -sin(MathUtils::toRadians(rotation.y));
+			float zFactor = cos(MathUtils::ToRadians(rotation.y));
+			float xFactor = -sin(MathUtils::ToRadians(rotation.y));
 			position += Vec3(MOVESPEED * xFactor * timeFactor, 0, MOVESPEED * zFactor * timeFactor);
 		}
 	}
@@ -177,9 +177,9 @@ namespace SimpleGameEngine::Cameras
 		rotation.x = spaceModel.getRotation().x + groundAngle;
 		rotation.y = aroundAngle;
 
-		float theta = MathUtils::toRadians(groundAngle);
-		float zFactor = cos(MathUtils::toRadians(rotation.y));
-		float xFactor = -sin(MathUtils::toRadians(rotation.y));
+		float theta = MathUtils::ToRadians(groundAngle);
+		float zFactor = cos(MathUtils::ToRadians(rotation.y));
+		float xFactor = -sin(MathUtils::ToRadians(rotation.y));
 		
 		position.x += cos(theta) * distanceFromEntity * xFactor;
 		position.z += cos(theta) * distanceFromEntity * zFactor;

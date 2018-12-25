@@ -17,6 +17,7 @@ namespace SimpleGameEngine::OpenGL
 		virtual ~ShadowMapFbo();
 
 
+		virtual void bind() const override;
 
 		GLuint getDepthTextureId() const;
 

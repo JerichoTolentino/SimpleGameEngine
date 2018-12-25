@@ -12,6 +12,7 @@
 #include "Renderers/RenderEngine.h"
 #include "OpenGL/WaterReflectionFbo.h"
 #include "OpenGL/WaterRefractionFbo.h"
+#include "OpenGL/ShadowMapFbo.h"
 #include "Shaders/Shader.h"
 #include "Models/TerrainRenderModel.h"
 #include "Models/SkyboxRenderModel.h"
@@ -20,6 +21,7 @@
 #include "Math/Vec3.h"
 #include "Log.h"
 #include "Logic/ModelTransformer.h"
+#include "Projection/OrthoProjectionBox.h"
 
 using namespace SimpleGameEngine::Cameras;
 using namespace SimpleGameEngine::Display;
@@ -59,7 +61,8 @@ namespace SimpleGameEngine
 			float aspectRatio = windowHeight == 0 ? 1 : (float) windowWidth / windowHeight;
 			float nearPlane = 0.1f;
 			float farPlane = 1000.0f;
-			auto projectionMatrix = std::make_shared<Mat4>(Mat4::generateProjectionMatrix(aspectRatio, 70, nearPlane, farPlane));
+			float fov = 70;
+			auto projectionMatrix = std::make_shared<Mat4>(Mat4::GeneratePerspectiveProjectionMatrix(aspectRatio, fov, nearPlane, farPlane));
 			scene.setProjectionMatrix(projectionMatrix);
 
 			// Make shaders
@@ -79,11 +82,20 @@ namespace SimpleGameEngine
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/src/SimpleGameEngine/Shaders/guiVertex.vert",
 				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/src/SimpleGameEngine/Shaders/guiFragment.frag"
 			));
+			auto entityShadowShader = std::make_shared<Shader>(ShaderLoader::loadShader(
+				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/src/SimpleGameEngine/Shaders/shadowVertex.vert",
+				"C:/GitHubRepositories/SimpleGameEngine/SimpleGameEngine/src/SimpleGameEngine/Shaders/shadowFragment.frag"
+			));
 
 			// Make FBOs
 			auto mainFbo = std::make_shared<FrameBufferObject>(0, windowWidth, windowHeight);
 			auto waterReflectionFbo = std::make_shared<WaterReflectionFbo>(FboLoader::CreateWaterReflectionFbo(windowWidth, windowHeight));
 			auto waterRefractionFbo = std::make_shared<WaterRefractionFbo>(FboLoader::CreateWaterRefractionFbo(windowWidth, windowHeight));
+			//auto shadowFbo = std::make_shared<ShadowMapFbo>(FboLoader::CreateShadowMapFbo(2048, 2048));
+			auto shadowFbo = std::make_shared<ShadowMapFbo>(FboLoader::CreateShadowMapFbo(windowWidth, windowHeight));
+
+			// Make shadow box
+			auto shadowBox = std::make_shared<Projection::OrthoProjectionBox>(Projection::OrthoProjectionBox::GenerateOrthoProjectionBox(fov, nearPlane, aspectRatio));
 
 			// Make renderers
 			auto entityRenderer = std::make_shared<EntityRenderer>(EntityRenderer(entityShader));
@@ -91,7 +103,8 @@ namespace SimpleGameEngine
 			auto skyboxRenderer = std::make_shared<SkyboxRenderer>(SkyboxRenderer(skyboxShader));
 			auto waterRenderer = std::make_shared<WaterRenderer>(WaterRenderer(waterShader, waterReflectionFbo->getTextureId(), waterRefractionFbo->getTextureId(), waterRefractionFbo->getDepthTextureId()));
 			auto guiRenderer = std::make_shared<GuiRenderer>(GuiRenderer(guiShader));
-			RenderEngine renderEngine(mainFbo, waterReflectionFbo, waterRefractionFbo, entityRenderer, terrainRenderer, skyboxRenderer, waterRenderer, guiRenderer);
+			auto entityShadowRenderer = std::make_shared<EntityShadowRenderer>(EntityShadowRenderer(entityShadowShader));
+			RenderEngine renderEngine(mainFbo, waterReflectionFbo, waterRefractionFbo, shadowFbo, shadowBox, entityRenderer, terrainRenderer, skyboxRenderer, waterRenderer, guiRenderer, entityShadowRenderer);
 
 			waterRenderer->loadClippingPlanes(nearPlane, farPlane);
 
@@ -137,6 +150,11 @@ namespace SimpleGameEngine
 			auto stallEntity = std::make_shared<Entity>(Entity(stallRenderModel, stallSpaceModel));
 			scene.addEntity(stallEntity);
 
+			auto stallRenderModel2 = std::make_shared<RenderModel>(RenderModel(*stallRenderModel));
+			auto stallSpaceModel2 = std::make_shared<SpaceModel>(SpaceModel(Vec3(0, -3, 10), Vec3(0, 0, 0), Vec3(1, 1, 1)));
+			auto stallEntity2 = std::make_shared<Entity>(Entity(stallRenderModel2, stallSpaceModel2));
+			scene.addEntity(stallEntity2);
+
 			// Create ugly water bottle entity
 			auto waterBottleModel = std::make_shared<GeometryModel>(WavefrontObjParser::parseFile("D:/Blender Files/UglyWaterBottle.obj"));
 			auto waterBottleMaterial = std::make_shared<Material>(std::make_shared<LightingModel>(LightingModel(0, 1, 0.1f, 0, 1.0f, 0.4f, 32, 1.5f)));
@@ -174,8 +192,8 @@ namespace SimpleGameEngine
 			auto testLight = std::make_shared<LightSource>(LightSource(Vec3(0, 15, -25), Vec3(1, 0, 0), Vec3(1, 0.01f, 0.002f)));
 			auto testLight2 = std::make_shared<LightSource>(LightSource(Vec3(0, 0.2f, 0), Vec3(0, 0, 1), Vec3(1, 0.01f, 0.002f)));
 			
-			// THIS IS THE SUN (currently assumed at position 0 in water renderer)
-			lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(-1000, 1000, -1000), Vec3(1, 1, 1))));
+			// THIS IS THE SUN (currently assumed at position 0 in water renderer and shadow renderer)
+			lightSources.push_back(std::make_shared<LightSource>(LightSource(Vec3(-100000, 100000, -100000), Vec3(1, 1, 1))));
 
 
 			lightSources.push_back(testLight);
@@ -223,8 +241,9 @@ namespace SimpleGameEngine
 
 				renderEngine.render();
 
-				camera->follow(*stallSpaceModel);
-				camera->rotateAround(0.5f, 1);
+				//camera->follow(*stallSpaceModel);
+				//camera->rotateAround(0.5f, 1);
+				camera->setRotation(camera->getRotation() + Vec3(0, 0.5f, 0));
 
 				ModelTransformer::rotate(*waterBottleSpaceModel, Vec3(0, 0.5f, 0));
 				ModelTransformer::rotate(*stallSpaceModel, Vec3(0, 0.5f, 0));

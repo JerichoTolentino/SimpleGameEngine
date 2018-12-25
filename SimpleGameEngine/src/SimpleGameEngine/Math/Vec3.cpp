@@ -208,7 +208,7 @@ namespace SimpleGameEngine::Math
 
 
 
-	float Vec3::dot(const Vec3 & left, const Vec3 & right)
+	float Vec3::Dot(const Vec3 & left, const Vec3 & right)
 	{
 		return 
 			left.x * right.x +
@@ -216,7 +216,7 @@ namespace SimpleGameEngine::Math
 			left.z * right.z;
 	}
 
-	Vec3 Vec3::cross(const Vec3 & left, const Vec3 & right)
+	Vec3 Vec3::Cross(const Vec3 & left, const Vec3 & right)
 	{
 		Vec3 cross;
 		

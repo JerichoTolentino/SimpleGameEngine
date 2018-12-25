@@ -228,6 +228,12 @@
     <ClInclude Include="src\SimpleGameEngine\Projection\OrthoProjectionBox.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\Shaders\ShadowShaderConstants.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\SimpleGameEngine\Renderers\EntityShadowRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\SimpleGameEngine\Application.cpp">
@@ -431,6 +437,12 @@
     <ClCompile Include="src\SimpleGameEngine\Projection\OrthoProjectionBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\Shaders\ShadowShaderConstants.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SimpleGameEngine\Renderers\EntityShadowRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="src\SimpleGameEngine\Shaders\entityFragment.frag" />
@@ -443,5 +455,7 @@
     <None Include="src\SimpleGameEngine\Shaders\guiVertex.vert" />
     <None Include="src\SimpleGameEngine\Shaders\waterFragment.frag" />
     <None Include="src\SimpleGameEngine\Shaders\waterVertex.vert" />
+    <None Include="src\SimpleGameEngine\Shaders\shadowVertex.vert" />
+    <None Include="src\SimpleGameEngine\Shaders\shadowFragment.frag" />
   </ItemGroup>
 </Project>

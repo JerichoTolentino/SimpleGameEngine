@@ -9,17 +9,6 @@ namespace SimpleGameEngine::Loaders
 	{
 	public:
 		/// <summary>
-		/// Binds a <see cref="FrameBufferObject"/>.
-		/// </summary>
-		static void BindFrameBuffer(const OpenGL::FrameBufferObject & fbo);
-
-		static GLuint GenerateFrameBuffer();
-		static GLuint GenerateFboColorTexture(int width, int height);
-		static GLuint GenerateFboDepthTexture(int width, int height);
-		static GLuint GenerateFboDepthBuffer(int width, int height);
-
-
-		/// <summary>
 		/// Creates a <see cref="WaterReflectionFbo"/>.
 		/// </summary>
 		/// <exception cref="FboLoadException"></exception>

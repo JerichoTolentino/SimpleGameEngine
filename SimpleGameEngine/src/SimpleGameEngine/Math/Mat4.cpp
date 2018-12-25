@@ -28,6 +28,13 @@ namespace SimpleGameEngine::Math
 		memcpy(this->elements, other.elements, sizeof(float) * 16);
 	}
 
+	Mat4::Mat4(float elements[16])
+	{
+		this->elements = new GLfloat[16];
+
+		memcpy(this->elements, elements, sizeof(float) * 16);
+	}
+
 	Mat4::~Mat4()
 	{
 		delete this->elements;
@@ -458,11 +465,11 @@ namespace SimpleGameEngine::Math
 
 
 
-	Mat4 Mat4::generateProjectionMatrix(float aspectRatio, float fov, float nearClip, float farClip)
+	Mat4 Mat4::GeneratePerspectiveProjectionMatrix(float aspectRatio, float fov, float nearClip, float farClip)
 	{
 		Mat4 projection;
 
-		float s = (float) (1.0 / tan(fov * PI / 360));
+		float s = (float) (1.0 / tan(fov * MathUtils::PI / 360));
 		float fmn = farClip - nearClip;
 
 		projection.elements[0] = s / aspectRatio;
@@ -475,7 +482,20 @@ namespace SimpleGameEngine::Math
 		return projection;
 	}
 
-	Mat4 Mat4::generateViewMatrix(const Vec3 & cameraPos, const Vec3 & cameraRot)
+	Mat4 Mat4::GenerateOrthographicProjectionMatrix(float width, float height, float length)
+	{
+		Mat4 matrix;
+		matrix.setIdentity();
+
+		matrix.elements[0] = 2.0 / width;
+		matrix.elements[5] = 2.0 / height;
+		matrix.elements[10] = -2.0 / length;
+		matrix.elements[15] = 1;
+
+		return matrix;
+	}
+
+	Mat4 Mat4::GenerateViewMatrix(const Vec3 & cameraPos, const Vec3 & cameraRot)
 	{
 		Mat4 view;
 		view.setIdentity();
@@ -490,7 +510,35 @@ namespace SimpleGameEngine::Math
 
 	}
 
-	Mat4 Mat4::generateNormalMatrix(const Mat4 & modelMatrix)
+	Mat4 Mat4::GenerateLookAtViewMatrix(const Vec3 & eyePosition, const Vec3 & targetPosition, const Vec3 & upDirection)
+	{
+		Mat4 view;
+		view.setIdentity();
+
+		Vec3 zAxis = eyePosition - targetPosition;
+		zAxis.normalize();
+		Vec3 xAxis = Vec3::Cross(upDirection, zAxis);
+		xAxis.normalize();
+		Vec3 yAxis = Vec3::Cross(zAxis, xAxis);
+		yAxis.normalize();
+		
+		view.elements[0] = xAxis.x;
+		view.elements[1] = xAxis.y;
+		view.elements[2] = xAxis.z;
+		view.elements[3] = -Vec3::Dot(xAxis, eyePosition);
+		view.elements[4] = yAxis.x;
+		view.elements[5] = yAxis.y;
+		view.elements[6] = yAxis.z;
+		view.elements[7] = -Vec3::Dot(yAxis, eyePosition);
+		view.elements[8] = zAxis.x;
+		view.elements[9] = zAxis.y;
+		view.elements[10] = zAxis.z;
+		view.elements[11] = -Vec3::Dot(zAxis, eyePosition);
+
+		return view;
+	}
+
+	Mat4 Mat4::GenerateNormalMatrix(const Mat4 & modelMatrix)
 	{
 		Mat4 normalMatrix = modelMatrix;
 
@@ -508,7 +556,7 @@ namespace SimpleGameEngine::Math
 		float x = axis.x;
 		float y = axis.y;
 		float z = axis.z;
-		float rAngle = MathUtils::toRadians(angle);
+		float rAngle = MathUtils::ToRadians(angle);
 		float c = cos(rAngle);
 		float s = sin(rAngle);
 		float omc = 1 - cos(rAngle);

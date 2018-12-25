@@ -23,6 +23,13 @@ namespace SimpleGameEngine::OpenGL
 	
 	
 	
+	void FrameBufferObject::bind() const
+	{
+		glBindFramebuffer(GL_FRAMEBUFFER, m_fboId);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		glViewport(0, 0, m_width, m_height);
+	}
+
 	GLuint FrameBufferObject::getFboId() const
 	{
 		return m_fboId;

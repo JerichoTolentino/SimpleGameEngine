@@ -18,6 +18,7 @@ namespace SimpleGameEngine::OpenGL
 		virtual ~FrameBufferObject();
 
 
+		virtual void bind() const;
 
 		virtual GLuint getFboId() const;
 		virtual int getWidth() const;

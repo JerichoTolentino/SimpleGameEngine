@@ -29,6 +29,11 @@ namespace SimpleGameEngine::Math
 		Mat4(const Mat4 &other);
 
 		/// <summary>
+		/// Initializes a <see cref="Mat4"/> with the specified elements.
+		/// </summary>
+		Mat4(float elements[16]);
+
+		/// <summary>
 		/// Desctructor.
 		/// </summary>
 		~Mat4();
@@ -132,7 +137,12 @@ namespace SimpleGameEngine::Math
 		/// <param name="near">The near clipping plane.</param>
 		/// <param name="far">The far clipping plane.</param>
 		/// <returns></returns>
-		static Mat4 generateProjectionMatrix(float aspectRatio, float fov, float near, float far);
+		static Mat4 GeneratePerspectiveProjectionMatrix(float aspectRatio, float fov, float near, float far);
+
+		/// <summary>
+		/// Generates an orthographic projection matrix.
+		/// </summary>
+		static Mat4 GenerateOrthographicProjectionMatrix(float width, float height, float length);
 
 		/// <summary>
 		/// Generates a view matrix.
@@ -140,14 +150,19 @@ namespace SimpleGameEngine::Math
 		/// <param name="sourcePos">The position vector of the view source.</param>
 		/// <param name="sourceRot">The rotation vector of the view source.</param>
 		/// <returns></returns>
-		static Mat4 generateViewMatrix(const Vec3 & sourcePos, const Vec3 & sourceRot);
+		static Mat4 GenerateViewMatrix(const Vec3 & sourcePos, const Vec3 & sourceRot);
+
+		/// <summary>
+		/// Generates a <see cref="Mat4"/> that is positioned at <paramref name="eyePosition"/> and looks at the <paramref name="targetPosition"/>.
+		/// </summary>
+		static Mat4 GenerateLookAtViewMatrix(const Vec3 & eyePosition, const Vec3 & targetPosition, const Vec3 & upDirection);
 
 		/// <summary>
 		/// Generates a normal matrix.
 		/// </summary>
 		/// <param name="modelMatrix">The model matrix to generate a normal matrix for.</param>
 		/// <returns></returns>
-		static Mat4 generateNormalMatrix(const Mat4 & modelMatrix);
+		static Mat4 GenerateNormalMatrix(const Mat4 & modelMatrix);
 
 
 

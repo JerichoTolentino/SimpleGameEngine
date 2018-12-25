@@ -24,7 +24,7 @@ namespace SimpleGameEngine::Projection
 		float m_farWidth;
 		float m_farHeight;
 
-		Math::Mat4 m_lightViewMatrix;
+		float m_nearPlane;
 
 
 
@@ -35,14 +35,14 @@ namespace SimpleGameEngine::Projection
 						   float maxX, float maxY, float maxZ, 
 						   float nearWidth, float nearHeight,
 						   float farWidth, float farHeight,
-						   const Math::Mat4 & lightViewMatrix);
+						   float nearPlane);
 		virtual ~OrthoProjectionBox();
 
 
 
-		void update(const Math::Vec3 & eyePosition, const Math::Vec3 & eyeRotation, float nearPlane);
+		void update(const Math::Mat4 & lightViewMatrix, const Math::Vec3 & eyePosition, const Math::Vec3 & eyeRotation);
 
-		Math::Vec3 getWorldSpaceCenter() const;
+		Math::Vec3 getLightSpaceCenter() const;
 		float getWidth() const;
 		float getHeight() const;
 		float getLength() const;
@@ -53,16 +53,20 @@ namespace SimpleGameEngine::Projection
 
 
 
-		static OrthoProjectionBox GenerateOrthoProjectionBox(const Math::Mat4 & lightViewMatrix, float fov, float nearPlane, float aspectRatio);
+		static OrthoProjectionBox GenerateOrthoProjectionBox(float fov, float nearPlane, float aspectRatio);
 
 
 
 	private:
-		std::vector<Math::Vec4> calculateFrustumVertices(const Math::Mat4 & rotation, 
+		std::vector<Math::Vec4> calculateFrustumVertices(const Math::Mat4 & lightViewMatrix,
+														 const Math::Mat4 & rotation,
 														 const Math::Vec3 & forward, 
 														 const Math::Vec3 & centerNear, 
 														 const Math::Vec3 & centerFar) const;
-		Math::Vec4 calculateLightSpaceFrustumCorner(const Math::Vec3 & startPoint, const Math::Vec3 & direction, float width) const;
+		Math::Vec4 calculateLightSpaceFrustumCorner(const Math::Mat4 & lightViewMatrix, 
+													const Math::Vec3 & startPoint, 
+													const Math::Vec3 & direction, 
+													float width) const;
 		Math::Mat4 calculateCameraRotationMatrix(float yaw, float pitch) const;
 	};
 }

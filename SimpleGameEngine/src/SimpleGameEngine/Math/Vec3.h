@@ -191,11 +191,11 @@ namespace SimpleGameEngine::Math
 		/// <summary>
 		/// Calculates the dot product of two <see cref="Vec3"/> instances.
 		/// </summary>
-		static float dot(const Vec3 & left, const Vec3 & right);
+		static float Dot(const Vec3 & left, const Vec3 & right);
 
 		/// <summary>
 		/// Calculates the cross product of two <see cref="Vec3"/> instances.
 		/// </summary>
-		static Vec3 cross(const Vec3 & left, const Vec3 & right);
+		static Vec3 Cross(const Vec3 & left, const Vec3 & right);
 	};
 }
