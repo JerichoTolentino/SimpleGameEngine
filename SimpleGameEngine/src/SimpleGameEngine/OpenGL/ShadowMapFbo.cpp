@@ -25,10 +25,8 @@ namespace SimpleGameEngine::OpenGL
 
 	void ShadowMapFbo::bind() const
 	{
-//		glBindFramebuffer(GL_FRAMEBUFFER, FrameBufferObject::getFboId());
 		glBindFramebuffer(GL_DRAW_FRAMEBUFFER, FrameBufferObject::getFboId());
 		glClear(GL_DEPTH_BUFFER_BIT);
-//		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		glViewport(0, 0, FrameBufferObject::getWidth(), FrameBufferObject::getHeight());
 	}
 

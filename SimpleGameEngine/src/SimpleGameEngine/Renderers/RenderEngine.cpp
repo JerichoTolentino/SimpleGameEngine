@@ -359,11 +359,11 @@ namespace SimpleGameEngine::Renderers
 	{
 		// Calculate projection matrix
 		//Mat4 projectionMatrix = *m_scene.getProjectionMatrix();
-		Mat4 projectionMatrix = Mat4::GenerateOrthographicProjectionMatrix(10, 10, 20);
+		Mat4 projectionMatrix = Mat4::GenerateOrthographicProjectionMatrix(10, 10, 30);
 
 		// Calculate view matrix
 		//Mat4 lightViewMatrix = camera.generateViewMatrix();
-		Mat4 lightViewMatrix = Mat4::GenerateViewMatrix(Vec3(0, 0, 0), Vec3(0, 0, 0));
+		Mat4 lightViewMatrix = Mat4::GenerateViewMatrix(Vec3(0, 0, -10), Vec3(0, 0, 0));
 
 		// Calculate light view-projection matrix
 		Mat4 lightViewProjectionMatrix = lightViewMatrix * projectionMatrix;
